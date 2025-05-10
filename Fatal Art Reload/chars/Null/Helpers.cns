@@ -1,0 +1,317 @@
+;------------------------------------------------------------------------------------------
+;Heat Bar
+[Statedef 4000]
+type = U
+physics = N
+anim = 9999
+ctrl = 0
+sprpriority = 3
+
+;P1 Side
+[State -2, Explod];Heat Bar Frame
+type = Explod
+triggerall = teamside = 1
+trigger1 = !NumExplod(4001)
+anim = 4001
+pos = 0,10
+postype = left
+removetime = -1
+;scale = .6,.6
+sprpriority = 0
+id = 4001
+bindtime = -1
+ontop = 0
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = 999999
+supermovetime = 999999
+
+;P1 Side
+[State -2, Explod];Green Bar
+type = Explod
+triggerall = Root,Map(Overheat) >= 1
+triggerall = teamside = 1
+trigger1 = !NumExplod(4010)
+anim = 4010
+pos = 60,10
+postype = left
+removetime = -1
+scale = 1,1
+sprpriority = -4
+id = 4010
+bindtime = 9999
+ontop = 0
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = 999999
+supermovetime = 999999
+
+[State -2, Explod];Green Bar
+type =ModifyExplod
+triggerall = Root,Map(Overheat) <= 200
+triggerall = teamside = 1
+trigger1 = NumExplod(4010)
+scale = Root,Map(Overheat)/50,1
+id = 4010
+PauseMoveTime=999999999999
+SuperMoveTime=99999999999999
+ignorehitpause = 1
+
+;P1 Side
+[State -2, Explod];Orange Bar
+type = Explod
+triggerall = Root,Map(Overheat) >= 51
+triggerall = teamside = 1
+trigger1 = !NumExplod(4011)
+anim = 4011
+pos = 81,10
+postype = left
+removetime = -1
+scale = 1,1
+sprpriority = -3
+id = 4011
+bindtime = 9999
+ontop = 0
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = 999999
+supermovetime = 999999
+
+[State -2, Explod];Orange Bar
+type =ModifyExplod
+triggerall = Root,Map(Overheat) <= 200
+triggerall = teamside = 1
+trigger1 = NumExplod(4011)
+scale = (Root,Map(Overheat)-50)/50,1
+id = 4011
+PauseMoveTime=999999999999
+SuperMoveTime=99999999999999
+ignorehitpause = 1
+
+;P1 Side
+[State -2, Explod];SatOrange Bar
+type = Explod
+triggerall = Root,Map(Overheat) >= 101
+triggerall = teamside = 1
+trigger1 = !NumExplod(4012)
+anim = 4012
+pos = 102,10
+postype = left
+removetime = -1
+scale = 1,1
+sprpriority = -2
+id = 4012
+bindtime = 9999
+ontop = 0
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = 999999
+supermovetime = 999999
+
+[State -2, Explod];SatOrange Bar
+type =ModifyExplod
+triggerall = Root,Map(Overheat) <= 200
+triggerall = teamside = 1
+trigger1 = NumExplod(4012)
+scale = (Root,Map(Overheat)-100)/50,1
+id = 4012
+PauseMoveTime=999999999999
+SuperMoveTime=99999999999999
+ignorehitpause = 1
+
+;P1 Side
+[State -2, Explod];Crimson Bar
+type = Explod
+triggerall = Root,Map(Overheat) >= 151
+triggerall = teamside = 1
+trigger1 = !NumExplod(4013)
+anim = 4013
+pos = 123,10
+postype = left
+removetime = -1
+scale = 1,1
+sprpriority = -1
+id = 4013
+bindtime = 9999
+ontop = 0
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = 999999
+supermovetime = 999999
+
+[State -2, Explod];Crimson Bar
+type =ModifyExplod
+triggerall = Root,Map(Overheat) <= 200
+triggerall = teamside = 1
+trigger1 = NumExplod(4013)
+scale = (Root,Map(Overheat)-149)/50,1
+id = 4013
+PauseMoveTime=999999999999
+SuperMoveTime=99999999999999
+ignorehitpause = 1
+
+;P2 Side
+[State -2, Explod];Heat Bar Frame
+type = Explod
+triggerall = teamside = 2
+trigger1 = !NumExplod(4001)
+anim = 4001
+pos = 0,10
+postype = right
+removetime = -1
+;scale = .6,.6
+sprpriority = 0
+id = 4001
+bindtime = -1
+ontop = 0
+ownpal = 1
+facing = -1
+ignorehitpause = 1
+pausemovetime = 999999
+supermovetime = 999999
+
+;P2 Side
+[State -2, Explod];Green Bar
+type = Explod
+triggerall = Root,Map(Overheat) >= 1
+triggerall = teamside = 2
+trigger1 = !NumExplod(4010)
+anim = 4010
+pos = -60,10
+postype = right
+removetime = -1
+scale = 1,1
+sprpriority = -4
+id = 4010
+bindtime = 9999
+ontop = 0
+ownpal = 1
+ignorehitpause = 1
+facing = -1
+pausemovetime = 999999
+supermovetime = 999999
+
+[State -2, Explod];Green Bar
+type =ModifyExplod
+triggerall = Root,Map(Overheat) <= 200
+triggerall = teamside = 2
+trigger1 = NumExplod(4010)
+scale = Root,Map(Overheat)/50,1
+id = 4010
+PauseMoveTime=999999999999
+SuperMoveTime=99999999999999
+ignorehitpause = 1
+
+;P2 Side
+[State -2, Explod];Orange Bar
+type = Explod
+triggerall = Root,Map(Overheat) >= 51
+triggerall = teamside = 2
+trigger1 = !NumExplod(4011)
+anim = 4011
+pos = -81,10
+postype = right
+removetime = -1
+scale = 1,1
+sprpriority = -3
+id = 4011
+bindtime = 9999
+ontop = 0
+ownpal = 1
+ignorehitpause = 1
+facing = -1
+pausemovetime = 999999
+supermovetime = 999999
+
+[State -2, Explod];Orange Bar
+type =ModifyExplod
+triggerall = Root,Map(Overheat) <= 200
+triggerall = teamside = 2
+trigger1 = NumExplod(4011)
+scale = (Root,Map(Overheat)-50)/50,1
+id = 4011
+PauseMoveTime=999999999999
+SuperMoveTime=99999999999999
+ignorehitpause = 1
+
+;P2 Side
+[State -2, Explod];SatOrange Bar
+type = Explod
+triggerall = Root,Map(Overheat) >= 101
+triggerall = teamside = 2
+trigger1 = !NumExplod(4012)
+anim = 4012
+pos = -102,10
+postype = right
+removetime = -1
+scale = 1,1
+sprpriority = -2
+id = 4012
+bindtime = 9999
+ontop = 0
+ownpal = 1
+ignorehitpause = 1
+facing = -1
+pausemovetime = 999999
+supermovetime = 999999
+
+[State -2, Explod];SatOrange Bar
+type =ModifyExplod
+triggerall = Root,Map(Overheat) <= 200
+triggerall = teamside = 2
+trigger1 = NumExplod(4012)
+scale = (Root,Map(Overheat)-100)/50,1
+id = 4012
+PauseMoveTime=999999999999
+SuperMoveTime=99999999999999
+ignorehitpause = 1
+
+;P2 Side
+[State -2, Explod];Crimson Bar
+type = Explod
+triggerall = Root,Map(Overheat) >= 151
+triggerall = teamside = 2
+trigger1 = !NumExplod(4013)
+anim = 4013
+pos = -123,10
+postype = right
+removetime = -1
+scale = 1,1
+sprpriority = -1
+id = 4013
+bindtime = 9999
+ontop = 0
+ownpal = 1
+ignorehitpause = 1
+facing = -1
+pausemovetime = 999999
+supermovetime = 999999
+
+[State -2, Explod];Crimson Bar
+type =ModifyExplod
+triggerall = Root,Map(Overheat) <= 200
+triggerall = teamside = 2
+trigger1 = NumExplod(4013)
+scale = (Root,Map(Overheat)-149)/50,1
+id = 4013
+PauseMoveTime=999999999999
+SuperMoveTime=99999999999999
+ignorehitpause = 1
+
+
+[State 0]
+Type=RemoveExplod
+Trigger1 = Root,Map(Overheat) <= 150
+id = 4013
+[State 0]
+Type=RemoveExplod
+Trigger1 = Root,Map(Overheat) <= 100
+id = 4012
+[State 0]
+Type=RemoveExplod
+Trigger1 = Root,Map(Overheat) <= 50
+id = 4011
+
+[State 0]
+Type=RemoveExplod
+Trigger1 = RoundState != [2,3]

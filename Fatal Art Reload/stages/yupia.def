@@ -1,0 +1,174 @@
+;Art by J4RMS31
+;Implementation by Ace's Hi
+
+[Info]
+name = "-Y.U.P.I.A. Assembly-"
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -152
+boundright = 152
+boundhigh = -62
+boundlow = 0
+verticalfollow = 0
+tension = 50
+
+[PlayerInfo]
+p1startx = -70
+p1starty = 0
+p1startz = 0
+p1facing = 1
+
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+leftbound  = -1000
+rightbound =  1000
+topbound  =  0
+botbound  =  0
+
+[Scaling]
+topz     = 0
+botz     = 50
+topscale = 1
+botscale = 1.2
+
+[Bound]
+screenleft = 15
+screenright = 15
+
+[StageInfo]
+zoffset = 207
+autoturn = 1
+resetBG = 0
+
+[shadow]
+Intensity = 50
+color = 0,0,0
+yscale = .25
+fade.range = -400,-100
+
+[Reflection]
+intensity = 0
+
+[Music]
+bgmusic = sound/yupia.mp3
+bgvolume = 255
+
+[BGdef]
+spr = yupia.sff
+
+[BG sky]
+type  = normal
+spriteno = 0,13
+start = 0, 0
+
+[BG bglow]
+type  = normal
+spriteno = 0,14
+start = 0, 0
+trans=add
+
+[BG light]
+type  = normal
+spriteno = 0,0
+start = 0, 0
+trans=add
+
+[BG thing glow]
+type  = normal
+spriteno = 0,2
+start = 0, 0
+trans=add
+
+[BG thing]
+type  = normal
+spriteno = 0,1
+start = 0, 0
+
+[BG sides]
+type  = normal
+spriteno = 0, 9
+start = 0, 0
+
+[BG glowies]
+type  = anim
+actionno = 1
+start = 0, 0
+
+[BG generator]
+type  = anim
+actionno = 2
+start = 0, 0
+
+[BG genglow]
+type  = anim
+actionno = 3
+start = 0, 0
+
+[BG Mist]
+type = normal
+spriteno = 1,0
+start = 0,80
+delta = 1,1
+velocity = .75,0
+tile = 1,0
+trans = add
+alpha = 100,256
+
+[BG ground]
+type  = normal
+spriteno = 0, 10
+start = 0, 0
+
+[Begin Action 1]
+0,3, 0,0, 4, , A
+0,4, 0,0, 4, , A
+0,5, 0,0, 4, , A
+0,6, 0,0, 4, , A
+0,7, 0,0, 4, , A
+0,8, 0,0, 4, , A
+
+[Begin Action 2]
+0,12, 0,0, 2
+0,12, 0,3, 2
+
+[Begin Action 3]
+0,11, 0,0, 2,,AS256D256
+0,11, 0,3, 2,,AS256D256
+0,11, 0,0, 2,,AS200D256
+0,11, 0,3, 2,,AS200D256
+0,11, 0,0, 2,,AS200D256
+0,11, 0,3, 2,,AS200D256
+0,11, 0,0, 2,,AS150D256
+0,11, 0,3, 2,,AS150D256
+0,11, 0,0, 2,,AS100D256
+0,11, 0,3, 2,,AS100D256
+0,11, 0,0, 2,,AS50D256
+0,11, 0,3, 2,,AS50D256
+0,11, 0,0, 2,,AS100D256
+0,11, 0,3, 2,,AS100D256
+0,11, 0,0, 2,,AS150D256
+0,11, 0,3, 2,,AS150D256
+0,11, 0,0, 2,,AS200D256
+0,11, 0,3, 2,,AS200D256
+0,11, 0,0, 2,,AS200D256
+0,11, 0,3, 2,,AS200D256
+0,11, 0,0, 2,,AS256D256
+0,11, 0,3, 2,,AS256D256
+0,11, 0,0, 2,,AS256D256
+0,11, 0,3, 2,,AS256D256
+0,11, 0,0, 2,,AS256D256
+0,11, 0,3, 2,,AS256D256
+0,11, 0,0, 2,,AS256D256
+0,11, 0,3, 2,,AS256D256
+0,11, 0,0, 2,,AS256D256
+0,11, 0,3, 2,,AS256D256
+0,11, 0,0, 2,,AS256D256
+0,11, 0,3, 2,,AS256D256
+0,11, 0,0, 2,,AS256D256
+0,11, 0,3, 2,,AS256D256
+

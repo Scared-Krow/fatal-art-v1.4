@@ -1,0 +1,362 @@
+;---------------------------------------------------------------------------
+;Guard Rush Reaction
+[Statedef 380]
+type    = S
+movetype= I
+physics = S
+juggle  = 0
+velset = 0,0
+ctrl = 0
+anim = 140 ;Guard Stand animation, reused
+sprpriority = 2
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = time = 0
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 20
+
+[State 0, ChangeState]
+type = SelfState
+trigger1 = time = 20
+value = 0
+ctrl = 1
+
+[Statedef -2]
+
+;==================================================================================================
+;TRAINING MODE STUFF
+;==================================================================================================
+
+[State 0, LifeAdd]
+type = LifeAdd
+triggerall = GameMode = "Training" && map(_iksys_trainingRegen) = 0
+trigger1 = movetype=I
+value = 10000
+
+[State 0, LifeAdd]
+type = LifeAdd
+triggerall = GameMode = "Training" && map(_iksys_trainingRegen) = 1
+trigger1 = (stateno = 0 || stateno = 11) && time >= 15
+value = 10000
+
+[State 0, VarAdd]
+type = PowerSet
+triggerall = GameMode = "Training"
+trigger1 = roundstate=0
+value = PowerMax
+
+[State -2]
+type = mapset
+triggerall=teamside=2
+triggerall = GameMode = "Training"
+trigger1 = stateno = 5000
+trigger2 = stateno = 5010
+trigger3 = stateno = 5020
+trigger4 = stateno = 150
+trigger5 = stateno = 152
+trigger6 = stateno = 154
+map="enemy"
+value =1
+
+[State -2]
+type = mapset
+triggerall=teamside=2
+triggerall = GameMode = "Training"
+triggerall = time = 0
+trigger1 = stateno = 5000
+trigger2 = stateno = 5010
+trigger3 = stateno = 5020
+trigger4 = stateno = 150
+trigger5 = stateno = 152
+trigger6 = stateno = 154
+map = "thing2"
+value=0
+
+[State -2]
+type = mapadd
+triggerall=teamside=2
+triggerall = GameMode = "Training"
+trigger1 = Enemy(0),ctrl = 0
+trigger1 = map(enemy)
+map = "thing2"
+value=1
+
+[State -2]
+type = mapset
+triggerall=teamside=2
+triggerall = GameMode = "Training"
+trigger1 = Enemy(0),ctrl = 1
+map="enemy"
+value = 0
+
+[State -2]
+type = mapset
+triggerall=teamside=2
+triggerall = GameMode = "Training"
+trigger1 = stateno = 5000
+trigger2 = stateno = 5010
+trigger3 = stateno = 5020
+trigger4 = stateno = 150
+trigger5 = stateno = 152
+trigger6 = stateno = 154
+;trigger7 = movetype = H
+map = "noctrl"
+value=1
+
+[State -2]
+type = mapset
+triggerall=teamside=2
+triggerall = GameMode = "Training"
+triggerall = time = 0
+trigger1 = stateno = 5000
+trigger2 = stateno = 5010
+trigger3 = stateno = 5020
+trigger4 = stateno = 150
+trigger5 = stateno = 152
+trigger6 = stateno = 154
+;trigger7 = movetype = H
+map = "thing1"
+value=0
+
+[State -2]
+type = mapset
+triggerall = teamside=2
+triggerall = GameMode = "Training"
+triggerall = time = 0
+trigger1 = stateno = 5000
+trigger2 = stateno = 5010
+trigger3 = stateno = 5020
+trigger4 = stateno = 150
+trigger5 = stateno = 152
+trigger6 = stateno = 154
+;trigger7 = movetype = H
+map = "damage"
+value = gethitvar(damage)
+
+[State -2]
+type = mapadd
+triggerall = teamside=2
+triggerall = GameMode = "Training"
+trigger1 = ctrl = 0
+trigger1 = map(noctrl)
+map = "thing1"
+value=1
+
+[State -2]
+type = mapadd
+triggerall = teamside=2
+triggerall = GameMode = "Training"
+trigger1 = ctrl = 1
+trigger1 = map(noctrl)
+map = "thing1"
+value=-1
+
+[State -2]
+type = mapset
+triggerall = teamside=2
+triggerall = GameMode = "Training"
+trigger1 = ctrl = 1
+map = "noctrl"
+value = 0 
+
+[State 0, FRAMES]
+type = VarSet
+triggerall = teamside=2
+triggerall = GameMode = "Training"
+trigger1 = 1
+v = 20   
+value = map(thing1) -map(thing2)
+ignorehitpause = 1
+
+[State 0, DAMAGE]
+type = VarSet
+triggerall = teamside=2
+triggerall = GameMode = "Training"
+trigger1 = 1
+v = 21  
+value = map(damage)
+ignorehitpause = 1
+
+[State 0, DAMAGE]
+type = text
+triggerall = map(_iksys_trainingAtkDataDisp)
+triggerall = teamside=2
+triggerall = GameMode = "Training"
+trigger1 = 1
+removetime = 1
+layerno = 2
+text = "Damage= %d  Frame Advantage= %d"
+params = var(21),var(20)
+font = F3
+align = 0
+pos = 161,50
+ignorehitpause = 1
+pausemovetime = 100
+
+[State 0, TOTAL DAMAGE]
+type = text
+triggerall = map(_iksys_trainingAtkDataDisp)
+triggerall = teamside=2
+triggerall = GameMode = "Training"
+trigger1 = 1
+removetime = 1
+layerno = 2
+text = "Combo Dmg= %d  Pressure Gap= %d"
+params = ReceivedDamage,var(49)
+font = F3
+align = 0
+pos = 161,60
+ignorehitpause = 1
+pausemovetime = 100
+
+[State 0, PalFX]
+type = PalFX
+triggerall = gamemode = "Training" && map(_iksys_trainingCtrlDataDisp) = 2 || map(_iksys_trainingCtrlDataDisp) = 3
+trigger1 = ctrl = 0
+trigger1 = teamside = 2
+time = 1
+removetime = 1
+add = 256,0,0
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+persistent = 1
+
+[State 0, PalFX]
+type = PalFX
+triggerall = gamemode = "Training" && map(_iksys_trainingCtrlDataDisp) = 2 || map(_iksys_trainingCtrlDataDisp) = 3
+trigger1 = ctrl = 1
+trigger1 = teamside = 2
+time = 1
+removetime = 1
+add = 0,0,256
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+persistent = 1
+
+[State 0, PalFX]
+type = PalFX
+triggerall = gamemode = "Training" 
+triggerall = enemy, map(_iksys_trainingCtrlDataDisp) = 1 || enemy, map(_iksys_trainingCtrlDataDisp) = 3
+triggerall = teamside = 1
+trigger1 = ctrl = 0
+time = 1
+removetime = 1
+add = 256,0,0
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+persistent = 1
+[State 0, PalFX]
+type = PalFX
+triggerall = gamemode = "Training"
+triggerall = enemy, map(_iksys_trainingCtrlDataDisp) = 1 || enemy, map(_iksys_trainingCtrlDataDisp) = 3
+triggerall = teamside = 1
+trigger1 = ctrl = 1
+time = 1
+removetime = 1
+add = 0,0,256
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+persistent = 1
+
+[State 0, VarSet] ;Gap Varset
+type = VarSet
+triggerall = gameMode = "Training"
+trigger1 = 1
+v = 49
+value = MAP(AWFreeze)
+
+;[State 0, VarSet] ;Gap Varset
+;type = VarSet
+;triggerall = gameMode = "Training"
+;trigger1 = 1
+;v = 50
+;value = ReceivedDamage
+
+[State -2, ActionWindow Tick Up]
+type 		= MapAdd
+trigger1 	= ctrl && (stateno != 150 || stateno != 152 || stateno != 154)
+trigger1    = stateno != [10, 11]
+trigger1    = map(ActionWindow) < 30
+map 		= "ActionWindow"
+value 		= 1
+ignorehitpause 	= 1
+[State -2, ActionWindow Reset]
+type 		= MapSet
+trigger1    = (stateno = 0 || stateno = [10,11]) && time >= 30
+map 		= "ActionWindow"
+value 		= 0
+ignorehitpause 	= 0
+
+[State -2, ActionWindow ValueFreeze]
+type 		= MapSet
+trigger1 	= !ctrl
+map 		= "AWFreeze"
+value 		= MAP(actionwindow)
+ignorehitpause 	= 1
+[State -2, ActionWindow ValueFreeze]
+type 		= MapSet
+trigger1 	= stateno = 0 && time >= 30
+map 		= "AWFreeze"
+value 		= 0
+
+[State 0, VarSet] ;Display P1 Value
+type = VarSet
+triggerall = gameMode = "Training"
+trigger1 = 1
+v = 39
+value = enemy, MAP(UntechDecay)
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = map(_iksys_trainingGuardMode) = 2
+flag = autoGuard
+ignorehitpause = 1
+persistent = 1
+[State 0, MapSet]
+type = MapSet
+trigger1 = map(_iksys_trainingGuardMode) = 2
+map = "IBTimer"
+value = 30
+ignorehitpause = 1
+persistent = 1
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = map(_iksys_trainingGuardMode) = 3
+flag = autoGuard
+ignorehitpause = 1
+persistent = 1
+;Punish
+[State 0, DAMAGE]
+type = AssertInput
+triggerall =  map(_iksys_trainingGuardMode) = 3
+trigger1 = stateno = 140 && time = 0
+flag = a
+ignorehitpause = 1
+persistent = 1
+
+[State 0, VarSet]
+type = VarSet
+triggerall = GameMode = "Training"
+trigger1 = movetype = I
+v = 35  
+value = 1
+ignorehitpause = 1
+
+;Punish
+; [State 0, DAMAGE]
+; type = AssertInput
+; triggerall = map(_iksys_trainingPunish) = 1
+; trigger1 = ctrl && prevstateno = [120, 155]
+; flag = x
+; ignorehitpause = 1
+; persistent = 1

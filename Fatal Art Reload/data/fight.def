@@ -1,0 +1,548 @@
+;=========================================================
+; STREET FIGHTER ZERO 3 LIFEBARS EDITED BY "KAZE NO KEN"
+;=========================================================
+[Files]
+sff = fight1.sff
+;sff = fight2.sff
+;sff = fight3.sff
+snd = fight.snd
+fightfx.sff = fightfx.sff
+fightfx.air = fightfx.air
+common.snd = common.snd
+font1 = font/timeL.fnt
+font2 = font/combo.def
+font3 = font/2ND.fnt
+font4 = font/countL.fnt
+font5 = font/nameSL.fnt
+font6 = font/meter.def
+
+[FightFx]
+scale = 0.1
+;-----------------------------------------------------------
+[Lifebar]
+;Player 1
+p1.pos    = 0,5
+p1.bg0.anim = 1
+p1.bg1.spr = 0,0
+p1.mid.spr = 1,2
+p1.front.spr = 1,6
+p1.range.x  = 143,27
+;Player 2
+p2.pos    = 319,5
+p2.bg0.anim = 2
+p2.bg0.facing = -1
+p2.bg1.spr = 0,1
+p2.mid.spr = 1,5
+p2.mid.facing = -1
+p2.front.spr = 1,6
+p2.front.facing = -1
+p2.range.x = -143,-27
+
+[Simul Lifebar]
+;Player 1
+p1.pos    = 0,5
+p1.bg0.anim = 3
+p1.bg1.spr = 2,0
+p1.mid.spr = 3,2
+p1.front.spr = 3,6
+p1.range.x  = 143,27
+;Player 2
+p2.pos    = 319,5
+p2.bg0.anim = 4
+p2.bg0.facing = -1
+p2.bg1.spr = 2,1
+p2.mid.spr = 3,5
+p2.mid.facing = -1
+p2.front.spr = 3,6
+p2.front.facing = -1
+p2.range.x = -143,-27
+;Player 3
+p3.pos    = 0,9
+p3.bg0.anim = 3
+p3.mid.spr = 3,2
+p3.front.spr = 3,6
+p3.range.x  = 143,27
+;Player 4
+p4.pos    = 319,9
+p4.bg0.anim = 4
+p4.bg0.facing = -1
+p4.mid.spr = 3,5
+p4.mid.facing = -1
+p4.front.spr = 3,6
+p4.front.facing = -1
+p4.range.x = -143,-27
+
+[Turns Lifebar]
+;Player 1
+p1.pos    = 0,5
+p1.bg0.anim = 1
+p1.bg1.spr = 0,0
+p1.mid.spr = 1,2
+p1.front.spr = 1,6
+p1.range.x  = 143,27
+;Player 2
+p2.pos    = 319,5
+p2.bg0.anim = 2
+p2.bg0.facing = -1
+p2.bg1.spr = 0,1
+p2.mid.spr = 1,5
+p2.mid.facing = -1
+p2.front.spr = 1,6
+p2.front.facing = -1
+p2.range.x = -143,-27
+
+
+[Begin Action 1];シングル用人１Ｐ網
+1,0, 0,0, 1
+1,1, 0,0, 1
+
+[Begin Action 2];シングル用２Ｐ網
+1,3, 0,0, 1
+1,4, 0,0, 1
+
+[Begin Action 3];タッグ用１Ｐ網
+3,0, 0,0, 1
+3,1, 0,0, 1
+
+[Begin Action 4];タッグ用２Ｐ網
+3,3, 0,0, 1
+3,4, 0,0, 1
+
+;-----------------------------------------------------------
+[Powerbar]
+;Player 1
+p1.pos    = -3,222
+p1.bg0.spr = 4,0
+p1.bg0.layerno = 2
+p1.front.spr = 4,1
+p1.front.layerno = 2
+p1.range.x = 150,32
+p1.counter.offset = 18,7
+p1.counter.font = 6,0,1
+p1.counter.scale=.9,.9
+p1.counter.layerno = 2
+
+;Player 2
+p2.pos    = 322,222
+p2.bg0.spr = 4,2
+p2.bg0.layerno = 2
+p2.front.spr = 4,3
+p2.front.layerno = 2
+p2.range.x = -150,-32
+p2.counter.offset = -32,7
+p2.counter.font = 6,0,1
+p2.counter.scale=.9,.9
+p2.counter.layerno = 2
+
+; --level sounds---
+level1.snd = 21,1
+level2.snd = 21,1
+level3.snd = 21,1
+
+;-----------------------------------------------------------
+[Face]
+;Player 1
+p1.pos    = 0,0
+p1.face.spr = 9000,2 ;9000,123
+p1.face.facing = 1
+p1.face.offset = 0,5
+;Player 2
+p2.pos    = 319,0
+p2.bg.facing = -1
+p2.face.spr = 9000,2
+p2.face.facing = -1
+p2.face.offset = 0,5
+
+[Simul Face]
+;Player 1
+p1.pos    = 0,0
+p1.face.spr = 9000,2 ;9000,123
+p1.face.facing = 1
+p1.face.offset = 0,5
+;Player 2
+p2.pos    = 319,0
+p2.bg.facing = -1
+p2.face.spr = 9000,2
+p2.face.facing = -1
+p2.face.offset = 0,5
+;Player 3
+p3.pos    = 2,12
+p3.face.spr = -,0
+p3.face.scale = 0.5,0.5
+p3.face.facing = 1
+p3.face.offset = 23,-9
+;Player 4
+p4.pos    = 317,12
+p4.face.spr = -,0
+p4.face.scale = 0.5,0.5
+p4.face.facing = -1
+p4.face.offset = -23,-9
+
+[Turns Face]
+;Player 1
+p1.pos    = 0,0
+p1.face.spr = 9000,2
+p1.face.facing = 1
+p1.face.offset = 0,5
+p1.teammate.pos = 24,4
+p1.teammate.spacing = 13,0
+p1.teammate.ko.spr = 71,0
+p1.teammate.ko.offset = 1,0
+p1.teammate.face.spr = 9999,0
+p1.teammate.face.scale = 0.5,0.5
+p1.teammate.face.facing = 1
+p1.teammate.face.offset = 1,0
+;Player 2
+p2.pos    = 319,0
+p2.bg.facing = -1
+p2.face.spr = 9000,2
+p2.face.facing = -1
+p2.face.offset = 0,5
+p2.teammate.pos = 294,4
+p2.teammate.spacing = -13,0
+p2.teammate.ko.spr = 71,0
+p2.teammate.ko.facing = -1
+p2.teammate.ko.offset = 0,0
+p2.teammate.face.spr = 9999,0
+p2.teammate.face.scale = 0.5,0.5
+p2.teammate.face.facing = -1
+p2.teammate.face.offset = 0,0
+
+;-----------------------------------------------------------
+;-----------------------------------------------------------
+[Name]
+p1.pos = 30,33
+;p1.bg. =
+p1.name.font = 3,0, 1
+p1.name.scale=.8,.8
+;p2.bg. =
+p2.pos = 290,33
+p2.name.font = 3,0, -1
+p2.name.scale=.8,.8
+
+[Simul Name]
+p1.pos = 30,33
+;p1.bg. =
+p1.name.font = 3,0, 1
+p1.name.scale=.8,.8
+;p2.bg. =
+p2.pos = 300,33
+p2.name.font = 3,0, -1
+p2.name.scale=.8,.8
+p3.pos = 30,39
+p3.name.font = 3,0, 1
+p3.name.scale=.5,.5
+p4.pos = 300,49
+p4.name.font = 3,0, -1
+p4.name.scale=.5,.5
+
+[Turns Name]
+p1.pos = 30,33
+;p1.bg. =
+p1.name.font = 3,0, 1
+p1.name.scale=.8,.8
+;p2.bg. =
+p2.pos = 300,33
+p2.name.font = 3,0, -1
+p2.name.scale=.8,.8
+p3.pos = 30,39
+p3.name.font = 3,0, 1
+p3.name.scale=.5,.5
+p4.pos = 300,49
+p4.name.font = 3,0, -1
+p4.name.scale=.5,.5
+
+;-----------------------------------------------------------
+[Time]
+pos = 160,28
+; Uncomment the following line to use a bg component
+;bg.spr = 
+; Time count display
+counter.offset = 0,0
+counter.font = 1,0, 0
+counter.scale= .45,.45
+; Ticks for each count
+framespercount = 60
+
+;-----------------------------------------------------------
+[Combo]
+pos = 20,55         ;Coords to show
+start.x = -40      ;Starting x-coords
+counter.font = 2,0,10
+counter.scale=.25,.25
+counter.shake = 1   ;Set to 1 to shake count on hit
+text.text = H       ;You can use %i to show count in the text, eg "%i Hit!"
+text.font = 2,0,10
+text.scale=.35,.35
+text.offset = -110,25  ;Offset of text
+displaytime = 60    ;Time to show text
+
+;-----------------------------------------------------------
+[Round]
+match.wins = 2
+start.waittime = 30
+pos = 0,0
+
+; ROUND X
+round.time = 0
+round.default.displaytime = 100 ;ラウンドのアニメと同じタイムで
+
+round1.snd = 0,1
+round2.snd = 0,2
+round3.snd = 0,3
+round4.snd = 0,4
+round.sndtime = 0
+round1.anim = 5
+round2.anim = 12
+round3.anim = 13
+round4.anim = 14
+
+
+; FIGHT
+fight.time = 40
+fight.offset = 0,0
+fight.anim = 6
+;fight.snd = 1,0
+fight.sndtime = 0
+ctrl.time = 45        ;ファイトのアニメと同じタイムで
+
+; KO
+KO.time    = 0        ;Time to show KO component
+KO.offset  = 0,0      ;Component for KO display
+KO.anim    = 8        ;.
+KO.snd     = 2,0      ;Sound to play for KO announcement
+KO.displaytime = 460
+
+; Double KO
+DKO.offset = 0,0
+DKO.spr     = 20,0
+DKO.displaytime = 200
+DKO.snd    = 2,1
+; Time Over
+TO.offset  = 0,0
+TO.spr     = 20,1
+TO.displaytime = 90
+TO.snd     = 2,2
+KO.sndtime = 0             ;Time to play sound for KO, DKO and TO.
+slow.time  = 60            ;Time for KO slowdown (in ticks)
+over.waittime = 45         ;Time to wait after KO before player control is stopped
+over.hittime = 10          ;Time after KO that players can still damage each other (for double KO)
+over.wintime = 45          ;Time to wait before players change to win states
+over.time = 210            ;Time to wait before round ends
+; Time to wait before showing win/draw message
+win.time = 60
+
+; Win text
+;win.offset = 160, 70
+;win.font = 3,0
+;win.text = %s Wins
+;win.displaytime = 540
+; 2-player win text
+;win2.offset = 160, 70
+;win2.font = 3,0
+;win2.text = %s and %s Win
+;win2.displaytime = 540
+; Draw text
+;draw.offset = 160, 70
+;draw.font = 3,0
+;draw.text = Draw Game
+;draw.displaytime = 540
+
+"ROUND 1" Animation
+[Begin Action 5]
+666,0, 0,0, 3
+666,1, 0,0, 3
+666,2, 0,0, 3
+666,3, 0,0, 3
+666,4, 0,0, 3
+666,5, 0,0, 3
+666,6, 0,0, 3
+666,7, 0,0, 3
+666,8, 0,0, 3
+666,9, 0,0, 3
+666,10, 0,0, 3
+666,11, 0,0, 3
+666,12, 0,0, 3
+666,13, 0,0, 3
+666,14, 0,0, 3
+666,15, 0,0, 3
+666,16, 0,0, 3
+666,17, 0,0, 3
+666,18, 0,0, 3
+666,19, 0,0, 3
+-1,0, 0,0, -1
+
+"ROUND 2" Animation
+[Begin Action 12]
+-1,0, 0,0, 10
+667,0, 0,0, 3
+667,1, 0,0, 3
+667,2, 0,0, 3
+667,3, 0,0, 3
+667,4, 0,0, 3
+667,5, 0,0, 3
+667,6, 0,0, 3
+667,7, 0,0, 3
+667,8, 0,0, 3
+667,9, 0,0, 3
+667,10, 0,0, 3
+667,11, 0,0, 3
+667,12, 0,0, 3
+667,13, 0,0, 3
+667,14, 0,0, 3
+667,15, 0,0, 3
+667,16, 0,0, 3
+667,17, 0,0, 3
+667,18, 0,0, 3
+667,19, 0,0, 3
+-1,0, 0,0, -1
+
+"ROUND 3" Animation
+
+[Begin Action 13]
+-1,0, 0,0, 10
+668,0, 0,0, 3
+668,1, 0,0, 3
+668,2, 0,0, 3
+668,3, 0,0, 3
+668,4, 0,0, 3
+668,5, 0,0, 3
+668,6, 0,0, 3
+668,7, 0,0, 3
+668,8, 0,0, 3
+668,9, 0,0, 3
+668,10, 0,0, 3
+668,11, 0,0, 3
+668,12, 0,0, 3
+668,13, 0,0, 3
+668,14, 0,0, 3
+668,15, 0,0, 3
+668,16, 0,0, 3
+668,17, 0,0, 3
+668,18, 0,0, 3
+668,19, 0,0, 3
+668,20, 0,0, 3
+668,21, 0,0, 3
+668,22, 0,0, 3
+-1,0, 0,0, -1
+
+"ROUND 4" Animation
+
+[Begin Action 14]
+-1,0, 0,0, 30
+669,0, 0,0, 3
+669,1, 0,0, 3
+669,2, 0,0, 3
+669,3, 0,0, 3
+669,4, 0,0, 3
+669,5, 0,0, 3
+669,6, 0,0, 3
+669,7, 0,0, 3
+669,8, 0,0, 3
+669,9, 0,0, 15
+669,10, 0,0, 3
+669,11, 0,0, 3
+669,12, 0,0, 3
+669,13, 0,0, 3
+669,14, 0,0, 3
+669,15, 0,0, 3
+669,16, 0,0, 3
+669,17, 0,0, 15
+669,18, 0,0, 3
+669,19, 0,0, 3
+669,20, 0,0, 3
+669,21, 0,0, 3
+669,22, 0,0, 3
+669,23, 0,0, 3
+669,24, 0,0, 3
+669,25, 0,0, 3
+669,26, 0,0, 3
+
+;"Fight!" Animation
+[Begin Action 6]
+6,5, 0,0, 1
+6,5, 0,0, 1, , AS200D256
+6,5, 0,0, 1, , AS150D256
+6,5, 0,0, 1, , AS100D256
+6,5, 0,0, 1, , AS50D256
+6,5, 0,0, 1, , AS40D256
+6,5, 0,0, 1, , AS30D256
+6,5, 0,0, 1, , AS20D256
+6,5, 0,0, 1, , AS10D256
+
+;"K.O." Animation
+[Begin Action 8]
+700,0, 0,0, 1
+700,1, 0,0, 1
+700,0, 0,0, 1
+700,2, 0,0, 80
+700,3, 0,0, 4
+700,4, 0,0, 4
+700,5, 0,0, 4
+700,6, 0,0, 4
+700,7, 0,0, 4
+700,8, 0,0, 4
+700,9, 0,0, 4
+700,10, 0,0, 4
+700,11, 0,0, 4
+700,12, 0,0, 4
+700,13, 0,0, 4
+700,14, 0,0, 4
+700,15, 0,0, 4
+700,16, 0,0, 4
+-1,0, 0,0, -1
+
+;-----------------------------------------------------------
+[WinIcon]
+p1.pos = 134,15    ;1P側の表示開始位置指定
+p2.pos = 182,15    ;2P側の表示開始位置指定
+
+; Offset for next icon (x,y) [次のアイコンの位置]
+p1.iconoffset = -16,0      ;1P側のWinIconの表示開始位置指定
+p2.iconoffset = 16,0       ;2P側のWinIconの表示開始位置指定
+
+; Counter text font and offset for representing wins
+p1.counter.offset = -31,0  ;1P側のWin数の表示開始位置指定
+p1.counter.font = 5,0      ;1P側のWin数用フォントの指定
+p2.counter.offset = 33,0   ;2P側のWin数の表示開始位置指定
+p2.counter.font = 5,1      ;2P側のWin数用フォントの指定
+
+; Win by normal [通常技で勝利]
+p1.n.spr = 100,0
+p2.n.spr = 100,0
+
+; Win by special [必殺技で勝利]
+p1.s.spr = 101,0
+p2.s.spr = 101,0
+
+; Win by hyper (super) [超必殺技で勝利]
+p1.h.spr = 102,0
+p2.h.spr = 102,0
+
+; Win by normal throw [通常投げで勝利]
+p1.throw.spr = 103,0
+p2.throw.spr = 103,0
+
+; Win by cheese [削り勝利]
+p1.c.spr = 104,0
+p2.c.spr = 104,0
+
+; Win by time over [時間切れで勝利]
+p1.t.spr = 105,0
+p2.t.spr = 105,0
+
+; Win by suicide (here's a fun one) [F1押しで勝利]
+p1.suicide.spr = 106,0
+p2.suicide.spr = 106,0
+
+; Opponent beaten by his own teammate (another fun one)
+; [相手が相手のチームメイトに倒された場合]
+p1.teammate.spr = 107,0
+p2.teammate.spr = 107,0
+
+; Win by perfect (overlay icon) [パーフェクトで勝利]
+p1.perfect.spr = 110,0
+p2.perfect.spr = 110,0
+
+; Use icons up until this number of wins [最大表示数]
+useiconupto = 4

@@ -1,0 +1,45 @@
+<#49F43A>Universal:</>
+Grab			^LP_+^LK
+Reversal Art		^SP_+^SK
+_!Mirage		_F,_B,_U during Rev Art
+_!Cancel		^SP_+^SK
+Guard Rush <#F7F95D>(1/2 Bar)</>		input ^2P or ^2K while in block stun
+EX Moves <#F7F95D>(1 Bar)</>		input ^2P or ^2K during a special
+Combo Breaker <#F7F95D>(2 Bars)</>		^L_+^OH while in a combo
+
+<#d576dc>Passive Ability: [Unchained Devil]</>
+Once Pish gets to 200 health or below and is not in
+a combo, he releases his devil. He takes more damage
+but in exchange has increased damage with all sword 
+attacks along with longer dash length.
+
+<#2ed8ea>Command Normals & Strings:</>
+
+Pommel Bash				_F ^SP
+Taste My Blade (AIR ONLY)			_D ^SP
+
+<#f0f000>Special Moves:</>
+
+Shadow Step				_QCF^P
+_!Tap					^LP
+_!Cancel				^LK
+_!Bonk				^SP
+_!Quick Slice			^SK
+_!You're Mine			^L
+_!Taste the Dirt			^OH
+_!Take to the Air			^2P
+_!Rapid Slash			^2K
+
+Phantom Flip (EX OK)				_QCB^P
+_!Etch				^LK
+_!Fall				^SK
+_!Trip				Hold _D
+
+Wrath of the Fiend (AIR ONLY) (EX OK) 			_QCB^P
+Cut Above the Rest (EX OK)                       		_QCF^K
+I'm Not Even Trying (EX OK)			_QCB^K
+
+<#e32d1b>Hyper Arts:</>
+
+CRIMSON QUICKSLASH <#F7F95D>(2 Bars)</>                                                		_QCB_QCB^P
+TRY AND SURVIVE THIS <#F7F95D>(3 Bars)</>				_QCF_QCF^P

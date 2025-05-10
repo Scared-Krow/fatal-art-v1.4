@@ -1,0 +1,34 @@
+<#49F43A>Universal:</>
+Grab			^LP_+^LK
+Reversal Art (HOLD OK)			^HP_+^HK
+Guard Rush <#F7F95D>(1/2 Bar)</>		input ^2P or ^2K while in block stun
+EX Moves <#F7F95D>(1 Bar)</>		input ^2P or ^2K during a special
+Combo Breaker <#F7F95D>(2 Bars)</>		L_+O while in a combo
+
+<#d576dc>Passive Ability: [Sickly Servant]</>
+Bog has a unique gauge that ticks down whenever his 
+friend active and goes back up whenever it is put away. 
+If the friend is active it will go away whenever the 
+meter reaches 0 and cannot be summoned again until 
+the meter is full.
+
+<#2ed8ea>Command Normals & Strings:</>
+
+EAT EAT EAT		^LP ^LP ^LP ^HP
+
+<#f0f000>Special Moves:</>
+
+BLUDBUG (EX OK)                                                 		_QCB^P
+FRANTIC (EX OK)                                          		_QCF^P
+LOSING IT (EX OK)                                                    		_QCF^K
+SICK EM (AIR OK)			_D_D^A	
+_!CHOMP			^LP
+_!HUNGER			^HP
+_!GET AWAY			^LK
+_!COME HERE 			^HK
+_!REVOKE (AIR OK)			_D_D OH
+
+<#e32d1b>Hyper Arts:</>
+
+EAT YOUR FACE <#F7F95D>(2 Bars)</>                                                		_QCF_QCF^K
+LOST TO THE WORLD <#F7F95D>(3 Bars)</>			_QCF_QCF^P

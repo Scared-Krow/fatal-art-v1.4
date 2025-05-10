@@ -1,0 +1,37 @@
+[SceneDef]
+spr = logo.sff
+startscene = 0         ;Starting scene number (for debugging)
+;------------------------------------
+[Scene 0]
+; Fade
+fadein.time = 1       ;Time to take for fading in
+fadein.col = 0,0,0     ;Use 255,255,255 for white-fade
+fadeout.time = 15
+fadeout.col = 255,255,255
+; Screen color
+clearcolor = 255,255,255
+; Overlay Anims (from 0 to 9)
+layerall.pos = 160,0   ;Default position for all layers
+layer0.anim =  0       ;Anim action number
+layer0.offset = 0,32   ;Position offset
+layer0.starttime = 0   ;Time to start display
+layer1.anim =  1
+layer1.offset = 0,176
+; Music
+bgm = logo3.mp3        ;Name of music file to play
+bgm.loop = 0
+; Total time
+end.time = 300
+
+;Background image
+[Begin Action 0]
+0,0, 0,-163, 120
+2,0, 0,-100, 60
+0,2, 5,-55, 120
+0,1, 0,-100, 120
+1,4, 0,-100, 4
+1,5, 0,-100, 4
+1,6, 0,-100, 4
+1,7, 0,-100, 4
+1,8, 0,-100, 4
+1,9, 0,0, 4

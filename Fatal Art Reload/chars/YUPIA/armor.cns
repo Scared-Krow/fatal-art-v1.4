@@ -1,0 +1,206 @@
+
+;FADC Dash
+;Armor Stuff Walkthrough
+;DON'T use time triggers! These will fuck up the armor state when it goes back to the previous state. 
+;Animelemtime(x) works much better. 
+;---------------------------------------------------------
+[Statedef 101]
+type    = S
+physics = S
+anim = 101 ;Don't have an Anim or a velset up here
+sprpriority = 1
+ctrl = 0
+;velset = 12.6,0
+
+;They go down here in their own statecontrollers
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = time = 0 && anim!=101
+value = 101
+elem = 1
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = (AnimElemTime (1) >= 0) && (AnimElemTime (6) < 0)
+x = 5
+y = 0
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = (AnimElemTime (7) >= 0) && (AnimElemTime (9) < 0)
+x = 2.5
+y = 0
+;ignorehitpause = 
+;persistent = 
+
+[State 0, Explod]
+type = Explod
+trigger1 = animelemtime(1) = 1
+anim = 6442
+ID = 673
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+pausemovetime = 0
+scale = 0.7,0.7
+sprpriority = 0
+ontop = 1
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 =animelemtime(1) = 1
+anim = 6400
+ID = 673
+pos = 0,-40
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+pausemovetime = 0
+scale = 0.7,0.7
+sprpriority = 0
+ontop = 1
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+
+[State 200, 2]
+type = PlaySnd
+trigger1 =animelemtime(1) = 1
+value = 0, 0
+
+
+[State 240, 1]
+type = PlaySnd
+trigger1 =animelemtime(1) = 1
+value = 1000,0
+
+[State 240, 1]
+type = PlaySnd
+trigger1 =animelemtime(1) = 1
+value = 1000,2
+
+
+[State 100, 2] ;Prevent run from canceling into walk
+type = AssertSpecial
+trigger1 = 1
+flag = NoWalk
+
+[State 100, 3] ;Prevent from turning
+type = AssertSpecial
+trigger1 = 1
+flag = NoAutoTurn
+
+
+[State 200, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+;----------------------------------------------------------------------
+;Armor State
+[Statedef 666999]
+movetype= H
+poweradd= 0
+
+;The pause during the armor
+[State 0, SuperPause]
+type = SuperPause
+trigger1 = time = 0 
+time = 8
+anim = 15998
+sound = -1
+pos = 0,0
+movetime = 8
+darken = 0
+p2defmul = 1
+poweradd = 0
+unhittable = 1
+
+;Misc Sound effect
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = S666,999
+channel = 5
+
+;Misc visual effect
+[State 0, Explod]
+type = Explod
+trigger1 = time = 0
+anim = F51
+ID = 7030
+pos = 4,-40
+postype = p1
+bindtime = 1
+ignorehitpause = 1
+scale = .5,.5
+sprpriority = 9
+ontop = 1
+ownpal = 1
+
+;This adds to the count of how many times a move has armored
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = time = 0
+v =   46
+value = 1
+
+;Yellow Flash Effect
+[State 0, PalFXWiz]
+type = PalFX
+trigger1 = time = 0 
+time = 5
+add = 100,100,0
+mul = 256,256,256
+sinadd = 100,100,0,3
+invertall = 0
+color = 256
+
+
+;Keeps You in place
+[State 666, PosFreeze]
+type = PosFreeze
+trigger1 = 1
+value = 1
+
+;Invincible during the state
+[State 666, NotHitBy]
+type = NotHitBy 
+trigger1 = 1
+value = SCA, AA, AP
+time = 1
+
+;Takes away half of the damage dealt to you(floor rounds down decimals)
+[State 666, LifeAdd]
+type = LifeAdd
+trigger1 = Time = 0
+value = - floor(gethitvar(damage) / 2)
+
+;;Specifies which animelem to go to
+[State 666, ChangeAnim]
+type = ChangeAnim
+trigger1 = Time < floor(gethitvar(hittime) * 0.8)
+value = Anim
+elem = AnimElemNo(0)
+
+;
+[State 666, End]
+type = ChangeState
+trigger1 = Time >= 7;floor(gethitvar(hittime) * 0.8)
+value = fvar(9)
+;----------------------------------------------------------------------

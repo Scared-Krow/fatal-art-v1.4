@@ -1,0 +1,2097 @@
+;---------------------------------------------------------------------------
+; LP
+[Statedef 200]
+type    = S                      ;State-type: S-stand, C-crouch, A-air, L-liedown
+movetype= A                      ;Move-type: A-attack, I-idle, H-gethit
+physics = S                      ;Physics: S-stand, C-crouch, A-air
+juggle  = 0                      ;Number of air juggle points move takes
+;Commonly-used controllers:
+velset = 0,0                     ;Set velocity (x,y) (Def: no change)
+ctrl = 0                         ;Set ctrl (Def: no change)
+anim = 201                      ;Change animation (Def: no change)
+poweradd= 5                    ;Power to add (Def: 0)
+sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
+
+[State -3, Win Voices] ;Win
+type = PlaySnd
+trigger1 = animelem = 2
+value = 5000, (0+(Random%4))
+channel = 0
+volumescale = 50
+
+[State 200, 1]
+type = HitDef
+trigger1 = time = 0
+attr = S, NA                     ;Attribute: Standing, Normal Attack
+damage = ceil(ifElse(fvar(11) * 20 < 3, 3, fvar(11) * 20)), 0                  ;Damage that move inflicts, guard damage
+animtype = Light                 ;Animation type: Light, Medium, Heavy, Back (def: Light)
+guardflag = MA                   ;Flags on how move is to be guarded against
+hitflag = MAFD                  ;Flags of conditions that move can hit
+priority = 2               ;Attack priority: 0 (least) to 7 (most), 4 default
+pausetime = 10,10                 ;Time attacker pauses, time opponent shakes
+guard.pausetime = 12,12
+sparkno = 4                      ;Spark anim no (Def: set above)
+sparkxy = -10, -89               ;X-offset for the "hit spark" rel. to p2,
+hitsound = 5, 0                  ;Sound to play on hit
+guardsound = 6, 0                ;Sound to play on guard
+ground.type = High               ;Type: High, Low, Trip (def: Normal)
+ground.slidetime = 5             ;Time that the opponent slides back
+ground.hittime  = 17           ;Time opponent is in hit state
+ground.velocity = -2.5             ;Velocity at which opponent is pushed
+airguard.velocity = -1.9,-.8     ;Guard velocity in air (def: (air.xvel*1.5, air.yvel/2))
+air.type = High                  ;Type: High, Low, Trip (def: same as ground.type)
+air.velocity = -2,-1           ;X-velocity at which opponent is pushed,
+air.hittime = 15                 ;Time before opponent regains control in air
+guard.slidetime = 14
+guard.hittime = 16
+guard.ctrltime = 16
+p2facing =1
+air.cornerpush.veloff = -6
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 18 < 3, 3, fvar(11) * 18)),ceil(ifElse(fvar(11) * 18 < 3, 3, fvar(11) * 18))*.5
+givepower = ceil(ifElse(fvar(11) * 18 < 3, 3, fvar(11) * 18))*1.5,ceil(ifElse(fvar(11) * 18 < 3, 3, fvar(11) * 18))*.75
+
+[State 200, 2]
+type = PlaySnd
+trigger1 = animelem = 2
+value = 0, 0
+
+[State 200, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+;---------------------------------------------------------------------------
+;LP ~ LP
+[Statedef 201]
+type    = S                      ;State-type: S-stand, C-crouch, A-air, L-liedown
+movetype= A                      ;Move-type: A-attack, I-idle, H-gethit
+physics = S                      ;Physics: S-stand, C-crouch, A-air
+juggle  = 0                      ;Number of air juggle points move takes
+;Commonly-used controllers:
+velset = 0,0                     ;Set velocity (x,y) (Def: no change)
+ctrl = 0                         ;Set ctrl (Def: no change)
+anim = 200                       ;Change animation (Def: no change)
+poweradd= 5                    ;Power to add (Def: 0)
+sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = animelem = 1 
+trigger2 = animelem = 2
+x = 1.8
+y = 0
+
+[State 200, 1]
+type = HitDef
+trigger1 = time = 0
+attr = S, NA                     ;Attribute: Standing, Normal Attack
+damage = ceil(ifElse(fvar(11) * 20 < 3, 3, fvar(11) * 20)), 0                      ;Damage that move inflicts, guard damage
+animtype = medium                 ;Animation type: Light, Medium, Heavy, Back (def: Light)
+guardflag = MA                   ;Flags on how move is to be guarded against
+hitflag = MAFD                  ;Flags of conditions that move can hit
+priority = 3, Hit                ;Attack priority: 0 (least) to 7 (most), 4 default
+;Hit/Miss/Dodge type (Def: Hit)
+pausetime = 10,10                 ;Time attacker pauses, time opponent shakes
+guard.pausetime = 12,12
+sparkno = 4                      ;Spark anim no (Def: set above)
+sparkxy = -10, -88               ;X-offset for the "hit spark" rel. to p2,
+;Y-offset for the spark rel. to p1
+hitsound = 5, 4                  ;Sound to play on hit
+guardsound = 6, 2                ;Sound to play on guard
+ground.type = High               ;Type: High, Low, Trip (def: Normal)
+ground.slidetime = 5             ;Time that the opponent slides back
+ground.hittime  = 16            ;Time opponent is in hit state
+ground.velocity = -2.5             ;Velocity at which opponent is pushed
+airguard.velocity = -1.9,-.8     ;Guard velocity in air (def: (air.xvel*1.5, air.yvel/2))
+air.type = High                  ;Type: High, Low, Trip (def: same as ground.type)
+air.velocity = -2,-1.25          ;X-velocity at which opponent is pushed,
+;Y-velocity at which opponent is pushed
+air.hittime = 15                 ;Time before opponent regains control in air
+guard.slidetime = 13
+guard.hittime = 9
+guard.ctrltime = 9
+p2facing =1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 20 < 3, 3, fvar(11) * 20)),ceil(ifElse(fvar(11) * 20 < 3, 3, fvar(11) * 20))*.5
+givepower = ceil(ifElse(fvar(11) * 20 < 3, 3, fvar(11) * 20))*1.5,ceil(ifElse(fvar(11) * 20 < 3, 3, fvar(11) * 20))*.75
+
+[State 200, 2]
+type = PlaySnd
+trigger1 = animelem = 2
+value = 0, 1
+
+[State 200, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; LP ~ LP ~ LP
+[Statedef 202]
+type    = S                      ;State-type: S-stand, C-crouch, A-air, L-liedown
+movetype= A                      ;Move-type: A-attack, I-idle, H-gethit
+physics = S                      ;Physics: S-stand, C-crouch, A-air
+juggle  = 0                      ;Number of air juggle points move takes
+;Commonly-used controllers:
+velset = 0,0                     ;Set velocity (x,y) (Def: no change)
+ctrl = 0                         ;Set ctrl (Def: no change)
+anim = 202                       ;Change animation (Def: no change)
+poweradd= 5                    ;Power to add (Def: 0)
+sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
+
+[State -3, Win Voices] ;Win
+type = PlaySnd
+trigger1 = animelem = 5
+value = 5001, (0+(Random%4))
+channel = 0
+volumescale = 50
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = animelem = 4
+trigger2 = animelem = 5
+x = 1.8
+y = 0
+
+[State 200, 1]
+type = HitDef
+trigger1 = time = 0
+attr = S, NA                     ;Attribute: Standing, Normal Attack
+damage = ceil(ifElse(fvar(11) * 20 < 3, 3, fvar(11) * 20)), 0                      ;Damage that move inflicts, guard damage
+animtype = hard                ;Animation type: Light, Medium, Heavy, Back (def: Light)
+guardflag = MA                   ;Flags on how move is to be guarded against
+hitflag = MAFD                  ;Flags of conditions that move can hit
+priority = 4, Hit                ;Attack priority: 0 (least) to 7 (most), 4 default
+;Hit/Miss/Dodge type (Def: Hit)
+pausetime = 12,12                 ;Time attacker pauses, time opponent shakes
+guard.pausetime = 14,14
+sparkno = 4                      ;Spark anim no (Def: set above)
+sparkxy = -10, -88               ;X-offset for the "hit spark" rel. to p2,
+;Y-offset for the spark rel. to p1
+hitsound = 5, 2                  ;Sound to play on hit
+guardsound = 6, 2                ;Sound to play on guard
+ground.type = High               ;Type: High, Low, Trip (def: Normal)
+ground.slidetime = 25            ;Time that the opponent slides back
+ground.hittime  = 26             ;Time opponent is in hit state
+ground.velocity = -7             ;Velocity at which opponent is pushed
+airguard.velocity = -1.9,-.8     ;Guard velocity in air (def: (air.xvel*1.5, air.yvel/2))
+air.type = High                  ;Type: High, Low, Trip (def: same as ground.type)
+air.velocity = -2,-2           ;X-velocity at which opponent is pushed,
+;Y-velocity at which opponent is pushed
+air.hittime = 15                 ;Time before opponent regains control in air
+air.hittime = 15                 ;Time before opponent regains control in air
+envshake.time = 6
+envshake.freq = 10
+envshake.ampl = 1
+guard.slidetime = 16
+p2facing =1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 23 < 4, 4, fvar(11) * 23)),ceil(ifElse(fvar(11) * 23 < 4, 4, fvar(11) * 23))*.5
+givepower = ceil(ifElse(fvar(11) * 23 < 4, 4, fvar(11) * 23))*1.5,ceil(ifElse(fvar(11) * 23 < 4, 4, fvar(11) * 23))*.75
+
+[State 200, 2]
+type = PlaySnd
+trigger1 = animelem = 4
+value = 0, 3
+
+[State 200, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; HP
+[Statedef 210]
+type    = S
+movetype= A
+physics = S
+juggle  = 0
+poweradd= 10
+ctrl = 0
+velset = 0,0
+anim = 210
+sprpriority = -2
+
+[State 200, 2]
+type = PlaySnd
+trigger1 = animelem = 5
+value = 3000, 0
+[State -3, Win Voices] ;Win
+type = PlaySnd
+trigger1 = animelem = 5
+value = 5002,2
+channel = 0
+volumescale = 50
+[State 210, Width]
+type = Width
+trigger1 = (AnimElemTime (2) >= 0) && (AnimElemTime (7) < 0)
+value = 15,0
+[State -3, Win Voices] ;Win
+type = PlaySnd
+trigger1 = animelem = 5
+value = 5002, (0+(Random%2))
+channel = 0
+volumescale = 80
+[State 210, 1]
+type = PlaySnd
+trigger1 = Time = 2
+value = 0, 4
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = animelem = 5
+trigger2 = animelem = 6
+x = 3
+y = 0
+
+[State 210, 2]
+type = HitDef
+trigger1 = time = 0
+attr = S, NA
+animtype  = hard
+guardflag = MA
+hitflag = MAFD
+damage    = ceil(ifElse(fvar(11) * 35 < 6, 6, fvar(11) * 35)), 3  
+pausetime = 12-(helper(40000),var(0)),12
+guard.pausetime = 14-(helper(40000),var(0)),14
+priority = 4, Hit  
+sparkno = 4
+sparkxy = -15,-64
+hitsound   = S5,0
+guardsound = 6,0
+ground.type = low
+ground.slidetime = 12
+ground.hittime  = 20
+ground.velocity = -2
+air.velocity = -1.85,-2.2
+air.cornerpush.veloff = -6
+ground.cornerpush.veloff = -4
+air.hittime = 17                 ;Time before opponent regains control in air
+envshake.time = 6
+envshake.freq = 10
+envshake.ampl = 1
+p2facing = 1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 37 < 7, 7, fvar(11) * 37)),ceil(ifElse(fvar(11) * 37 < 7, 7, fvar(11) * 37))*.5
+givepower = ceil(ifElse(fvar(11) * 37 < 7, 7, fvar(11) * 37))*1.5,ceil(ifElse(fvar(11) * 37 < 7, 7, fvar(11) * 37))*.75
+
+[State 210, 4]
+type = SprPriority
+trigger1 = 1
+value = -2
+
+[State 200, 4]
+type = ChangeState
+trigger1 = Time >= 15
+trigger1 = command = "y"
+value = 211
+
+[State 210, 5]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; HP ~ HP
+; CNS difficulty: easy
+; Note the width controller. It makes KFM's push box larger, so he doesn't
+; stand so close to the opponent. Hit Ctrl-C and look at the red bar at his
+; feet.
+; The sprpriority for this state is at -1, instead of the usual 2 for
+; attacks. This makes KFM appear behind the opponent initially.
+; The SprPriority controller in [State 210, 4] brings KFM to the front when
+; his arm has swung over.
+; To stop KFM from pausing in his swing frame, there is a ChangeAnim in
+; [State 210, 3] that detects if the hit has come in contact with the
+; opponent during that frame, and switches to the next animation element
+; (notice the elem=6 parameter). If you don't see what I mean, try commenting
+; out that controller, then hit someone with this attack.
+[Statedef 211]
+type    = S
+movetype= A
+physics = S
+juggle  = 0
+poweradd= 10
+ctrl = 0
+velset = 0,0
+anim = 211
+sprpriority = -2
+[State 200, 2]
+type = PlaySnd
+trigger1 = animelem = 5
+value = 3000, 1
+[State 1000, 2]
+type = PosAdd
+trigger1 = animelem = 3
+x = 23
+
+[State 1000, 2]
+type = PosAdd
+trigger1 = animelem = 4
+x = 20
+
+[State -3, Win Voices] ;Win
+type = PlaySnd
+trigger1 = animelem = 5
+value = 5002, (0+(Random%2))
+channel = 0
+volumescale = 80
+[State 1000, 2]
+type = PosAdd
+trigger1 = AnimElem = 5
+x = 7
+
+
+
+[State 210, 1]
+type = PlaySnd
+trigger1 = Time = 2
+value = 0, 4
+
+[State 210, 2]
+type = HitDef
+trigger1 = time = 0
+attr = S, NA
+animtype  = hard
+damage    = ceil(ifElse(fvar(11) * 45 < 8, 8, fvar(11) * 45)), 5   
+getpower = 5
+guardflag = MA
+hitflag = MAFD
+pausetime = 14-(helper(40000),var(0)),14
+guard.pausetime = 14-(helper(40000),var(0)),14
+priority = 4 ,Hit
+sparkno = 4
+sparkxy = -15,-94
+hitsound   = S5,2
+guardsound = 6,1
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 26
+ground.velocity = -4
+air.velocity = -2,-2.2
+air.hittime = 15                 ;Time before opponent regains control in air
+envshake.time = 6
+envshake.freq = 10
+envshake.ampl = 2
+p2facing = 1
+guard.dist = 150
+air.cornerpush.veloff = -16
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 42 < 8, 8, fvar(11) * 42)),ceil(ifElse(fvar(11) * 42 < 8, 8, fvar(11) * 42))*.5
+givepower = ceil(ifElse(fvar(11) * 42 < 8, 8, fvar(11) * 42))*1.5,ceil(ifElse(fvar(11) * 42 < 8, 8, fvar(11) * 42))*.75
+
+[State 210, 4]
+type = SprPriority
+trigger1 = 1
+value = 2
+
+[State 210, 5]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; LAUNCHER
+; CNS difficulty: easy
+[Statedef 220]
+type    = S                      ;State-type: S-stand, C-crouch, A-air, L-liedown
+movetype= A                      ;Move-type: A-attack, I-idle, H-gethit
+physics = S                      ;Physics: S-stand, C-crouch, A-air
+juggle  = 2                      ;Number of air juggle points move takes
+;Commonly-used controllers:
+velset = 0,0                     ;Set velocity (x,y) (Def: no change)
+ctrl = 0                         ;Set ctrl (Def: no change)
+anim = 220                       ;Change animation (Def: no change)
+poweradd= 0                    ;Power to add (Def: 0)
+sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
+
+
+[State 1000, 2]
+type = PosAdd
+trigger1 = animelem = 1
+trigger2 = AnimElem = 2
+x = 7
+
+
+
+[State 1000, 2]
+type = PosAdd
+trigger1 = animelem = 3
+x = 9
+
+
+[State 1000, 2]
+type = PosAdd
+trigger1 = AnimElem = 4
+trigger2 = AnimElem = 5
+trigger3 = animelem = 6
+trigger4 = AnimElem = 7
+trigger5 = animelem = 8
+x = 5
+
+[State 1000, 2]
+type = PosAdd
+trigger1 = animelem = 9
+trigger2 = AnimElem = 10
+x = 5
+
+[State 1000, 2]
+type = PosAdd
+trigger1 = animelem = 11
+x = 3
+
+[State 610, 3]
+type = HitDef
+trigger1 = time = 0
+attr = S, NA
+damage = ceil(ifElse(fvar(11) * 52 < 7, 7, fvar(11) * 52)), 6   
+getpower = 10
+animtype = light
+guardflag = MA
+hitflag = MAFD
+priority = 3
+pausetime = 9,9
+guard.pausetime = 13,13 
+sparkno = 3
+sparkxy = -26, -70
+hitsound = 5,4
+guardsound = 6, 2
+ground.type = high
+ground.slidetime = 0
+ground.hittime  = 30
+ground.velocity = 0,22
+airguard.velocity = -1,-.8
+air.type = high
+air.velocity = 0,22
+air.hittime = 12
+fall = 1
+fall.yvelocity = -9
+down.bounce = 9
+envshake.time = 15
+envshake.freq = 90
+envshake.ampl = -6
+envshake.phase = 100
+guard.velocity = -3.5
+guard.slidetime = 10
+p2facing = 1
+p2stateno = 43211
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 52 < 7, 7, fvar(11) * 52)),ceil(ifElse(fvar(11) * 52 < 7, 7, fvar(11) * 52))*.5
+givepower = ceil(ifElse(fvar(11) * 52 < 7, 7, fvar(11) * 52))*1.5,ceil(ifElse(fvar(11) * 52 < 7, 7, fvar(11) * 52))*.75
+
+[State 640, 2]
+type = PlaySnd
+trigger1 = animelem = 4
+value = 0, 0
+[State 640, 2]
+type = PlaySnd
+trigger1 = animelem = 7
+value = 0, 1
+[State 640, 2]
+type = PlaySnd
+trigger1 = animelem = 12
+value = 2000, 12
+
+[State 0, CtrlSet]
+type = CtrlSet
+trigger1 = time = 45 && movehit
+value = 1
+[State 200, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; OVERHEAD
+; CNS difficulty: easy
+[Statedef 221]
+type    = S                      ;State-type: S-stand, C-crouch, A-air, L-liedown
+movetype= A                      ;Move-type: A-attack, I-idle, H-gethit
+physics = N                      ;Physics: S-stand, C-crouch, A-air
+juggle  = 0                      ;Number of air juggle points move takes
+;Commonly-used controllers:
+velset = 0,0                     ;Set velocity (x,y) (Def: no change)
+ctrl = 0                         ;Set ctrl (Def: no change)
+anim = 221                       ;Change animation (Def: no change)
+poweradd= 0                    ;Power to add (Def: 0)
+sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
+
+[State 1200, Shake Screen]
+type = EnvShake
+trigger1 = AnimElem = 13
+time = 9     ;Time to shake screen
+ampl = 2     ;Amount to shake
+freq = 100   ;A frequency of 180 shakes the screen rapidly
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 3
+x = 1
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 7
+x = 4
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 13
+x = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = animelem = 13
+anim = 402
+ID = 673
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+pausemovetime = 0
+scale = 0.39,0.39
+sprpriority = 0
+ontop = 1
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+[State 0, Explod]
+type = Explod
+trigger1 = animelem = 13
+anim = 6440
+ID = 673
+pos = 10,0
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+pausemovetime = 0
+scale = 0.90,0.37
+sprpriority = 0
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = animelem = 13
+value = 3002,1
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = animelem = 13
+value = 3002,1
+
+
+;[State 1000, 2]
+;type = PosAdd
+;trigger1 = AnimElem = 3
+;trigger2 = AnimElem = 4
+;trigger3 = animelem = 5
+;x = 5
+
+;[State 1000, 2]
+;type = PosAdd
+;trigger1 = AnimElem = 6
+;trigger2 = AnimElem = 7
+;trigger3 = animelem = 8
+;trigger4 = AnimElem = 9
+;trigger5 = AnimElem = 10
+;trigger6 = animelem = 11
+;trigger7 = animelem = 12
+;x = 11
+
+[State 200, 1]
+type = HitDef
+trigger1 = animelem = 8
+attr = S, NA                     ;Attribute: Standing, Normal Attack
+damage = ceil(ifElse(fvar(11) * 25 < 4, 4, fvar(11) * 25)), 0                      ;Damage that move inflicts, guard damage
+getpower = 5
+animtype = hard                 ;Animation type: Light, Medium, Heavy, Back (def: Light)
+guardflag = M                  ;Flags on how move is to be guarded against
+hitflag = MAFD                   ;Flags of conditions that move can hit
+priority = 5, Hit                ;Attack priority: 0 (least) to 7 (most), 4 default
+;Hit/Miss/Dodge type (Def: Hit)
+pausetime = 8, 10                 ;Time attacker pauses, time opponent shakes
+guard.pausetime = 10,10
+sparkno = 5                      ;Spark anim no (Def: set above)
+sparkxy = -10, -76               ;X-offset for the "hit spark" rel. to p2,
+;Y-offset for the spark rel. to p1
+hitsound = 5, 2                  ;Sound to play on hit
+guardsound = 6, 2                ;Sound to play on guard
+ground.type = low               ;Type: High, Low, Trip (def: Normal)
+ground.slidetime = 5             ;Time that the opponent slides back
+ground.hittime  = 20            ;Time opponent is in hit state
+ground.velocity = -3             ;Velocity at which opponent is pushed
+airguard.velocity = -1.9,-.8     ;Guard velocity in air (def: (air.xvel*1.5, air.yvel/2))
+air.type = High                  ;Type: High, Low, Trip (def: same as ground.type)
+air.velocity = -1,-0.1           ;X-velocity at which opponent is pushed,
+;Y-velocity at which opponent is pushed
+air.hittime = 15                 ;Time before opponent regains control in air
+guard.slidetime = 16
+p2facing =1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 28 < 5, 5, fvar(11) * 28)),ceil(ifElse(fvar(11) * 28 < 5, 5, fvar(11) * 28))*.5
+givepower = ceil(ifElse(fvar(11) * 28 < 5, 5, fvar(11) * 28))*1.5,ceil(ifElse(fvar(11) * 28 < 5, 5, fvar(11) * 28))*.75
+
+[State 200, 1]
+type = HitDef
+trigger1 = animelem = 11
+attr = S, NA                     ;Attribute: Standing, Normal Attack
+damage = ceil(ifElse(fvar(11) * 34 < 6, 6, fvar(11) * 34)), 0                      ;Damage that move inflicts, guard damage
+getpower = 5
+animtype = hard                 ;Animation type: Light, Medium, Heavy, Back (def: Light)
+guardflag = H                  ;Flags on how move is to be guarded against
+hitflag = MAFD                     ;Flags of conditions that move can hit
+priority = 4, Hit                ;Attack priority: 0 (least) to 7 (most), 4 default
+;Hit/Miss/Dodge type (Def: Hit)
+pausetime = 12, 12                 ;Time attacker pauses, time opponent shakes
+guard.pausetime = 14,14
+sparkno = 3                      ;Spark anim no (Def: set above)
+sparkxy = -10, -76               ;X-offset for the "hit spark" rel. to p2,
+;Y-offset for the spark rel. to p1
+hitsound = 5, 3                  ;Sound to play on hit
+guardsound = 6, 2                ;Sound to play on guard
+ground.type = low               ;Type: High, Low, Trip (def: Normal)
+ground.slidetime = 5             ;Time that the opponent slides back
+ground.hittime  = 39             ;Time opponent is in hit state
+ground.velocity = -3, -0.5            ;Velocity at which opponent is pushed
+airguard.velocity = -1.9,-.8     ;Guard velocity in air (def: (air.xvel*1.5, air.yvel/2))
+air.type = High                  ;Type: High, Low, Trip (def: same as ground.type)
+air.velocity = -3,0.5           ;X-velocity at which opponent is pushed,
+;Y-velocity at which opponent is pushed
+air.hittime = 15                 ;Time before opponent regains control in air
+air.fall = 1
+fall = 1
+guard.slidetime = 20
+guard.hittime = 28
+guard.ctrltime = 28
+p2facing =1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 34 < 7, 7, fvar(11) * 34)),ceil(ifElse(fvar(11) * 34 < 7, 7, fvar(11) * 34))*.5
+givepower = ceil(ifElse(fvar(11) * 34 < 7, 7, fvar(11) * 34))*1.5,ceil(ifElse(fvar(11) * 34 < 7, 7, fvar(11) * 34))*.75
+
+[State 0, Explod]
+type = Explod
+trigger1 = animelem = 6
+anim = 222
+ID = 222
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+pausemovetime = 0
+scale = 0.37,0.37
+sprpriority = 0
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+[State 200, 2]
+type = PlaySnd
+trigger1 = animelem = 6
+value = 2000, 1
+[State 200, 2]
+type = PlaySnd
+trigger1 = animelem = 6
+value = 2000, 1
+[State 200, 2]
+type = PlaySnd
+trigger1 = animelem = 13
+value = 2000, 0
+[State 1200, Shake Screen]
+type = EnvShake
+trigger1 = AnimElem = 13
+time = 4     ;Time to shake screen
+ampl = 2     ;Amount to shake
+freq = 100   ;A frequency of 180 shakes the screen rapidly
+[State 200, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; sk OVERHEAD
+; CNS difficulty: easy
+[Statedef 250]
+type    = S                      ;State-type: S-stand, C-crouch, A-air, L-liedown
+movetype= A                      ;Move-type: A-attack, I-idle, H-gethit
+physics = N                      ;Physics: S-stand, C-crouch, A-air
+juggle  = 0                      ;Number of air juggle points move takes
+;Commonly-used controllers:
+velset = 0,0                     ;Set velocity (x,y) (Def: no change)
+ctrl = 0                         ;Set ctrl (Def: no change)
+anim = 250                      ;Change animation (Def: no change)
+poweradd= 10                    ;Power to add (Def: 0)
+sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = time = 1
+v = 8    
+value = var(8)+1
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = (AnimElemTime (2) >= 0) && (AnimElemTime (7) < 0)
+x = 1.1
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = (AnimElemTime (8) >= 0) && (AnimElemTime (12) < 0)
+x = 0.5
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = animelem = 5
+value = 0,4
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = animelem = 6
+value = 5001,0
+
+
+
+;[State 1000, 2]
+;type = PosAdd
+;trigger1 = AnimElem =4
+;trigger2 = AnimElem = 5
+;trigger3 = animelem =6
+;trigger4 = animelem =7
+;x = 9
+
+[State 0, Explod]
+type = Explod
+trigger1 = animelem = 8
+anim = 402
+ID = 673
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+pausemovetime = 0
+scale = 0.39,0.39
+sprpriority = 0
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+[State 0, Explod]
+type = Explod
+trigger1 = animelem = 8
+anim = 6440
+ID = 673
+pos = 10,0
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+pausemovetime = 0
+scale = 0.80,0.37
+sprpriority = 0
+ontop = 1
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = animelem = 8
+value = 3002,1
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = animelem = 8
+value = 3002,1
+[State 1200, Shake Screen]
+type = EnvShake
+trigger1 = AnimElem = 8
+time = 10     ;Time to shake screen
+ampl = 2     ;Amount to shake
+freq = 100   ;A frequency of 180 shakes the screen rapidly
+
+[State 200, 1]
+type = HitDef
+trigger1 = var(8)=0
+trigger1 = time = 0
+attr = S, NA                     ;Attribute: Standing, Normal Attack
+damage = ceil(ifElse(fvar(11) * 50 < 10, 10, fvar(11) * 50)), 0                      ;Damage that move inflicts, guard damage
+getpower = 15
+animtype = hard                 ;Animation type: Light, Medium, Heavy, Back (def: Light)
+guardflag = H                  ;Flags on how move is to be guarded against
+hitflag = MAFD                   ;Flags of conditions that move can hit
+priority = 4
+pausetime = 16,16
+guard.pausetime = 18,18
+sparkno = 0
+sparkxy = -26, -66
+hitsound = 5,4
+guardsound = 6, 2
+ground.type = high
+ground.slidetime = 0
+ground.hittime  = 30
+ground.velocity = -1,22
+airguard.velocity = -1,-.8
+air.type = high
+air.velocity = -1,22
+air.hittime = 12
+fall = 1
+fall.yvelocity = -4.45
+down.bounce = 9
+envshake.time = 15
+envshake.freq = 90
+envshake.ampl = -6
+envshake.phase = 100
+guard.velocity = -6
+guard.slidetime = 5
+p2stateno = 43211
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 46 < 10, 10, fvar(11) * 46)),ceil(ifElse(fvar(11) * 46 < 10, 10, fvar(11) * 46))*.5
+givepower = ceil(ifElse(fvar(11) * 46 < 10, 10, fvar(11) * 46))*1.5,ceil(ifElse(fvar(11) * 46 < 10, 10, fvar(11) * 46))*.75
+
+[State 200, 1]
+type = HitDef
+trigger1 = var(8)=1
+trigger1 = time = 0
+attr = S, NA                     ;Attribute: Standing, Normal Attack
+damage = ceil(ifElse(fvar(11) * 50 < 10, 10, fvar(11) * 50)), 0                      ;Damage that move inflicts, guard damage
+getpower = 15
+animtype = hard                 ;Animation type: Light, Medium, Heavy, Back (def: Light)
+guardflag = H                  ;Flags on how move is to be guarded against
+hitflag = MAFD                   ;Flags of conditions that move can hit
+priority = 4
+pausetime = 16,16
+guard.pausetime = 18,18
+sparkno = 0
+sparkxy = -26, -66
+hitsound = 5,4
+guardsound = 6, 2
+ground.type = high
+ground.slidetime = 0
+ground.hittime  = 30
+ground.velocity = -1,6
+airguard.velocity = -1,-.8
+air.type = high
+air.velocity = -1,22
+air.hittime = 12
+fall = 1
+fall.yvelocity = 0
+down.bounce = 0
+envshake.time = 15
+envshake.freq = 90
+envshake.ampl = -6
+envshake.phase = 100
+guard.velocity = -6
+guard.slidetime = 5
+getpower = ceil(ifElse(fvar(11) * 54 < 11, 11, fvar(11) * 54)),ceil(ifElse(fvar(11) * 54 < 11, 11, fvar(11) * 54))*.5
+givepower = ceil(ifElse(fvar(11) * 54 < 11, 11, fvar(11) * 54))*1.5,ceil(ifElse(fvar(11) * 54 < 11, 11, fvar(11) * 54))*.75
+
+
+[State 200, 2]
+type = PlaySnd
+trigger1 = animelem = 6
+value = 2000, 1
+[State 200, 2]
+type = PlaySnd
+trigger1 = animelem = 6
+value = 2000, 1
+[State 200, 2]
+type = PlaySnd
+trigger1 = animelem = 13
+value = 2000, 0
+
+[State 200, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+;---------------------------------------------------------------------------
+; Standing light kick
+; CNS difficulty: easy
+[Statedef 230]
+type    = S
+movetype= A
+physics = S
+juggle  = 0
+poweradd= 5
+ctrl = 0
+velset = 0,0
+anim = 230
+sprpriority = 2
+
+[State 230, 1]
+type = PlaySnd
+trigger1 = animelem = 4
+value = 5000, 1
+volumescale = 80
+
+[State 230, 2]
+type = HitDef
+trigger1 = Time = 0
+attr = S, NA
+animtype  = light
+damage    = ceil(ifElse(fvar(11) * 24 < 4, 4, fvar(11) * 24)), 0   
+guardflag = MA
+hitflag = MAFD
+pausetime = 12,12
+guard.pausetime = 14,14
+sparkno = 5
+priority = 3, Hit  
+sparkxy = -10,-37
+hitsound   = 5,1
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 10
+ground.hittime  = 14
+ground.velocity = -4
+air.velocity = -1.25,-2.5
+air.cornerpush.veloff = -8
+guard.hittime = 8
+guard.ctrltime = 8
+p2facing =1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 27 < 4, 4, fvar(11) * 27)),ceil(ifElse(fvar(11) * 27 < 4, 4, fvar(11) * 27))*.5
+givepower = ceil(ifElse(fvar(11) * 27 < 4, 4, fvar(11) * 27))*1.5,ceil(ifElse(fvar(11) * 27 < 4, 4, fvar(11) * 27))*.75
+
+[State 230, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+;---------------------------------------------------------------------------
+; Standing light kick 2
+; CNS difficulty: easy
+[Statedef 231]
+type    = S
+movetype= A
+physics = S
+juggle  = 0
+poweradd= 5
+ctrl = 0
+velset = 0,0
+anim = 231
+sprpriority = 2
+
+[State 230, 1]
+type = PlaySnd
+trigger1 = animelem = 4
+value = 5000, 0
+volumescale = 80
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = animelem = 4
+x = 2.4
+y = 0
+
+
+[State 230, 2]
+type = HitDef
+trigger1 = Time = 0
+attr = S, NA
+animtype  = hard
+damage    = ceil(ifElse(fvar(11) * 28 < 4, 4, fvar(11) * 28)), 0   
+guardflag = MA
+hitflag = MAFD
+pausetime = 12,12
+guard.pausetime = 14,14
+guard.slidetime = 22
+sparkno = 6
+priority = 3, Hit  
+sparkxy = -10,-80
+hitsound   = 5,2
+guardsound = 6,1
+ground.type = high
+ground.slidetime = 15
+ground.hittime  = 28
+ground.velocity = -4
+air.velocity = -1.6,-2.75
+air.cornerpush.veloff = -9
+forcenofall = 0
+air.hittime = 15                 ;Time before opponent regains control in air
+envshake.time = 6
+envshake.freq = 10
+envshake.ampl = 1
+p2facing =1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 30 < 5, 5, fvar(11) * 30)),ceil(ifElse(fvar(11) * 30 < 5, 5, fvar(11) * 30))*.5
+givepower = ceil(ifElse(fvar(11) * 30 < 5, 5, fvar(11) * 30))*1.5,ceil(ifElse(fvar(11) * 30 < 5, 5, fvar(11) * 30))*.75
+
+[State 230, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+;b.SK
+; CNS difficulty: easy
+[Statedef 232]
+type    = S
+movetype= A
+physics = S
+juggle  = 0
+poweradd= 5
+ctrl = 0
+velset = 0,0
+anim = 232
+sprpriority = 2
+
+[State 230, 1]
+type = PlaySnd
+trigger1 = animelem = 5
+value = 5000, 2
+volumescale = 80
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = animelem = 2
+trigger2 = animelem = 3
+trigger3 = animelem = 4
+trigger4 = animelem = 5
+x = 1
+y = 0
+
+
+[State 230, 2]
+type = HitDef
+trigger1 = Time = 0
+attr = C, NA
+animtype  = hard
+damage    = ceil(ifElse(fvar(11) * 50 < 6, 6, fvar(11) * 50)), 0   
+getpower = 10
+guardflag = L
+hitflag = MAFD
+pausetime = 12,12
+guard.pausetime = 14,14
+sparkno = 4
+priority = 5, Hit  
+sparkxy = 0,-10
+hitsound   = 5,4
+guardsound = 6,2
+ground.type = high
+ground.slidetime = 15
+ground.hittime  = 10
+ground.velocity = -0.5,-3.25
+guard.velocity = -4
+air.velocity = -3,-.5
+fall = 1
+guard.slidetime = 10
+p2facing =1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 39 < 5, 5, fvar(11) * 39)),ceil(ifElse(fvar(11) * 39 < 5, 5, fvar(11) * 39))*.5
+givepower = ceil(ifElse(fvar(11) * 39 < 5, 5, fvar(11) * 39))*1.5,ceil(ifElse(fvar(11) * 39 < 5, 5, fvar(11) * 39))*.75
+
+[State 230, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Standing strong kick
+; CNS difficulty: easy
+[Statedef 240]
+type    = S
+movetype= A
+physics = S
+juggle  = 0
+poweradd= 10
+ctrl = 0
+velset = 0,0
+anim = 240
+sprpriority = 2
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = animelem = 3
+trigger2 = animelem = 4
+trigger3 = animelem = 5
+x = 8
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = animelem = 7
+trigger2 = animelem = 8
+x = 10
+[State -3, Win Voices] ;Win
+type = PlaySnd
+trigger1 = animelem = 7
+value = 5002, (0+(Random%2))
+channel = 0
+volumescale = 80
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = animelem = 9
+trigger2 = animelem = 10
+trigger3 = animelem = 11
+trigger4 = animelem = 12
+x = 4
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = animelem = 13
+x = 10
+[State 200, 2]
+type = PlaySnd
+trigger1 = animelem = 7
+value = 0, 3
+[State 240, 2]
+type = HitDef
+trigger1 = Time = 0
+attr = S, NA
+animtype  = hard
+damage    = ceil(ifElse(fvar(11) * 50 < 10, 10, fvar(11) * 50)), 0   
+getpower = 5
+guardflag = MA
+hitflag = MAFD
+pausetime = 14,14
+sparkno = 1
+sparkxy = -10,-60
+hitsound   = 5,2
+guardsound = 6,1
+ground.type = Low
+ground.slidetime = 10
+ground.hittime  = 26
+ground.velocity = -6
+guard.hittime = 16
+guard.ctrltime = 16
+air.velocity = -3,-3
+air.cornerpush.veloff = -12
+ground.cornerpush.veloff = -12
+priority = 5, hit 
+air.hittime = 22                 ;Time before opponent regains control in air
+envshake.time = 6
+envshake.freq = 10
+envshake.ampl = 2
+p2facing = 1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 50 < 6, 6, fvar(11) * 50)),ceil(ifElse(fvar(11) * 50 < 6, 6, fvar(11) * 50))*.5
+givepower = ceil(ifElse(fvar(11) * 50 < 6, 6, fvar(11) * 50))*1.5,ceil(ifElse(fvar(11) * 50 < 6, 6, fvar(11) * 50))*.75
+
+[State 240, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+;Crouching light punch
+; CNS difficulty: easy
+; Description: Simple crouching attack. The HitDef's guardflag parameter
+;     is set to "L", meaning that the move can only be guarded low
+;     (crouching), and not by standing or jumping opponents.
+;     Like for all light attacks, it's a good idea to keep the slidetime
+;     and hittime parameters at a smaller number, so the opponent isn't
+;     stunned for too long. For all crouching attacks you have to
+;     remember to set the attr parameter to indicate that it is crouching
+;     attack. In this case, "C, NA" stands for "crouching, normal attack".
+;     The HitDef's priority is set at 3, instead of the default of 4,
+;     so this attack has a lower priority than most others, meaning
+;     KFM will get hit instead of trading hits with his opponent if
+;     their attack collision boxes (Clsn1) intersect each other's Clsn2
+;     boxes at the same time.
+[Statedef 400]
+type    = C
+movetype= A
+physics = C
+juggle  = 0
+poweradd= 5
+ctrl = 0
+anim = 400
+sprpriority = 2
+
+[State 400, 1]
+type = PlaySnd
+trigger1 = Time = 1
+value = 0, 0
+
+[State 400, 2]
+type = HitDef
+trigger1 = Time = 0
+attr = CS, NA
+damage    = ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23)), 0   
+priority  = 2
+animtype  = Light
+hitflag = MAFD
+guardflag = M
+pausetime = 10,10
+guard.pausetime = 12,12
+guard.slidetime = 11
+guard.hittime = 9
+guard.ctrltime = 9
+sparkno = 4
+sparkxy = -10,-50
+hitsound   = 5,0
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 4
+ground.hittime  = 15
+ground.velocity = -4
+air.velocity = -1.5,-1.25
+air.fall = 1
+p2facing =1
+getpower = ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23)),ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23))*.5
+givepower = ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23))*1.5,ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23))*.75
+
+[State 400, 3]
+type = CtrlSet
+trigger1 = Time = 18
+value = 1
+
+
+[State 400, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+
+;---------------------------------------------------------------------------
+;Crouching strong punch
+; CNS difficulty: easy
+; Description: This is a 2-hit move. It is done by having two HitDefs
+;     triggered, one for each frame of animation that hits.
+;     Notice how the first hit cannot be guarded by an opponent in the
+;     air, because of the "M" in the guardflag, meaning it can only
+;     be guarded "middle". The second hit has an "MA" guardflag, so
+;     it can be guarded both on the ground and in the air.
+[Statedef 410]
+type    = C
+movetype= A
+physics = C
+juggle  = 0
+poweradd= 10
+ctrl = 0
+anim = 410
+sprpriority = 2
+
+[State 410, 1]
+type = PlaySnd
+trigger1 = animelem = 4
+value = 0, 2
+[State -3, Win Voices] ;Win
+type = PlaySnd
+trigger1 = animelem = 3
+value = 5002,1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = time = 0
+v = 18
+value = 1
+ignorehitpause = 0
+
+;This is the first hit, triggered on the 3rd element of animation.
+[State 410, 2]
+type = HitDef
+trigger1 = time = 0
+attr = C, NA
+damage    = ceil(ifElse(fvar(11) * 60 < 6, 6, fvar(11) * 60)), 0
+animtype  = hard
+hitflag = MAFD
+guardflag = M
+priority = 5, Hit  
+pausetime = 14,14
+guard.pausetime = 16,16
+sparkno = 0
+sparkxy = -10,-50
+hitsound   = 5,2
+guardsound = 6,2
+ground.type = high
+ground.slidetime = 12
+ground.hittime  = 25
+ground.velocity = -1
+air.velocity = -1,cond( Var(18) <= 1,-5,-2.5)
+air.hittime = 35
+p2facing = 1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 60 < 6, 6, fvar(11) * 60)),ceil(ifElse(fvar(11) * 60 < 6, 6, fvar(11) * 60))*.5
+givepower = ceil(ifElse(fvar(11) * 60 < 6, 6, fvar(11) * 60))*1.5,ceil(ifElse(fvar(11) * 60 < 6, 6, fvar(11) * 60))*.75
+
+
+[State 410, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+ctrl = 1
+;---------------------------------------------------------------------------
+;Crouching light kick
+; CNS difficulty: easy
+[Statedef 430]
+type    = C
+movetype= A
+physics = C
+juggle  = 0
+poweradd= 5
+ctrl = 0
+anim = 430
+sprpriority = 2
+
+[State 430, 1]
+type = PlaySnd
+trigger1 = Time = 1
+value = 0, 0
+
+[State 430, 2]
+type = HitDef
+trigger1 = Time = 0
+attr = C, NA
+damage    = ceil(ifElse(fvar(11) * 25 < 3, 3, fvar(11) * 25)), 0   
+animtype  = Light
+hitflag = MAFD
+guardflag = L
+pausetime = 12,12
+guard.pausetime = 14,14
+sparkno = 4
+priority = 3, Hit  
+sparkxy = -10,-8
+hitsound   = 5,1
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 6
+ground.hittime  = 13
+ground.velocity = -3
+air.velocity = -2,-1
+guard.slidetime = 8
+guard.velocity = -5
+guard.hittime = 8
+guard.ctrltime = 8
+p2facing =1
+ground.cornerpush.veloff = -6
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 25 < 3, 3, fvar(11) * 25)),ceil(ifElse(fvar(11) * 25 < 3, 3, fvar(11) * 25))*.5
+givepower = ceil(ifElse(fvar(11) * 25 < 3, 3, fvar(11) * 25))*1.5,ceil(ifElse(fvar(11) * 25 < 3, 3, fvar(11) * 25))*.75
+
+[State 430, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+ctrl = 1
+
+;---------------------------------------------------------------------------
+;Crouch Strong Kick
+[Statedef 440]
+type    = C
+movetype= A
+physics = C
+juggle  = 0
+poweradd= 10
+ctrl = 0
+anim = 440
+sprpriority = 2
+
+[State 440, 2]
+type = PlaySnd
+trigger1 = Time = 2
+value = 0, 2
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = animelem = 3
+trigger2 = animelem = 4
+x = 5
+y = 0
+
+[State 440, 3]
+type = HitDef
+trigger1 = Time = 0
+attr = C, NA
+damage    = ceil(ifElse(fvar(11) * 53 < 3, 3, fvar(11) * 53)), 0   
+getpower = 5
+hitflag = MAFD
+guardflag = L
+pausetime = 14,14
+guard.pausetime = 18,16
+sparkno = 1
+priority = 4, Hit  
+sparkxy = -5,-10
+hitsound   = 5,2
+guardsound = 6,1
+ground.type = Trip
+ground.slidetime = 10
+ground.hittime  = 17
+guard.slidetime = 15
+ground.velocity = -1.5,2
+air.velocity = -1.2,2
+guard.velocity = -5
+fall = 1
+p2facing =1
+guard.hittime = 10
+guard.ctrltime = 10
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 53 < 3, 3, fvar(11) * 53)),ceil(ifElse(fvar(11) * 53 < 3, 3, fvar(11) * 53))*.5
+givepower = ceil(ifElse(fvar(11) * 53 < 3, 3, fvar(11) * 53))*1.5,ceil(ifElse(fvar(11) * 53 < 3, 3, fvar(11) * 53))*.75
+id = 440
+
+[State 3000, P2 Custom State]
+type = TargetState
+trigger1= MoveHit = 1
+ID = 440
+value = 70022
+
+[State 440, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+ctrl = 1
+
+;---------------------------------------------------------------------------
+;Jump Light Punch
+; CNS difficulty: easy
+[Statedef 600]
+type    = A
+movetype= A
+physics = A
+juggle  = 0
+poweradd= 5
+ctrl = 0
+anim = 600
+sprpriority = 2
+
+[State 0, Limiter Marker]
+type = Explod
+trigger1 = Time = 0
+anim = 9999
+ID = 50600
+removetime = -1
+
+
+[State 600, 1]
+type = PlaySnd
+trigger1 = Time = 1
+value = 0, 0
+
+[State 600, 2]
+type = HitDef
+trigger1 = Time = 0
+attr = A, NA
+damage    = ceil(ifElse(fvar(11) * 20 < 3, 3, fvar(11) * 20)), 0   
+getpower = 10
+guardflag = H
+hitflag = MAFD
+priority = 3
+pausetime = 8,8
+sparkno = 0
+sparkxy = -10,-58
+hitsound   = 5,0
+guardsound = 6,0
+ground.type = High
+ground.slidetime = 5
+ground.hittime  = 14
+ground.velocity = -4
+air.velocity = -1.25,-2
+air.hittime = 19
+guard.hittime = 10
+guard.ctrltime = 10
+p2facing = 1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 20 < 3, 3, fvar(11) * 20)),ceil(ifElse(fvar(11) * 20 < 3, 3, fvar(11) * 20))*.5
+givepower = ceil(ifElse(fvar(11) * 20 < 3, 3, fvar(11) * 20))*1.5,ceil(ifElse(fvar(11) * 20 < 3, 3, fvar(11) * 20))*.75
+
+[State 600, 3]
+type = CtrlSet
+trigger1 = Time = 17
+value = 1
+
+;---------------------------------------------------------------------------
+;Jump Strong Punch
+; CNS difficulty: easy
+[Statedef 610]
+type    = A
+movetype= A
+physics = A
+juggle  = 0
+poweradd= 10
+ctrl = 0
+anim = 610
+sprpriority = 2
+[State -3, Win Voices] ;Win
+type = PlaySnd
+trigger1 = animelem = 5
+value = 5001,0
+
+[State 0, Limiter Marker]
+type = Explod
+trigger1 = Time = 0
+anim = 9999
+ID = 50610
+removetime = -1
+
+[State 0, Limiter Marker]
+type = mapadd
+trigger1 = Time = 0
+map = "jSP"
+value = 1
+
+[State 200, 2]
+type = PlaySnd
+trigger1 = animelem = 5
+value = 3000, 1
+
+[State 610, 3]
+type = HitDef
+trigger1 = Time = 0
+attr = A, NA
+damage = ceil(ifElse(fvar(11) * 55 < 6, 6, fvar(11) * 55)), 5   
+getpower = 5
+guardflag = H
+hitflag = MAFD
+priority = 4,Hit
+pausetime = 12,12
+sparkno = 1
+sparkxy = -10,-55
+hitsound   = S5,2
+guardsound = 6,1
+animtype = Med
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 20
+ground.velocity = -6
+air.velocity = -4.6,-4+map(jSP)
+air.hittime = 25
+p2facing = 1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 52 < 6, 6, fvar(11) * 52)),ceil(ifElse(fvar(11) * 52 < 6, 6, fvar(11) * 52))*.5
+givepower = ceil(ifElse(fvar(11) * 52 < 6, 6, fvar(11) * 52))*1.5,ceil(ifElse(fvar(11) * 52 < 6, 6, fvar(11) * 52))*.75
+
+;---------------------------------------------------------------------------
+;j.2SP
+; CNS difficulty: easy
+[Statedef 611]
+type    = A
+movetype= A
+physics = A
+juggle  = 0
+poweradd= 0
+ctrl = 0
+anim = 611
+sprpriority = 2
+
+[State 0, Limiter Marker]
+type = Explod
+trigger1 = Time = 0
+anim = 9999
+ID = 50611
+removetime = -1
+
+[State 200, 2]
+type = PlaySnd
+trigger1 = animelem = 5
+value = 3000, 2
+[State -3, Win Voices] ;Win
+type = PlaySnd
+trigger1 = animelem = 5
+value = 5002,0
+
+[State 610, 3]
+type = HitDef
+triggerall = numexplod(50611) <= 1
+trigger1 = time = 0
+attr = A, NA
+damage = ceil(ifElse(fvar(11) * 65 < 10, 10, fvar(11) * 65)), 7   
+getpower = 10
+animtype = Hard
+guardflag = M
+hitflag = MAFD
+priority = 4,Hit
+pausetime = 12,12
+sparkno = 3
+sparkxy = -26, -22
+hitsound = S5,3
+guardsound = 6, 2
+ground.type = high
+ground.slidetime = 15
+ground.hittime  = 30
+ground.velocity = -0.6,22
+guard.velocity = -5
+air.type = high
+air.velocity = -0.6,22
+air.hittime = 12
+fall = 1
+fall.yvelocity = -6
+down.bounce = 6
+envshake.time = 15
+envshake.freq = 90
+envshake.ampl = -6
+envshake.phase = 100
+guard.hittime = 16
+guard.ctrltime = 16
+p2facing = 1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 65 < 7, 7, fvar(11) * 65)),ceil(ifElse(fvar(11) * 65 < 7, 7, fvar(11) * 65))*.5
+givepower =ceil(ifElse(fvar(11) * 65 < 7, 7, fvar(11) * 65))*1.5,ceil(ifElse(fvar(11) * 65 < 7, 7, fvar(11) * 65))*.75
+hitonce = 1
+id = 610
+
+[State 3000, P2 Custom State]
+type = TargetState
+trigger1= MoveHit =1
+ID = 610
+value = 43211
+ignorehitpause = 1
+
+[State 610, 3]
+type = HitDef
+triggerall = numexplod(50611) >= 2
+trigger1 = !movecontact
+attr = A, NA
+damage = ceil(ifElse(fvar(11) * 60 < 6, 6, fvar(11) * 60)), 7   
+getpower = 10
+animtype = Hard
+guardflag = MA
+hitflag = MAFD
+priority = 4,Hit
+pausetime = 12,12
+sparkno = 3
+sparkxy = -26, -22
+hitsound = S5,3
+guardsound = 6, 2
+ground.type = high
+ground.slidetime = 0
+ground.hittime  = 30
+ground.velocity = -0.6,22
+airguard.velocity = -1,-.8
+air.type = high
+air.velocity = -0.6,22
+air.hittime = 12
+fall = 1
+fall.yvelocity = -2
+down.bounce = 4
+envshake.time = 15
+envshake.freq = 90
+envshake.ampl = -6
+envshake.phase = 100
+p2facing = 1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 60 < 6, 6, fvar(11) * 60)),ceil(ifElse(fvar(11) * 60 < 6, 6, fvar(11) * 60))*.5
+givepower = ceil(ifElse(fvar(11) * 60 < 6, 6, fvar(11) * 60))*1.5,ceil(ifElse(fvar(11) * 60 < 6, 6, fvar(11) * 60))*.75
+hitonce = 1
+
+;---------------------------------------------------------------------------
+;Jump Light Kick
+; CNS difficulty: easy
+[Statedef 630]
+type    = A
+movetype= A
+physics = A
+juggle  = 0
+poweradd= 5
+ctrl = 0
+anim = 630
+sprpriority = 2
+
+[State 640, 2]
+type = PlaySnd
+trigger1 = animelem = 2
+value = 0, 3
+
+[State 0, Limiter Marker]
+type = Explod
+trigger1 = Time = 0
+anim = 9999
+ID = 50630
+removetime = -1
+
+[State 630, 2]
+type = HitDef
+trigger1 = Time = 0
+attr = A, NA
+damage = ceil(ifElse(fvar(11) * 28 < 3, 3, fvar(11) * 28)), 0 
+getpower = 10
+guardflag = H
+hitflag = MAFD
+priority = 3
+pausetime = 8,8
+sparkno = 1
+sparkxy = -5,-35
+hitsound   = 5,0
+guardsound = 6,0
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 18
+ground.velocity = -4
+air.velocity = -1.25,-2
+air.hittime = 24
+p2facing = 1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 28 < 3, 3, fvar(11) * 28)),ceil(ifElse(fvar(11) * 28 < 3, 3, fvar(11) * 28))*.5
+givepower = ceil(ifElse(fvar(11) * 28 < 3, 3, fvar(11) * 28))*1.5,ceil(ifElse(fvar(11) * 28 < 3, 3, fvar(11) * 28))*.75
+
+;---------------------------------------------------------------------------
+;Jump Strong Kick
+; CNS difficulty: easy
+[Statedef 640]
+type    = A
+movetype= A
+physics = A
+juggle  = 0
+poweradd= 10
+ctrl = 0
+anim = 640
+sprpriority = 2
+
+[State 640, 2]
+type = PlaySnd
+trigger1 = animelem = 4
+value = 0, 2
+[State 640, 2]
+type = PlaySnd
+trigger1 = animelem = 7
+value = 0, 3
+
+[State 0, Limiter Marker]
+type = Explod
+trigger1 = Time = 0
+anim = 9999
+ID = 50640
+removetime = -1
+
+[State 640, 3]
+type = HitDef
+trigger1 = Time = 0
+attr = A, NA
+damage    = ceil(ifElse(fvar(11) * 40 < 5, 5, fvar(11) * 40)), 0
+getpower = 5
+guardflag = H
+hitflag = MAFD
+priority = 4,Hit
+pausetime = 12,12
+sparkno = 1
+sparkxy = -10,-40
+hitsound   = 5,3
+guardsound = 6,1
+animtype = Med
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 25
+ground.velocity = -4.2
+air.velocity = -2.25,-2.5
+air.hittime = 25
+guard.hittime = 16
+guard.ctrltime = 16
+p2facing = 1
+air.fall = 1
+getpower = ceil(ifElse(fvar(11) * 47 < 5, 5, fvar(11) * 47)),ceil(ifElse(fvar(11) * 47 < 5, 5, fvar(11) * 47))*.5
+givepower = ceil(ifElse(fvar(11) * 47 < 5, 5, fvar(11) * 47))*1.5,ceil(ifElse(fvar(11) * 47 < 5, 5, fvar(11) * 47))*.75
+
+;---------------------------------------------------------------------------
+;Based Throw - Attempt
+[Statedef 800]
+type    = S
+movetype= A
+physics = S
+juggle  = 0
+velset = 0,0
+ctrl = 0
+anim = 800
+sprpriority = 2
+
+[State 800, 1]
+type = HitDef
+Trigger1 = Time = 0
+attr = S, NT          ;Attributes: Standing, Normal Throw
+hitflag = M-          ;Affect only ground people who are not being hit
+priority = 1, Miss    ;Throw has low priority, must be miss or dodge type.
+sparkno = -1          ;No spark
+p1sprpriority = 1     ;Draw p1's sprite in front of p2
+p1facing = 1
+p2facing = 1          ;Force p2 to face KFM
+p1stateno = 801
+p2stateno = 812
+guard.dist = 0        ;This prevents p2 from going into a guard state if close
+fall = 1
+;forcenofall = 1
+
+
+
+[State 800, 2]
+type = ChangeState
+Trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+;Based Throw - Success
+[Statedef 801]
+type    = S
+movetype= I
+physics = S
+juggle  = 0
+velset = 0,0
+ctrl = 0
+anim = 801
+sprpriority = 2
+
+[State 0, TargetState]
+type = TargetState
+trigger1 = time = 0
+value = 812
+
+[State 810, Bind 1]
+type = TargetBind
+trigger1 = time = 0
+time = 6
+pos = 50, 0
+
+[State 0, SelfState]
+type = TargetState
+triggerall = target,Map(CanTT) = 1
+trigger1 = target, command = "ax"
+trigger2 = target, command = "d"
+value = 802
+
+[State 0, ChangeState]
+type = ChangeState
+triggerall = target,Map(CanTT) = 1
+trigger1 = target, command = "ax"
+trigger2 = target, command = "d"
+value = 803
+ctrl = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 810
+ctrl = 0
+
+;---------------------------------------------------------------------------
+;Based Throw - Tech
+[Statedef 802]
+type    = S
+movetype= I
+physics = S
+juggle  = 0
+velset = 0,0
+ctrl = 0
+anim = 140 ;Guard Stand animation, reused
+sprpriority = 2
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = time = 0
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 12
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = 1
+x = -3
+
+[State 0, ChangeState]
+type = SelfState
+trigger1 = time = 12
+value = 0
+ctrl = 1
+;---------------------------------------------------------------------------
+;Based Throw - Tech + effects
+[Statedef 803]
+type    = S
+movetype= I
+physics = S
+juggle  = 0
+velset = 0,0
+ctrl = 0
+anim = 140 ;Guard Stand animation, reused
+sprpriority = 2
+
+[State 220, Sound]
+type = PlaySnd
+trigger1 = time = 0
+value = 896,0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = time = 0
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 12
+
+[State 0, Helper]
+type = Helper
+trigger1 = time = 0
+helpertype = normal ;player
+name = "Throw Tech"
+ID = 830
+stateno = 830
+pos = 25,0
+postype = p2    ;p2,front,back,left,right
+facing = 1
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+size.xscale = .3
+size.yscale = .3
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = 1
+x = -3
+
+[State 0, ChangeState]
+type = SelfState
+trigger1 = time = 12
+value = 0
+ctrl = 1
+;---------------------------------------------------------------------------
+;Throw Tech Helper
+[Statedef 830]
+type = S
+movetype = I
+physics = N
+anim = 803
+sprpriority = 7
+
+[State 0, AngleDraw]
+type = AngleDraw
+trigger1 = 1
+scale = Facing,1
+
+[State 0, Explod]
+type = Explod
+trigger1 = time = 0 
+anim = 830
+ID = 830
+pos = 0,-50
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+removetime = -2
+pausemovetime = 0
+scale = .4,.4
+ontop = 1
+
+[State 0, DestroySelf]
+type = DestroySelf
+trigger1 = animtime = 0
+;---------------------------------------------------------------------------
+;Based Throw - Throwing the opponent
+[Statedef 810]
+type    = S
+movetype= A
+physics = N
+anim = 810
+poweradd = 0
+
+[State 0, TargetState]
+type = TargetState
+trigger1 = time = 0
+value = 5006
+
+[State 0, Turn]
+type = Turn
+trigger1 = time = 0
+trigger1 = command = "holdback"
+
+[State 810, Grab Sound]
+type = PlaySnd
+trigger1 = AnimElem = 2
+value = 1, 1
+
+[State 810, Throw Sound]
+type = PlaySnd
+trigger1 = AnimElem = 7
+value = 800, 0
+
+[State 810, Bind 1]
+type = TargetBind
+trigger1 = AnimElem = 1
+time = 9999
+pos = 50, 0
+
+[State 810, Bind 1]
+type = TargetBind
+trigger1 = AnimElem = 27
+time = 1
+pos = 50, 0
+
+[State 810, 3]
+type = HitDef
+trigger1 = time = 0
+attr = S, NT
+damage = 90, 0
+animtype = light
+guardflag =
+hitflag = MAFD
+priority  = 5
+pausetime = 8,8
+hitsound   = 5,3
+sparkxy = -5,-80
+sparkno = 2
+hitsound = 5,4
+guardsound = 6,2
+ground.type = Low
+ground.velocity = -2,6
+ground.hittime = 15
+p2facing = 1
+fall = 1
+
+[State 810, State End]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;-----------------------------
+;Grabbed p2 state
+[Statedef 812]
+type    = S
+movetype= H
+physics = N
+juggle  = 0
+poweradd= 0
+ctrl = 0
+velset = 0,0
+sprpriority = 2
+
+[State 0, HitBy]
+type = HitBy
+trigger1 = 1
+value = SCA,AT
+time = 1
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA,NA,SA,HA,NP,SP,HP
+time = 1
+
+[State 0, Width]
+type = Width
+trigger1 = 1
+edge = 0,0
+player = 0,0 
+
+[State 0, ChangeAnim2]
+type = ChangeAnim
+trigger1 = 1
+value = 5017
+elem = 1
+
+[State 0, ChangeState]
+type = SelfState
+trigger1 = time = 90
+value = 0 
+ctrl = 1

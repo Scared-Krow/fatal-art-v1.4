@@ -1,0 +1,41 @@
+<#49F43A>Universal:</>
+Grab			^LP_+^LK
+Reversal Art		^HP_+^HK
+_!Rushing Robot		Hold ^HP_+^HK
+_!Voltaic Discharge		_B ^HP_+^HK after absorbing projectile
+Guard Rush <#F7F95D>(1/2 Bar)</>		input ^2P or ^2K while in block stun
+EX Moves <#F7F95D>(1 Bar)</>		input ^2P or ^2K during a special
+Combo Breaker <#F7F95D>(2 Bars)</>		L_+O while in a combo
+
+<#2ed8ea>Command Normals & Strings:</>
+
+Humanity Destroyer			_B ^HP
+Metal Head			_F ^HP
+
+ESP			^LP ^LP ^LK
+Save No One		^HK ^HP
+High Knee		^HP ^HK
+Plasma Blast		^HP ^HP ^HP ^HP ^HP ^HP ^HP ^HP
+Save Yourself		(_F ^HP or ^HP) ^HK _D^HP
+Shin Kick		_F ^HP ^LK
+
+<#f0f000>Special Moves:</>
+
+Desolate			_QCF^LP
+_!Rush			^LP
+_!Bash			^HP
+_!Sweep			^LK
+_!Hope			^HK
+_!Extermination (EX)		^2P
+  _!Galvanic Gale Divinity Strike		L
+  _!Cybernetic Clench			OH
+Desolate Crash (HOLD OK)		_QCF^HP
+
+Plasma Cutter (EX OK)			_QCB^P 
+Human Killer (EX OK)			_HCF^K
+Homicide Blade (EX OK)			_DSF^K                                  		
+
+<#e32d1b>Hyper Arts:</>
+
+LIFE ERADICATOR <#F7F95D>(2 Bars)</>			_QCF_QCF^K
+UNSTABLE (HOLD OK) <#F7F95D>(3 Bars)</>                                                 		_QCF_QCF^P

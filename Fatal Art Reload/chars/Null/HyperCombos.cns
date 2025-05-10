@@ -1,0 +1,670 @@
+;---------------------------------------------------------------------------
+;Ground Slam
+[Statedef 3000]
+type    = S
+movetype= A
+physics = S
+velset = 0,0
+anim = 3000
+ctrl = 0
+sprpriority = 5
+poweradd = -2000
+
+[State 10211, Pause]
+type = superpause
+trigger1 = time = 0
+time = 97
+movetime = 97
+darken = 1
+p2defmul = 1
+poweradd = 0
+unhittable = 1
+anim = 100
+pos = 10, -55
+sound = 20, 0
+
+[State 0, Explod] ;SUPER EXPLOD
+type = Explod
+trigger1 = time = 0
+anim = F101
+ID = 101
+pos = 0,-60
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+sprpriority = -7
+supermovetime = 9999
+ownpal = 1
+
+[State 0, EnvShake]
+type = EnvShake
+trigger1 = animelem = 31
+time = 20
+freq = 180
+ampl = -10
+phase = 180
+
+[State 0, Helper]
+type = Helper
+triggerall = command != "holdback"
+triggerall = command != "holdfwd"
+trigger1 = animelem = 31
+helpertype = normal ;player
+name = "OMEGA BURST"
+ID = 3001
+stateno = 3001
+pos = 120,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+size.xscale = .5
+size.yscale = .5
+
+[State 0, Helper]
+type = Helper
+triggerall = command = "holdback"
+trigger1 = animelem = 31
+helpertype = normal ;player
+name = "OMEGA BURST"
+ID = 3001
+stateno = 3001
+pos = 50,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+size.xscale = .5
+size.yscale = .5
+
+[State 0, Helper]
+type = Helper
+triggerall = command = "holdfwd"
+trigger1 = animelem = 31
+helpertype = normal ;player
+name = "OMEGA BURST"
+ID = 3001
+stateno = 3001
+pos = 175,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+size.xscale = .5
+size.yscale = .5
+
+[State 1351, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+;Ground Burst
+[Statedef 3001]
+type    = U
+movetype= A
+physics = N
+velset = 0,0
+anim = 3001
+ctrl = 0
+sprpriority = -2
+
+[State 3000, StayOnTarget]
+type = ScreenBound
+trigger1 = anim = 3001
+value = 1
+movecamera = 1,0
+
+[State 210, 1]
+type = PlaySnd
+trigger1 = animelem = 1
+value = 3000,0
+volumescale = 1000000000000
+
+[State 210, 2]
+type = HitDef
+trigger1 = !movecontact
+attr = S, HA
+animtype  = up
+damage = ceil(cond(root, fvar(11) * 255+(root,(Map(Overheat)/2)) < 155, 155, root, fvar(11) * 255+(root,(Map(Overheat)/2)))), 20
+guardflag = MA
+hitflag = MAFD
+getpower = 0,0
+pausetime = 8,12
+guard.hittime = 18
+guard.ctrltime = 20
+sparkno = 1
+sparkxy = -10,-70
+hitsound   = 5,2
+guardsound = 6,0
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 30
+ground.velocity = -2,-17
+air.velocity = 0.5,-16.75
+fall = 1
+
+[State 0, DestroySelf]
+type = DestroySelf
+trigger1 = animtime = 0
+trigger2 = root,stateno != 3000
+
+;---------------------------------------------------------------------------
+;LVL 3 STARTUP
+[Statedef 3499]
+type    = S                      ;State-type: S-stand, C-crouch, A-air, L-liedown
+movetype= A                      ;Move-type: A-attack, I-idle, H-gethit
+physics = S                     
+velset = 0,0                     ;Set velocity (x,y) (Def: no change)
+ctrl = 0                         ;Set ctrl (Def: no change)
+anim = 3499                       ;Change animation (Def: no change)
+sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
+poweradd = -3000
+
+[State 3000, Super A]
+type = SuperPause
+trigger1 = time = 0 
+pos = 25, -57
+anim = 100
+sound = 20, 0
+time = 27
+movetime = 27
+
+[State 0, Explod] ;SUPER EXPLOD
+type = Explod
+trigger1 = time = 0
+anim = F102
+ID = 102
+pos = 0,-60
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+sprpriority = -7
+supermovetime = 9999
+ownpal = 1
+
+[State 0, Explod]
+type = Explod
+trigger1 = animelem = 8
+anim = 3498
+ID = 3498
+pos = -10,0
+postype = p1  ;p2,front,back,left,right
+vfacing = 1
+bindtime = 1
+removetime = -2
+scale = 0.32,0.32
+sprpriority = 7
+vel = -.25,0
+ownpal = 1
+ignorehitpause = 1
+
+[State 3000, Super B]
+type = AfterImage
+trigger1 = AnimElem = 2, 1
+time = 2
+
+[State 3000, Super C]
+type = AfterImageTime
+trigger1 = AnimElemTime(2) >= 1 && Time < 60
+time = 2
+
+[State 3000, Super D]
+type = NotHitBy
+trigger1 = AnimElem = 2
+value = , NA, SA, AT
+time = 11
+
+[State 3000, Super E]
+type = NotHitBy
+trigger1 = AnimElemTime(2) >= 0 && AnimElemTime(14) < 0
+value2 = C, NA
+time = 1
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = animelem = 6
+trigger2 = animelem = 7
+trigger3 = animelem = 8
+x = 15
+
+[State 210, 2]
+type = HitDef
+trigger1 = animelem = 8
+attr = S, HA
+animtype  = back
+damage    = ceil(ifElse(fvar(11) * 75 < 50, 50, fvar(11) *75)),0
+hitflag = MAFD
+guardflag = M
+pausetime = 15,15
+guard.pausetime = 18,18
+sparkno = 4
+sparkxy = -5,-70
+hitsound   = 5,4
+guardsound = 6,2
+ground.type = High
+guard.slidetime = 15
+ground.slidetime = 18
+ground.hittime  = 25
+ground.velocity = -12
+air.velocity = -1.5,-2.5
+forcestand = 1
+air.fall = 0
+fall = 0
+forcenofall = 1
+p2facing =1
+kill = 0
+maxdist = 30,0
+p1stateno = 3500
+p2stateno = 3010
+id = 2999
+getpower = 0,0
+
+[State 3000, P2 Custom State]
+type = TargetState
+triggerall = AnimElemTime(1) > 0
+trigger1= MoveHit =1 && NumTarget(2999)
+trigger1= Target(2999),MoveType=H
+ID = 2999
+value = 3010
+ignorehitpause=0
+
+[State 200, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+;LVL 3 Followup
+[Statedef 3500]
+type    = S                      ;State-type: S-stand, C-crouch, A-air, L-liedown
+movetype= A                      ;Move-type: A-attack, I-idle, H-gethit
+physics = S                     
+velset = 0,0                     
+ctrl = 0                         
+anim = 3500                      
+sprpriority = 2       
+
+[State Heat]
+type = mapset
+trigger1 = Map(Overheat) >= 198
+map = "Overheat"
+value = 198
+ignorehitpause = 1
+
+[State Heat Gain]
+type = mapadd
+trigger1 = animelemno(0) = [12,37]
+map = "Overheat"
+value = 1.15
+ignorehitpause = 1
+
+
+[State 210, 2]
+type = HitDef
+trigger1 = animelem = 12
+trigger2 = animelem = 16
+trigger3 = animelem = 20
+attr = S, HA
+animtype  = med
+damage    = ceil(ifElse(fvar(11) * 20 < 15, 15, fvar(11) *20)),15
+guardflag = MAFD
+pausetime = 10,10
+guard.pausetime = 12,12
+sparkno = 1
+sparkxy = -5,-70
+hitsound   = 5,2
+guardsound = 6,2
+ground.type = High
+guard.slidetime = 0
+ground.slidetime = 0
+ground.hittime  = 30
+ground.velocity = 0
+air.velocity = -1.25,-5.25
+air.fall = 1
+fall = 0
+getpower = 0
+p2facing =1
+kill = 0
+
+[State 210, 2]
+type = HitDef
+triggerall = time%4 = 0
+trigger1 = animelemno(0) = [23,37]
+attr = S, HA
+animtype  = light
+damage    = ceil(ifElse(fvar(11) * 10 < 10, 10, fvar(11) *10)),15
+guardflag = MAFD
+pausetime = 6,6
+guard.pausetime = 12,12
+sparkno = 1
+sparkxy = -5,-70
+hitsound   = 5,2
+guardsound = 6,2
+ground.type = High
+guard.slidetime = 0
+ground.slidetime = 0
+ground.hittime  = 30
+ground.velocity = 0
+air.velocity = -1.25,-5.25
+air.fall = 1
+fall = 0
+getpower = 0
+p2facing =1
+kill = 0
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = animelemno(0) = [40,42]
+x = 2.5
+
+[State 0, Explod]
+type = Explod
+trigger1 = animelem = 42
+anim = 3503
+ID = 3503
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+vfacing = 1
+bindtime = 999
+removetime = -2
+scale = 0.32,0.32
+sprpriority = 7
+ownpal = 1
+ignorehitpause = 0
+
+[State 210, 2]
+type = HitDef
+trigger1 = animelem = 42
+attr = S, HA
+animtype  = hard
+damage    = ceil(ifElse(fvar(11) * 65 < 50, 50, fvar(11) *65)),15
+guardflag = MAFD
+pausetime = 16,16
+sparkno = 2
+sparkxy = -5,-70
+hitsound   = 5,4
+guardsound = 6,2
+ground.type = High
+guard.slidetime = 15
+ground.slidetime = 18
+ground.hittime  = 999
+ground.velocity = -10,0
+air.velocity = -5,0
+air.fall = 1
+fall = 0
+getpower = 0
+p2facing =1
+envshake.time = 20
+envshake.freq = 120
+envshake.phase = 4
+kill = 0
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = animelemno(0) = [50,53]
+x = 3
+
+[State 0, Explod]
+type = Explod
+trigger1 = animelem = 53
+anim =3501
+ID = 3501
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+vfacing = 1
+bindtime = 999
+removetime = -2
+scale = 0.32,0.32
+sprpriority = 5
+ownpal = 1
+ignorehitpause = 0
+
+[State Heat]
+type = mapSet
+trigger1 = animelem = 53
+map = "Overheat"
+value = 95
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = animelem = 53
+value = 4000,1
+volumescale = 100000000
+
+[State 210, 2]
+type = HitDef
+trigger1 = animelem = 53
+attr = S, HA
+animtype  = back
+damage    = ceil(ifElse(fvar(11) * 80 < 65, 65, fvar(11) * 80)),15
+guardflag = MAFD
+pausetime = 16,16
+sparkno = 3
+sparkxy = -5,-70
+hitsound   = 5,2
+guardsound = 6,2
+ground.type = High
+guard.slidetime = 15
+ground.slidetime = 18
+ground.hittime  = 30
+ground.velocity = 0,-19
+air.velocity = 0,-19
+fall = 1
+getpower = 0
+p2facing = 1 
+envshake.time = 20
+envshake.freq = 120
+envshake.phase = 4
+kill = 0
+id = 3011
+
+[State 3000, P2 Custom State]
+type = TargetState
+triggerall = AnimElemTime(1) > 0
+trigger1= MoveHit =1 && NumTarget(3011)
+trigger1= Target(3011),MoveType=H
+ID = 3011
+value = 3011
+ignorehitpause=0
+
+[State 0, Helper]
+type = Helper
+trigger1 = animelem = 53
+name = "Screen Lock"
+ID = 5600
+stateno = 5600
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+ownpal = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = animelem = 79
+anim =3504
+ID = 3504
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+vfacing = 1
+bindtime = 1
+removetime = -2
+scale = 0.32,0.32
+sprpriority = 5
+ownpal = 1
+ignorehitpause = 0    
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = animelem = 72
+value = 4000,2
+volumescale = 1000000000000
+
+[State 0, Explod]
+type = Explod
+trigger1 = animelem = 65
+anim = 3502
+ID = 3502
+pos = 0,-40
+postype = p1  ;p2,front,back,left,right
+facing = cond(enemy,facing = 1,-1,1)
+bindtime = 999
+removetime = -2
+scale = 0.15,0.15
+sprpriority = 7
+ownpal = 1
+ignorehitpause = 0
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = animelem = 79
+value = 4000,0
+volumescale = 100000000
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = animelem = 79 
+value = 4000,3
+volumescale = 10000000000000
+
+[State 210, 2]
+type = HitDef
+trigger1 = animelem = 79
+attr = S, HA
+animtype  = back
+damage    = ceil(ifElse(fvar(11) * 300 < 150, 150, fvar(11) *300)),15
+guardflag = MAFD
+hitflag = MAFD
+pausetime = 30,30
+sparkno = 3
+sparkxy = -10,-50
+hitsound   = 5,3
+guardsound = 6,2
+ground.type = High
+guard.slidetime = 15
+ground.slidetime = 18
+ground.hittime  = 25
+ground.velocity = -30,-1
+air.velocity = -30,-1
+fall = 1
+p2facing =1
+envshake.time = 30
+envshake.freq = 180
+envshake.phase = 5
+getpower = 0,0
+ID = 1001
+
+[State Heat]
+type = mapSet
+trigger1 = animelem = 79
+map = "Overheat"
+value = 0
+
+[State 3000, P2 Custom State]
+type = TargetState
+triggerall = AnimElemTime(1) > 0
+trigger1= MoveHit =1 && NumTarget(1001)
+trigger1= Target(1001),MoveType=H
+ID = 1001
+value = 1255
+ignorehitpause=0
+
+[State 200, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+;---------------------------------------------------------------------------
+;Screen LOCK
+[Statedef 5600]
+type    = S
+movetype= I
+physics = S
+velset = 0,0
+anim = 9999
+sprpriority = 9
+
+[State X, Stop the camera]
+Type = ScreenBound
+Trigger1 = 1
+Value = 1 
+MoveCamera = 1, 0 
+
+[State 0, DestroySelf]
+type = DestroySelf
+trigger1 = time = 90
+;-----------------------------
+;Lvl 3 Custom State
+[Statedef 3010]
+type    = S
+movetype= H
+physics = S
+poweradd= 0
+ctrl = 0
+velset = 0,0
+sprpriority = 2
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = time = [0,5]
+y = 0
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = time = 0
+x = -10
+
+[State 0, VelMul]
+type = VelMul
+trigger1 = time%3
+x = .95
+
+[State 0, Width]
+type = Width
+trigger1 = 1
+edge = 0,0
+player = 0,0 
+
+[State 0, ChangeAnim2]
+type = ChangeAnim
+trigger1 = 1
+value = 5017
+elem = 1
+
+[State 0, ChangeState]
+type = SelfState
+trigger1 = time = 69
+value = 0 
+ctrl = 1
+
+;-----------------------------
+;Lvl 3 Custom State
+[Statedef 3011]
+type    = A
+movetype= H
+physics = A
+poweradd= 0
+ctrl = 0
+velset = 0,-22.75
+sprpriority = 2
+
+[State X, Stop the camera]
+Type = ScreenBound
+Trigger1 = 1
+Value = 1 
+MoveCamera = -100, 0 
+
+[State 0, ChangeAnim2]
+type = ChangeAnim
+trigger1 = 1
+value = 5051
+elem = 1

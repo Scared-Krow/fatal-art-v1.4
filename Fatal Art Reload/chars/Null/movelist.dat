@@ -1,0 +1,40 @@
+<#49F43A>Universal:</>
+Grab			^LP_+^LK
+Reversal Art		^HP_+^HK
+Guard Rush <#F7F95D>(1/2 Bar)</>		input ^2P or ^2K while in block stun
+EX Moves <#F7F95D>(1 Bar)</>		input ^2P or ^2K during a special
+Combo Breaker <#F7F95D>(2 Bars)</>		L_+O while in a combo
+
+<#d576dc>Passive Ability: [Heated Core]</>
+Null builds heat whenever he performs certain moves 
+and all charged moves.
+Whenever Null's heat bar reaches full, she must discharge
+in a special state that leaves them vulnerable. 
+Additionally, charged and ex moves are dash cancelable 
+while charging and after hitting an opponent.
+This dash cancel also builds heat.
+Higher Heat Gauge impacts the following:
+-Walk speed and dash distance is increased
+-Dashes are cancelable at >=50%
+-Reversal Art has true invincibility at >=50%
+
+<#2ed8ea>Command Normals & Strings:</>
+
+Brake Hazard (HOLD OK)		_F ^HP
+Explosive Knuckle (HOLD OK)		_B ^HP
+Metal on Metal (HOLD OK)		_B ^HK
+Drop Elbow (AIR ONLY)		_D ^HP
+
+Swinging Low		^LK ^LK
+
+<#f0f000>Special Moves:</>
+
+Combustion Fist (HOLD OK) (EX OK)		_QCF^P
+Crushing Kick (EX OK)		_QCF^K
+Sky Crash (EX OK)		_QCB^P
+Rubble Rumble (EX OK)		_D_D^P
+
+<#e32d1b>Hyper Arts:</>
+
+ERUPTION <#F7F95D>(2 Bars)</>                                                 		_QCF_QCF^P
+ELIMINATE THE TARGET<#F7F95D>(3 Bars)</>                                                    		_QCB_QCB^P

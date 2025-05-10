@@ -1,0 +1,135 @@
+[Info]
+name = "Bog's Cave"
+author = "MrsHusband"
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -215
+boundright = 215
+boundhigh = -185
+boundlow = 0
+verticalfollow = 0
+floortension = 0
+tension = 50
+
+[PlayerInfo]
+;--- Player 1 ---
+p1startx = -70          
+p1starty = 0            
+p1startz = 0            
+p1facing = 1            
+
+;--- Player 2 ---
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+;--- Common ---
+leftbound  = -1000 
+rightbound =  1000 
+topbound  =  0     
+botbound  =  0     
+
+[Scaling]
+topz     = 0       
+botz     = 50      
+topscale = 1       
+botscale = 1.2     
+
+[Bound]
+screenleft = 15    
+screenright = 15  
+
+[StageInfo]
+zoffset = 207
+autoturn = 1
+resetBG = 1
+
+[shadow]
+Intensity = 100
+color = 0,0,0
+yscale = .5
+fade.range = -400,-100
+
+[Reflection]
+intensity = 0
+
+[Music]
+bgmusic = sound/Bog Theme.mp3
+bgvolume = 255
+
+[BGdef]
+spr = bog.sff
+debugbg = 1
+
+[BG sky]
+type  = normal
+spriteno = 0, 0
+start = 0, 185
+delta = 1, 1
+mask = 0
+velocity = 0, 0
+tile = 1, 0
+tilespacing = 0, 0
+
+[BG clouds 3.1 medium]
+type = normal
+spriteno = 0,1
+start = 0,185
+delta = 1,1
+tile = 1,1
+layerno = 1
+tilespacing = 400,400
+velocity = 0,0
+mask = 1
+trans = addalpha
+alpha = 50,256
+[BG foreground 1]
+type = normal
+spriteno = 0, 2
+layerno = 1
+start = 0,185
+delta = 1,1
+trans = none
+mask = 1
+
+[BG foreground 1]
+type = normal
+spriteno = 0, 3
+layerno = 1
+start = 0,185
+delta = 1,1
+trans = none
+mask = 1
+
+[BG Mist]
+type = normal
+spriteno = 0,6
+layerno = 1
+start = 0,185
+delta = 1,1
+velocity = -.75,0
+tile = 1,0
+trans = add
+alpha = 50,256
+
+[BG foreground 1]
+type = normal
+spriteno = 0, 5
+layerno = 0
+start = 0,185
+delta = 1.1,1.1
+trans = none
+mask = 1
+
+
+
+; BG LIGHT
+[Begin Action 1]
+0,1, 0,0, 3, , AS50D256
+0,1, 0,0, 3, , AS50D256
+0,1, 0,0, 3, , AS50D256
+0,1, 0,0, 3, , AS50D256
+0,1, 0,0, 3, , AS50D256

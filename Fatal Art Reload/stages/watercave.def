@@ -1,0 +1,401 @@
+; Definition of stage 0 (training stage)
+; *** denotes values you should change/check for each stage.
+; The term "background" is used to mean both backgrounds and foregrounds.
+
+;--------------------------------------------------------
+[Info]
+ ;Name of the stage.
+name = "--Water Cave--"
+;bonehouse n ashe
+
+[camera]
+startx 		= -53
+starty 		= 0
+boundleft 	= -268
+boundright 	= 162
+boundhigh 	= -300
+boundlow 	= 0
+verticalfollow 	= 0
+tension 	= 50
+floortension 	= 90
+
+;--------------------------------------------------------
+[playerinfo]
+p1startx = -123          ;starting x coordinates
+p1starty = 0            ;starting y coordinates
+p1startz = 0            ;starting z coordinates
+p1facing = 1            ;direction player faces: 1=right, -1=left
+
+p2startx = 17
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+leftbound  = -1000 ;left bound (x-movement)
+rightbound =  1000 ;right bound
+topbound  =  0   ;Top bound (z-movement)
+botbound  =  0    ;Bottom bound
+
+;--------------------------------------------------------
+[scaling]
+topz     = 0       ;top z-coordinate for scaling
+botz     = 50      ;bottom z-coordinate for scaling
+topscale = 1       ;scale to use at top
+botscale = 1.2     ;scale to use at bottom
+
+;--------------------------------------------------------
+[bound]
+screenleft = 15    ;dist from left of screen that player can move to
+screenright = 15   ;right edge
+
+;--------------------------------------------------------
+[stageinfo]
+ 
+zoffset = 207
+autoturn = 1
+resetbg = 0
+
+;--------------------------------------------------------
+[shadow]
+intensity = 60
+color = 20,20,20
+fade.range = 0,-50
+yscale = 0.3
+
+
+;--------------------------------------------------------
+[Music]
+ ;Put a filename for a MOD, MP3 or MIDI here, or just leave it
+ ;blank if you don't want music. If an invalid filename is
+ ;given, then no music will play. To play CD audio, put
+ ;the track number followed by ".da". Using a track number of
+ ;0 will play a random audio track. For example, to play
+ ;track 3 from a music CD, use:
+ ;  bgmusic = 3.da
+bgmusic = sound/watercave.mp3
+
+ ;Adjust the volume. 0 is normal, negative for softer, and
+ ;positive for louder (only for mp3, mods and CDA)
+bgvolume = 0
+
+;========================================================
+;--------------------------------------------------------
+; Background definition
+; ***
+;-------------------------------------
+; [BG x]
+; type = ?       "Normal"/"Parallax"/"Height"  (def: "normal")
+; spriteno = ?, ? Sprite group and number: groupno, imgno  (req'd)
+; start = ?, ?   Starting location (integer)  (def: 0, 0)
+; delta = ?, ?   Change in location per camera unit moved (float)  (def: 1,1)
+; trans = ?      Transparency settings: "none"/"add"/"sub"/"avg" (def: "none")
+; mask = ?       Masking (int): 0 - off, 1 - on  (def: 0)
+; velocity = ?, ? Velocity: x, y (float): speed background moves (def: 0, 0)
+; tile = ?, ?    Tiling: xtile, ytile (int): 0 - off, 1 - infinite,
+;                        >1 - tile that number of times  (def: 0, 0)
+; tilespacing = ?, ? Tiling: x, y (int) : space between tiles (def: 0, 0)
+;  Parallax-only:
+; xscale = ?, ?    Top xscale, bottom xscale (float) (if used, then no tiling)
+; width = ?, ?     Top width, bottom width (int)  (if used, then tiles;
+;                             use either this or above, but not both)
+; yscalestart = ?  Starting y-scale (float, in percent)  (def: 100)
+; yscaledelta = ?  Change in y-scale per unit (float, in percent)  (def: 0)
+;-------------------------------------
+
+;-------------------------------------
+; Main background definition
+[BGdef]
+ ;Filename of sprite data
+spr = stages/watercave.sff
+
+ ;Set to 1 if you want to clear the screen to magenta before
+ ;drawing layer 0 (the default background). Good for spotting "holes"
+ ;in your background.
+ ;Remember to turn this off when you are done debugging the background,
+ ;because it slows down performance.
+debugbg = 0
+
+
+[bg suelo]
+type = normal
+spriteno = 0,1
+start = 0, 170
+delta = 0.1,0
+mask = 0
+layerno = 0
+[bg suelo]
+type = normal
+spriteno = 0,5
+start = 10, 130
+delta = 0.1,0.1
+tile = 0,0
+mask = 1
+layerno = 0
+[bg suelo]
+type = normal
+spriteno = 26,0
+start = -120, 120
+delta = 0.1,0.4
+tile = 1,0
+mask = 1
+layerno = 0
+[bg suelo]
+type = normal
+spriteno = 5,0
+start = 30, 130
+delta = 0.1,0.4
+tile = 0,0
+mask = 1
+layerno = 0
+[BG tero3]
+type = anim
+actionno = 3
+start = 0,130
+delta = 0.3,0.4
+layerno = 0
+[BG tero3]
+type = anim
+actionno = 11
+start = 0,130
+delta = 0.3,0.4
+layerno = 0
+[BG tero3]
+type = anim
+actionno = 7
+start = 0,130
+delta = 0.3,0.4
+layerno = 0
+[BG tero3]
+type = anim
+actionno = 1
+start = 0,130
+delta = 0.3,0.4
+layerno = 0
+[BG tero3]
+type = anim
+actionno = 4
+start = 90,130
+delta = 0.3,0.4
+layerno = 0
+[BG tero3]
+type = anim
+actionno = 12
+start = 90,130
+delta = 0.3,0.4
+layerno = 0
+[BG tero3]
+type = normal
+spriteno = 14,0
+start = 0,130
+delta = 0.3,1
+mask = 1
+layerno = 0
+[BG tero3]
+type = anim
+actionno = 6
+start = 0,130
+delta = 0.3,1
+layerno = 0
+trans = add
+[BG tero3]
+type = anim
+actionno = 10
+start = 0,130
+delta = 0.3,1
+layerno = 0
+trans = add
+[BG tero3]
+type = anim
+actionno = 5
+start = 200,130
+delta = 1,1
+tile = 0,0
+velocity = -0.4,0
+layerno = 1
+[BG clouds 3.1 medium]
+type = normal
+spriteno = 27,0
+start = 0,140
+delta = 1,1
+layerno = 0
+mask = 0
+trans = sub
+alpha = 1,1
+[BG tero3]
+type = anim
+actionno = 2
+start = 0,130
+delta = 1,1
+layerno = 0
+[BG tero3]
+type = anim
+actionno = 8
+start = 0,130
+delta = 1,1
+layerno = 0
+[BG tero3]
+type = anim
+actionno = 9
+start = 0,130
+delta = 1,1
+layerno = 0
+[bg suelo]
+type = normal
+spriteno = 25,0
+start = -100, 130
+delta = 1,1
+tile = 1,0
+mask = 1
+layerno = 0
+[bg suelo]
+type = normal
+spriteno = 0,2
+start = 0, 120
+delta = 1.1,1
+mask = 1
+layerno = 1
+
+
+; Falling Drippy Water
+[Begin Action 1]
+1,0, 0,0, 30
+1,1, 0,0, 6
+1,2, 0,0, 6
+1,3, 0,0, 6
+1,4, 0,0, 6
+1,5, 0,0, 6
+1,6, 0,0, 6
+1,7, 0,0, 6
+1,8, 0,0, 6
+1,9, 0,0, 6
+1,10, 0,0, 6
+1,11, 0,0, 6
+1,12, 0,0, 6
+1,13, 0,0, 6
+1,14, 0,0, 6
+1,15, 0,0, 6
+1,16, 0,0, 6
+1,17, 0,0, 6
+1,18, 0,0, 6
+1,19, 0,0, 6
+1,20, 0,0, 6
+1,21, 0,0, 6
+1,22, 0,0, 6
+1,0, 0,0, 150
+1,1, 0,0, 6
+1,2, 0,0, 6
+1,3, 0,0, 6
+1,4, 0,0, 6
+1,5, 0,0, 6
+1,6, 0,0, 6
+1,7, 0,0, 6
+1,8, 0,0, 6
+1,9, 0,0, 6
+1,10, 0,0, 6
+1,11, 0,0, 6
+1,12, 0,0, 6
+1,13, 0,0, 6
+1,14, 0,0, 6
+1,15, 0,0, 6
+1,16, 0,0, 6
+1,17, 0,0, 6
+1,18, 0,0, 6
+1,19, 0,0, 6
+1,20, 0,0, 6
+1,21, 0,0, 6
+1,22, 0,0, 6
+
+; Buddha
+[Begin Action 2]
+13,0, 0,0, 10
+
+; Washing Leaf
+[Begin Action 3]
+10,0, 0,0, 15
+10,1, 0,0, 15
+10,2, 0,0, 15
+10,3, 0,0, 15
+10,4, 0,0, 15
+10,5, 0,0, 15
+
+; Far Left Falls
+[Begin Action 4]
+4,0, 0,0, 10
+4,1, 0,0, 10
+4,2, 0,0, 10
+4,3, 0,0, 10
+4,4, 0,0, 10
+4,5, 0,0, 10
+
+; Ghosty
+[Begin Action 5]
+6,0, 0,0, 14, , AS100D256
+6,1, 0,0, 14, , AS120D256
+6,2, 0,0, 14, , AS140D256
+6,3, 0,0, 14, , AS150D256
+6,4, 0,0, 14, , AS155D256
+6,5, 0,0, 14, , AS140D256
+6,0, 0,0, 14, , AS120D256
+
+; Middle Rock Water
+[Begin Action 6]
+15,0, 0,0, 10, , AS150D256
+15,1, 0,0, 10, , AS150D256
+15,2, 0,0, 10, , AS150D256
+15,3, 0,0, 10, , AS150D256
+15,4, 0,0, 10, , AS150D256
+15,5, 0,0, 10, , AS150D256
+
+; Washing Leaf Water
+[Begin Action 7]
+17,0, 0,0, 15, , AS150D256
+17,1, 0,0, 15, , AS150D256
+17,2, 0,0, 15, , AS150D256
+17,3, 0,0, 15, , AS150D256
+17,4, 0,0, 15, , AS150D256
+17,5, 0,0, 15, , AS150D256
+
+
+; Buddha Water
+[Begin Action 8]
+18,0, 0,0, 10, , AS200D256
+18,1, 0,0, 10, , AS200D256
+18,2, 0,0, 10, , AS200D256
+
+; Buddha Water Glow
+[Begin Action 9]
+19,0, 0,0, 10, , AS100D256
+19,1, 0,0, 10, , AS100D256
+19,2, 0,0, 10, , AS100D256
+
+; Middle Rock Water Glow
+[Begin Action 10]
+20,0, 0,0, 10, , AS150D256
+20,1, 0,0, 10, , AS150D256
+20,2, 0,0, 10, , AS150D256
+20,3, 0,0, 10, , AS150D256
+20,4, 0,0, 10, , AS150D256
+20,5, 0,0, 10, , AS150D256
+
+
+; Washing Leaf Water Glow
+[Begin Action 11]
+21,0, 0,0, 15, , AS100D256
+21,1, 0,0, 15, , AS100D256
+21,2, 0,0, 15, , AS100D256
+21,3, 0,0, 15, , AS100D256
+21,4, 0,0, 15, , AS100D256
+21,5, 0,0, 15, , AS100D256
+
+
+; Far Left Falls Water Glow
+[Begin Action 12]
+22,0, 0,0, 10, , AS200D256
+22,1, 0,0, 10, , AS200D256
+22,2, 0,0, 10, , AS200D256
+22,3, 0,0, 10, , AS200D256
+22,4, 0,0, 10, , AS200D256
+22,5, 0,0, 10, , AS200D256
+
+[Begin Action 13]
+27,0, 0,0, 10, , S

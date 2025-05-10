@@ -1,0 +1,33 @@
+<#49F43A>Universal:</>
+Grab			^LP_+^LK
+Reversal Art (AIR OK)		^HP_+^HK
+Guard Rush <#F7F95D>(1/2 Bar)</>		input ^2P or ^2K while in block stun
+EX Moves <#F7F95D>(1 Bar)</>		input ^2P or ^2K during a special
+Combo Breaker <#F7F95D>(2 Bars)</>		L_+O while in a combo
+
+<#d576dc>Passive Ability: [Slippery]</>
+Vile can cancel his forward dash into all normals and he 
+carries momentum throughout these attacks.
+
+<#2ed8ea>Command Normals & Strings:</>
+
+Venom Fists		^LP ^LP ^HP
+Disintegrate		^HP ^HP
+
+<#f0f000>Special Moves:</>
+
+Acid Razor (EX OK)			_QCF^P
+Shattering Stomp (EX OK)                                           		_QCF^K
+Bubble of Bile (EX OK)			_QCB^P
+_!Slow Bubble			_B during EX version
+Rising Knee (EX OK)			_QCB^K  
+_!Spine Smash                                             		^K
+    _!Crashing Kick			^K during EX version                                		
+Acidic Spawn (EX OK)			_D_D ^A
+_!Detonate (AIR OK)			_D_D ^A with normal version
+_!Angle Alter				hold _B or _F during EX version
+
+<#e32d1b>Hyper Arts:</>
+
+BILE WALL <#F7F95D>(2 Bars)</>                                                    		_QCB_QCB^K
+OMEN <#F7F95D>(3 Bars)</>                                                		_QCF_QCF^P

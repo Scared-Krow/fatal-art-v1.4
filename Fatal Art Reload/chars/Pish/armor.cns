@@ -1,0 +1,110 @@
+;Armor State
+[Statedef 666999]
+movetype= H
+poweradd= 0
+
+[State 0, SuperPause]
+type = SuperPause
+trigger1 = time = 0 
+time = 5
+anim = 15998
+sound = -1
+pos = 0,0
+movetime = 0
+darken = 0
+p2defmul = 1
+poweradd = 0
+unhittable = 1
+;ignorehitpause = 
+;persistent = 
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0 
+value = S666,999
+channel = 3
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = S666,999
+channel = 4
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = S666,999
+channel = 5
+
+
+[State 0, Explod]
+type = Explod
+trigger1 = time = 0
+anim = 7030
+ID = 7030
+pos = 4,-40
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+pausemovetime = 0
+ignorehitpause = 1
+scale = 1,1
+sprpriority = 0
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = time = 0
+v =   45
+value = 1
+;ignorehitpause = 
+;persistent = 
+
+;Yellow Flash Effect
+[State 0, PalFXWiz]
+type = PalFX
+trigger1 = time = 0
+time = 5
+add = 100,100,0
+mul = 256,256,256
+sinadd = 100,100,0,3
+invertall = 0
+color = 256
+
+;Keeps You in place
+[State 666, PosFreeze]
+type = PosFreeze
+trigger1 = 1
+value = 1
+
+;Invincible during the state
+[State 666, NotHitBy]
+type = NotHitBy 
+trigger1 = 1
+value = SCA, AA, AP
+time = 1
+
+;Takes away half of the damage dealt to you(floor rounds down decimals)
+[State 666, LifeAdd]
+type = LifeAdd
+trigger1 = Time = 0
+value = - floor(gethitvar(damage) / 2)
+
+;;Specifies which animelem to go to
+[State 666, ChangeAnim]
+type = ChangeAnim
+trigger1 = Time < floor(gethitvar(hittime) * 0.8)
+value = Anim
+elem = AnimElemNo(0)
+
+;
+[State 666, End]
+type = ChangeState
+trigger1 = Time >= floor(gethitvar(hittime) * 0.8)
+value = fvar(6)

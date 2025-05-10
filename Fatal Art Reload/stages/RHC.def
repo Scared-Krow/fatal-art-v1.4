@@ -1,0 +1,175 @@
+;Art by J4RMS31
+;Implementation by Ace's Hi & J4RMS31
+
+[Info]
+name = "---Rock Hard Coliseum---"
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -330
+boundright = 330
+boundhigh = -62
+boundlow = 0
+verticalfollow = 0
+tension = 50
+
+[PlayerInfo]
+p1startx = -70
+p1starty = 0
+p1startz = 0
+p1facing = 1
+
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+leftbound  = -1000
+rightbound =  1000
+topbound  =  0
+botbound  =  0
+
+[Scaling]
+topz     = 0
+botz     = 50
+topscale = 1
+botscale = 1.2
+
+[Bound]
+screenleft = 15
+screenright = 15
+
+[StageInfo]
+zoffset = 207
+autoturn = 1
+resetBG = 0
+
+[shadow]
+Intensity = 100
+color = 0,0,0
+yscale = .2
+fade.range = -400,-100
+
+[Reflection]
+intensity = 0
+
+[Music]
+bgmusic = sound/RHC.mp3
+bgvolume = 255
+
+[BGdef]
+spr = RHC.sff
+
+[BG CrowdBack]
+type  = normal
+spriteno = 0,2
+start = 0, 0
+delta = .6,.6
+
+[BG CrowdFront]
+type  = normal
+spriteno = 0,1
+start = 0, 0
+delta = .8,.8
+
+[BG RHG's]
+type  = anim
+actionno = 1
+start = 0, 0
+delta = .9,.9
+
+[BG Tentionmaru]
+type = anim
+actionno = 2
+start = 0, 0
+delta = .9,.9
+sin.x=3,1500,0
+sin.y=-5,2000,0
+
+[BG Benjamin]
+type = anim
+actionno = 3
+start = 0, 0
+delta = .9,.9
+sin.x=3,1000,0
+sin.y=-5,2000,0
+
+[BG Flags]
+type = anim
+actionno = 4
+start = 0, 0
+delta = .95,.95
+
+[BG Floor]
+type  = normal
+spriteno = 0,0
+start = 0, 0
+
+[Begin Action 1]
+1,0, 0,0, 10
+1,1, 0,0, 10
+1,2, 0,0, 10
+1,3, 0,0, 10
+1,4, 0,0, 10
+1,5, 0,0, 10
+1,6, 0,0, 10
+1,7, 0,0, 10
+1,8, 0,0, 10
+1,9, 0,0, 10
+1,10, 0,0, 10
+1,11, 0,0, 10
+1,12, 0,0, 10
+1,13, 0,0, 10
+1,14, 0,0, 10
+1,15, 0,0, 10
+
+[Begin Action 2]
+2,0, 0,0, 6
+2,1, 0,0, 6
+2,2, 0,0, 6
+2,3, 0,0, 6
+2,4, 0,0, 6
+
+[Begin Action 3]
+3,0, 0,0, 5
+3,1, 0,0, 5
+3,2, 0,0, 5
+3,3, 0,0, 5
+
+[Begin Action 4]
+4,0, 0,0, 2
+4,1, 0,0, 2
+4,2, 0,0, 2
+4,3, 0,0, 2
+4,4, 0,0, 2
+4,5, 0,0, 2
+4,6, 0,0, 2
+4,7, 0,0, 2
+4,8, 0,0, 2
+4,9, 0,0, 2
+4,10, 0,0, 2
+4,11, 0,0, 2
+4,12, 0,0, 2
+4,13, 0,0, 2
+4,14, 0,0, 2
+4,15, 0,0, 2
+4,16, 0,0, 2
+4,17, 0,0, 2
+4,18, 0,0, 2
+4,19, 0,0, 2
+4,20, 0,0, 2
+4,21, 0,0, 2
+4,22, 0,0, 2
+4,23, 0,0, 2
+4,24, 0,0, 2
+4,25, 0,0, 2
+4,26, 0,0, 2
+4,27, 0,0, 2
+4,28, 0,0, 2
+4,29, 0,0, 2
+
+
+
+
+

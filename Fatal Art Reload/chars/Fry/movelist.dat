@@ -1,0 +1,38 @@
+<#49F43A>Universal:</>
+Heated Mode			^LP_+^LK
+Reversal Art		^HP_+^HK
+Guard Rush <#F7F95D>(1/2 Bar)</>		input ^2P or ^2K while in block stun
+EX Moves <#F7F95D>(1 Bar)</>		input ^2P or ^2K during a special
+Combo Breaker <#F7F95D>(2 Bars)</>		L_+O while in a combo
+
+<#d576dc>Passive Ability: [Just Heatin' Up]</>
+Doing pan moves, specials, and taunts will fill up Fry's 
+meter. This meter unlocks a lot of special options.
+For 50%, you can press LK SK & OH to cancel any action
+For 100%, you can press LP + LK to activate an install. 
+While in this install Fry gains access  to:
+-A step cancel by pressing _F _F after landing a hit
+-Enhanced properties on specials
+-Extra chip damage on normals and specials
+
+<#2ed8ea>Command Normals & Strings:</>
+
+Hop				L
+_!Spike			L
+_!Detonation		OH
+Flying Kick			_F ^LK
+Leaping Soot (AIR ONLY)		OH
+
+Dying Pan				^HP ^HP
+
+<#f0f000>Special Moves:</>
+
+Toasty Blast (EX OK)                                                    		_QCF^K
+Searing Slam (EX OK)				_QCB^P
+Frying Renegade (EX OK)                                            		_DSF^P
+Panhandle (EX OK)				_QCB^K
+
+<#e32d1b>Hyper Arts:</>
+
+DANGER ZONE <#F7F95D>(2 Bars)</>                                                 		_QCB_QCB^P
+HEATED RAVE <#F7F95D>(3 Bars)</>                                                		_QCF_QCF^P

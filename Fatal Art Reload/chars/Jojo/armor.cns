@@ -1,0 +1,93 @@
+;----------------------------------------------------------------------
+;Armor State
+[Statedef 666999]
+movetype= H
+poweradd= 0
+
+;The pause during the armor
+[State 0, SuperPause]
+type = SuperPause
+trigger1 = time = 0 
+time = 8
+anim = 15998
+sound = -1
+pos = 0,0
+movetime = 8
+darken = 0
+p2defmul = 1
+poweradd = 0
+unhittable = 1
+
+;Misc Sound effect
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = S666,999
+channel = 5
+
+;Misc visual effect
+[State 0, Explod]
+type = Explod
+trigger1 = time = 0
+anim = F51
+ID = 7030
+pos = 4,-40
+postype = p1
+bindtime = 1
+ignorehitpause = 1
+scale = .5,.5
+sprpriority = 9
+ontop = 1
+ownpal = 1
+
+;This adds to the count of how many times a move has armored
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = time = 0
+v =   46
+value = 1
+
+;Yellow Flash Effect
+[State 0, PalFXWiz]
+type = PalFX
+trigger1 = time = 0 
+time = 5
+add = 100,100,0
+mul = 256,256,256
+sinadd = 100,100,0,3
+invertall = 0
+color = 256
+
+
+;Keeps You in place
+[State 666, PosFreeze]
+type = PosFreeze
+trigger1 = 1
+value = 1
+
+;Invincible during the state
+[State 666, NotHitBy]
+type = NotHitBy 
+trigger1 = 1
+value = SCA, AA, AP
+time = 1
+
+;Takes away half of the damage dealt to you(floor rounds down decimals)
+[State 666, LifeAdd]
+type = LifeAdd
+trigger1 = Time = 0
+value = - floor(gethitvar(damage) / 2)
+
+;;Specifies which animelem to go to
+[State 666, ChangeAnim]
+type = ChangeAnim
+trigger1 = Time < floor(gethitvar(hittime) * 0.8)
+value = Anim
+elem = AnimElemNo(0)
+
+;
+[State 666, End]
+type = ChangeState
+trigger1 = Time >= 7;floor(gethitvar(hittime) * 0.8)
+value = fvar(9)
+;----------------------------------------------------------------------

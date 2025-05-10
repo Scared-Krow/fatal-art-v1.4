@@ -1,0 +1,96 @@
+;Art by J4RMS31
+;Implementation by J4RMS31
+
+[Info]
+name = "---Training Stage---"
+round3def = stages/Training-Redux-OG.def
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -300
+boundright = 300
+boundhigh = -62
+boundlow = 0
+verticalfollow = 0
+tension = 50
+
+[PlayerInfo]
+p1startx = -70
+p1starty = 0
+p1startz = 0
+p1facing = 1
+
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+leftbound  = -1000
+rightbound =  1000
+topbound  =  0
+botbound  =  0
+
+[Scaling]
+topz     = 0
+botz     = 50
+topscale = 1
+botscale = 1.2
+
+[Bound]
+screenleft = 15
+screenright = 15
+
+[StageInfo]
+zoffset = 207
+autoturn = 1
+resetBG = 0
+
+[shadow]
+Intensity = 100
+color = 0,0,0
+yscale = .2
+fade.range = -400,-100
+
+[Reflection]
+intensity = 0
+
+[Music]
+bgmusic = sound/Training.mp3
+bgvolume = 350
+
+[BGdef]
+spr = Training-Redux.sff
+
+[BG Wall]
+type = normal
+spriteno = 0,4
+start = 0,0
+
+[BG LightsGlow]
+type = normal
+spriteno = 0,3
+trans=add
+delta=.5,0
+
+[BG Floor]
+type  = normal
+spriteno = 0,0
+start = 0, 0
+
+[BG LightsBottom]
+type  = normal
+spriteno = 0,1
+tile=1,0
+velocity=-.30,0
+
+[BG LightsTop]
+type = normal
+spriteno = 0,2
+tile=1,0
+velocity=.30,0
+
+
+
+
+

@@ -1,0 +1,32 @@
+<#49F43A>Universal:</>
+Grab			^LP_+^LK
+Reversal Art		^HP_+^HK
+Aerial Reversal Art		^HP_+^HK near a wall
+Guard Rush <#F7F95D>(1/2 Bar)</>		input ^2P or ^2K while in block stun
+EX Moves <#F7F95D>(1 Bar)</>		input ^2P or ^2K during a special
+Combo Breaker <#F7F95D>(2 Bars)</>		L_+O while in a combo
+
+<#d576dc>Passive Ability: [Nimble]</>
+Yoyo can double jump by pressing up again in mid-air
+
+<#2ed8ea>Command Normals & Strings:</>
+
+Pinwheel		^LP ^LP ^LP
+Around the World		(^LP ^LP OR ^LK) _B^HP
+_! Palm Push		_F^HP
+Trip Detectors		^HP ^HP ^HP
+Quick Thwack		_B^LK ^HP
+Roundabout		_B^LK ^HK ^HP
+
+<#f0f000>Special Moves:</>
+
+Hypersonic Barrage (EX OK)		_QCB^P
+Yoyo Swing (EX OK)                                             		[_B]_F^K
+Superaction Grip (EX OK)                                            		[_B]_F^P
+Sonic Slam (AIR ONLY) (EX OK)		_QCF^P                               		
+
+<#e32d1b>Hyper Arts:</>
+
+MAXIMUM OVERDRIVE <#F7F95D>(2 Bars)</>			_HCB_F^K
+SUBSONIC HYPER ACTION BEAM <#F7F95D>(3 Bars)</>                                                    		_QCF_QCF^P
+

@@ -1,0 +1,127 @@
+;Art by J4RMS31
+;Implementation by Ace's Hi
+
+[Info]
+name = "--The Spire--"
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -215
+boundright = 215
+boundhigh = -62
+boundlow = 0
+verticalfollow = 0
+tension = 50
+
+[PlayerInfo]
+p1startx = -70
+p1starty = 0
+p1startz = 0
+p1facing = 1
+
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+leftbound  = -1000
+rightbound =  1000
+topbound  =  0
+botbound  =  0
+
+[Scaling]
+topz     = 0
+botz     = 50
+topscale = 1
+botscale = 1.2
+
+[Bound]
+screenleft = 15
+screenright = 15
+
+[StageInfo]
+zoffset = 207
+autoturn = 1
+resetBG = 0
+
+[shadow]
+Intensity = 100
+color = 0,0,0
+yscale = .5
+fade.range = -400,-100
+
+[Reflection]
+intensity = 0
+
+[Music]
+bgmusic = sound/spire.mp3
+bgvolume = 255
+
+[BGdef]
+spr = spire.sff
+[BG sky]
+type  = normal
+spriteno = 0,1
+start = 0, 0
+
+[BG moon]
+type  = normal
+spriteno = 0,4
+start = 0, 0
+delta=0.1,0.1
+
+[BG clouds]
+type  = normal
+spriteno = 0,5
+start = 0, 0
+delta=0.25,0.25
+velocity = .1,0
+tile = 1,0
+
+[BG trees]
+type  = normal
+spriteno = 0,2
+start = 0, 0
+delta=.5,0
+
+[BG spire]
+type  = normal
+spriteno = 0,3
+start = 0, 0
+delta=.7,0
+
+[BG backfog]
+type  = normal
+spriteno = 0,6
+start = 0, 0
+velocity = -.25,0
+tile = 1,0
+trans = add1
+alpha = 150,256
+delta=.52,0
+
+[BG ground]
+type  = normal
+spriteno = 0, 0
+start = 0, 0
+
+[BG fog]
+type  = normal
+spriteno = 0,8
+start = 0, 0
+velocity = -.45,0
+tile = 1,0
+trans = add
+alpha = 30,256
+layerno = 1
+
+[BG fog2]
+type  = normal
+spriteno = 0,7
+start = 0, 0
+velocity = .28,0
+tile = 1,0
+trans = add
+alpha = 30,256
+layerno = 1

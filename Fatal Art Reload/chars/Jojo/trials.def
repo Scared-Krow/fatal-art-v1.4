@@ -1,0 +1,47 @@
+; JoJo ---------------------------
+
+[TrialDef, 236P]
+
+trial.dummymode = stand
+trial.guardmode = none
+trial.dummybuttonjam = none
+trialstep.1.text = "236LP"
+trialstep.1.glyphs = _QCF^LP
+trialstep.1.stateno = 1000
+
+[TrialDef, Optimal]
+
+trial.dummymode = stand
+trial.guardmode = none
+trial.dummybuttonjam = none
+trialstep.1.text = "SP"
+trialstep.1.glyphs = ^SP
+trialstep.1.stateno = 210
+trialstep.2.text = "SP"
+trialstep.2.glyphs = ^SP
+trialstep.2.stateno = 202
+trialstep.3.text = "236LP"
+trialstep.3.glyphs = _QCF^LP
+trialstep.3.stateno = 1000
+trialstep.4.text = "22SP"
+trialstep.4.glyphs = _D_D^SP
+trialstep.4.stateno = 1070
+trialstep.5.text = "QCFSK"
+trialstep.5.glyphs = _QCF^SK
+trialstep.5.stateno = 1022
+trialstep.5.numofhits = 0
+trialstep.5.isnohit = true
+trialstep.6.text = "Hold Up"
+trialstep.6.glyphs = _UF
+trialstep.6.stateno = 1032
+trialstep.6.numofhits = 0
+trialstep.6.isnohit = true
+trialstep.7.text = "LK"
+trialstep.7.glyphs = ^LK
+trialstep.7.stateno = 630
+trialstep.8.text = "SK"
+trialstep.8.glyphs = ^SK
+trialstep.8.stateno = 640
+trialstep.9.text = "2SK"
+trialstep.9.glyphs = _D^SK
+trialstep.9.stateno = 651

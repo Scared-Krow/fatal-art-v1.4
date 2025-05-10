@@ -1,0 +1,178 @@
+;****************************************************************************
+;****************************************************************************
+;=========================STAGE INFO=========================================
+;                       Executive Lobby
+;
+;       a kustom stage kreation, grown & kut from tha roots 
+;               of tha SNES klassic "Ninja Warriors"
+;
+;============================================================================
+;****************************************************************************
+;******************************|Props-N-Chizz|*******************************
+;
+;
+;~~ Reign Of Kreation, for alwayz supplying me with AA, inspiration, & feedback.
+;
+;~~ my R.O.K brother OldGamer, for sprites used & some coding AA, but also for
+;   kreating that AWESOME kustom N. Warriors Train stage, cuz it was 1 of tha
+;   MAIN inspirations behind kreatin' this joint.
+;
+;~~ my R.O.K brother [& 1 of my BGM partners-in-crime] WizzyWhipitWonderful,
+;   for yet another raw & smexy BGM collaboration! mad luv, god!
+;
+;~~ my boyz Sinister & SoundWave for ideas & design help during tha
+;   construction of this kreation.
+;
+;~~ NewAge Mugen
+;~~ MFFA
+;~~ MugenFlowZone/Tier-1/Mugen Evolution =*(
+;~~ BC, Sky79, MaxBeta, & Staubhold [1 of'em's been made R.O.K; tha other 3 are too, & don't know it yet xD]
+;~~ Crusadercast
+;~~ C.R.O.M
+;~~ MFG
+;~~ IFF [Infinite Fighting Forum]
+;~~ IMT
+;~~ Trinity Mugen
+;
+;~~ tha vast number of peeps that i've work'd with & that i'm kool with
+;   all thru tha Mugen community that i'm too lazy to name here
+;   [yeah, i said 'lazy'. so what, sucka?, don't act like you ain't :p]
+;
+;~~ all of tha folks that take tha time to watch my Mugen vid work, i hope
+;   you dig tha direct i've taken with'em. now do ya boi a favor, & go hit dem
+;   "like" buttons, subscribe, blah blah blah :)
+;
+;~~ Y-O-U for coppin' this stage.
+;
+;
+;      'til tha next kreation comes along folks, enjoy dem shitz. 1.
+;****************************************************************************
+;****************************************************************************
+;============================================================================
+[Info]
+name 		= "--Executive Lobby--"
+mugenversion 	= 1.0
+author 		= "Alpyne D"
+
+[Music]
+bgmusic 	= sound/Aryr Theme.mp3 ;=] Evening Commute [A&W Edition]
+bgvolume 	= 255
+
+
+[Camera]
+startx 		= 0
+starty 		= 0
+boundleft 	= -215
+boundright 	= 215
+boundhigh 	= -80
+boundlow 	= 0
+tension 	= 50
+verticalfollow 	= 0
+floortension 	= 95
+overdrawhigh 	= 120
+overdrawlow 	= 120
+cuthigh 	= 0
+cutlow 		= 0
+
+[PlayerInfo]
+p1startx 	= -70
+p1starty 	= 0
+p1facing 	= 1
+p2startx 	= 70
+p2starty 	= 0
+p2facing 	= -1
+p3startx 	= -100
+p3starty 	= 0
+p3facing 	= 1
+p4startx 	= 100
+p4starty 	= 0
+p4facing 	= -1
+leftbound 	= -1000
+rightbound 	= 1000
+
+[Bound]
+screenleft 	= 15
+screenright 	= 15
+
+[StageInfo]
+zoffset 	= 207
+autoturn 	= 1
+resetBG 	= 0
+localcoord 	= 320, 240
+xscale 		= 1
+yscale 		= 1
+
+[Scaling]
+topz     	= 0
+botz     	= 50
+topscale 	= 1
+botscale 	= 1.2
+
+[Shadow]
+color 		= 0,0,0
+yscale 		= .2
+intensity 	= 0
+
+[Reflection]
+intensity 	= 95
+
+
+[BGdef]
+spr 		= stages/Alpz_Exec_Lobby.sff
+debugbg 	= 0
+
+;======================================================================
+
+[BG City]
+type  	   	= anim
+actionno 	= 1
+start 		= -440,-80
+delta 	        = 0.1,1
+tile 		= 1,0
+tilespacing 	= 256,0
+
+
+[BG Moon]
+type  	   	= normal
+spriteno 	= 3,1
+start 		= 90,-65 
+delta 	        = .14,1
+mask            = 1
+
+
+[BG Walkway]
+type  	   	= normal
+spriteno 	= 3,2
+start 		= 260,20
+delta 	        = 0.8,1
+
+
+[BG Main Lobby]
+type  		= normal
+spriteno 	= 1,1
+start 		= 0,-80
+delta 		= 1,1
+mask     	= 1
+
+
+[BG Back]
+type  = normal
+spriteno = 64,0
+start = 0,160
+delta = 3.2,.1
+zoomdelta = .58
+mask = 1
+tile = 1,0
+trans = add
+layerno = 1
+
+
+;======================================================================
+
+[Begin Action 1]
+2,4, 0,0, 75
+2,3, 0,0, 14
+2,2, 0,0, 13
+2,1, 0,0, 40
+2,2, 0,0, 13
+2,3, 0,0, 14

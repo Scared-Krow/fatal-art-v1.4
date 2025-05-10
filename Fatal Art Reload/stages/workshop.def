@@ -1,0 +1,91 @@
+;Art by J4RMS31
+;Implementation by Ace's Hi
+
+[Info]
+name = "--Abandoned Workshop--"
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -215
+boundright = 215
+boundhigh = -62
+boundlow = 0
+verticalfollow = 0
+tension = 50
+
+[PlayerInfo]
+p1startx = -70
+p1starty = 0
+p1startz = 0
+p1facing = 1
+
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+leftbound  = -1000
+rightbound =  1000
+topbound  =  0
+botbound  =  0
+
+[Scaling]
+topz     = 0
+botz     = 50
+topscale = 1
+botscale = 1.2
+
+[Bound]
+screenleft = 15
+screenright = 15
+
+[StageInfo]
+zoffset = 207
+autoturn = 1
+resetBG = 0
+
+[shadow]
+Intensity = 50
+color = 0,0,0
+yscale = .25
+fade.range = -400,-100
+
+[Reflection]
+intensity = 0
+
+[Music]
+bgmusic = sound/workshop.mp3
+bgvolume = 255
+
+[BGdef]
+spr = workshop.sff
+
+[BG wall]
+type  = normal
+spriteno = 0,4
+start = 0, 0
+
+[BG ground]
+type  = normal
+spriteno = 0, 0
+start = 0, 0
+
+[BG pipes]
+type  = normal
+spriteno = 0, 2
+start = 0, 0
+
+[BG stuff]
+type  = normal
+spriteno = 0, 1
+start = 0, 0
+
+[BG light]
+type  = normal
+spriteno = 0, 3
+start = 0, 0
+trans = add
+alpha = 76,256
+layerno=1
+

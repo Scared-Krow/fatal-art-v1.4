@@ -1,0 +1,559 @@
+;---------------------------------------------------------------------------
+;LVL 2
+[Statedef 3000]
+type    = S
+movetype= A
+physics = S
+velset = 0,0
+anim = 3000
+ctrl = 0
+sprpriority = 2
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = time > 10
+triggerall = time < 29
+x = 2
+
+[State 3000, Super A]
+type = SuperPause
+trigger1 = time = 0
+pos = 25, -57
+anim = 100
+sound = 20, 0
+poweradd = -2000
+movetime = 30
+time = 30
+
+[State 0, Explod] ;SUPER EXPLOD
+type = Explod
+trigger1 = time = 0
+anim = F101
+ID = 101
+pos = 0,-60
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+sprpriority = -7
+supermovetime = 9999
+
+[State 0, AfterImage]
+type = AfterImage
+trigger1 = animelem = 1
+time = 101
+length = 15
+palcolor = 256
+palinvertall = 0
+palbright = 120,130,200
+palcontrast = 100,120,200
+persistent = 1
+
+[State 3000, Super D]
+type = NotHitBy
+trigger1 = AnimElem = 2
+value = , NA, SA, AT
+time = 11
+
+[State 3000, Super E]
+type = NotHitBy
+trigger1 = AnimElemTime(2) >= 0 && AnimElemTime(14) < 0
+value2 = C, NA
+time = 1
+
+[State 1400, 2]
+type = HitDef
+trigger1 = AnimElemNo(0) = [8,30]
+trigger1 = Time%6 = 0
+attr = S, HA
+getpower = 0
+animtype  = Hard
+damage    = ceil(ifElse(fvar(11) * 25 < 15, 15, fvar(11) * 25)), 2
+priority  = 4
+guardflag = MA
+hitflag = MAFD
+pausetime = 2,2
+guard.pausetime = 5,6
+sparkxy = -20,-65
+hitsound   = S2000,0
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 12
+guard.slidetime = 20
+guard.velocity = -1
+ground.hittime  = 25
+guard.hittime = 10
+guard.ctrltime = 10
+ground.velocity = -3,9
+air.velocity = -1,9
+fall.yvelocity = -8
+down.bounce = 9
+airguard.velocity = -3.5,-4.5
+envshake.time = 6
+envshake.freq = 10
+envshake.ampl = 1
+p2facing = 1
+fall = 1
+p2stateno = 43211
+
+
+[State 3000, 7]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; HYPER ART Start
+; CNS difficulty: medium
+; Description: This is very similar to KFM's Strong and Light Kung Fu Uppers.
+;     There is just one HitDef, for a screen-shaking hit. The envshake
+;     parameters are used to make this effect. You can find out more about
+;     each parameter in the CNS documentation.
+;     The fall.recover parameter is set at 0, meaning that p2 cannot recover
+;     from the fall by entering his recovery command (for KFM, that is x+y).
+;     This gives the attacking KFM a chance to follow up with another attack,
+;     such as the Fast Kung Fu Palm.
+;     Note that there is a ChangeState controller used to make KFM change to
+;     a success state if he hits. The success state has KFM hold his arm
+;     up longer for a dramatic effect.
+[Statedef 7000]
+type    = S
+movetype= I
+physics = S
+juggle  = 4
+velset = 0,0
+anim = 7001
+ctrl = 0
+sprpriority = 2
+
+[State 200, electricity]
+type = PlaySnd
+trigger1 = time = 0
+trigger1 = (GameTime%40) = 20
+value = 2400,2
+loop = 1
+
+[State 0, EnvShake]
+type = EnvShake
+trigger1 = time = 0
+time = 120
+freq = 60
+ampl = -1
+phase = 105
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = S2400,20
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = animelem = 2
+value = S2400,21
+
+[State 3050, Super A]
+type = SuperPause
+trigger1 = time = 0
+time = 120
+pos = -5, -55
+anim = 100
+sound = 20, 0
+poweradd = -3000
+
+[State 0, Explod] ;SUPER EXPLOD
+type = Explod
+trigger1 = time = 0
+anim = F102
+ID = 102
+pos = 0,-60
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+sprpriority = -7
+supermovetime = 9999
+
+[State 0, Explod]
+type = Explod
+trigger1 = time = 0
+anim =7000
+ID = 7000
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+vfacing = 1
+bindtime = 1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 0.39,0.39
+sprpriority = 1
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+supermovetime = 200
+[State 0, Explod]
+type = Explod
+trigger1 = time = 0
+anim =7000
+ID = 7000
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+vfacing = 1
+bindtime = 1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 0.39,0.39
+sprpriority = 1
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+supermovetime = 200
+[State 0, Explod]
+type = Explod
+trigger1 = time = 0
+anim =2420
+ID = 2420
+pos = -7,-62
+postype = p1  ;p2,front,back,left,right
+vfacing = 1
+bindtime = 1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 0.6,0.6
+sprpriority =3
+ontop = 1
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+supermovetime = 200
+[State 0, Explod]
+type = Explod
+trigger1 = time = 0
+anim =2421
+ID = 2421
+pos = -7,-62
+postype = p1  ;p2,front,back,left,right
+vfacing = 1
+bindtime = 1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 0.9,0.9
+sprpriority = -1
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+supermovetime = 200
+[state 17100, scale charge FX]
+type = ModifyExplod
+trigger1 = Time > 0
+ID = 2420
+scale = 0.6+(Time*.90),0.6+(Time*.90)
+supermovetime = 200
+[State 0, Explod]
+type = Explod
+trigger1 = time = 0
+anim =2422
+ID = 2422
+pos = -7,-62
+postype = p1  ;p2,front,back,left,right
+vfacing = 1
+bindtime = 1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 0.9,0.9
+ontop = 1
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+supermovetime = 200
+[State 0, Explod]
+type = Explod
+trigger1 = time = 0
+anim =2423
+ID = 2423
+pos = -7,-62
+postype = p1  ;p2,front,back,left,right
+vfacing = 1
+bindtime = 1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -2
+scale = 1.9,1.9
+sprpriority = 0
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 0
+supermovetime = 200
+[state 17100, smoke FX]
+type=explod
+trigger1 = time = 1
+anim=19401
+id=19401
+pos = 90,0
+postype=P1
+sprpriority=2
+ownpal=1
+scale = 0.9,0.8
+supermovetime=-1
+removetime = 60
+persistent = 0
+[state 17100, smoke FX]
+type=explod
+trigger1 = time = 4
+anim=19401
+id=19401
+pos = 150,0
+postype=P1
+sprpriority=2
+ownpal=1
+scale = 0.9,0.8
+supermovetime=-1
+removetime = 60
+persistent = 0
+[state 17100, smoke FX]
+type=explod
+trigger1 = time = 7
+anim=19401
+id=19401
+pos =200,0
+postype=P1
+sprpriority=2
+ownpal=1
+scale = 0.9,0.8
+supermovetime=-1
+removetime = 60
+persistent = 0
+[state 17100, smoke FX]
+type=explod
+trigger1 = time = 10
+anim=19401
+id=19401
+pos =280,0
+postype=P1
+sprpriority=2
+ownpal=1
+scale = 0.9,0.8
+supermovetime=-1
+removetime = 60
+persistent = 0
+[state 17100, smoke FX]
+type=explod
+trigger1 = time = 11
+anim=19401
+id=19401
+pos =320,0
+postype=P1
+sprpriority=2
+ownpal=1
+scale = 0.9,0.8
+supermovetime=-1
+removetime = 60
+persistent = 0
+[state 17100, smoke FX]
+type=explod
+trigger1 = time = 1
+anim=19402
+id=19401
+pos = 90,0
+postype=P1
+sprpriority=-2
+ownpal=1
+scale = 0.95,0.95
+supermovetime=-1
+removetime = 60
+persistent = 0
+[state 17100, smoke FX]
+type=explod
+trigger1 = time = 4
+anim=19402
+id=19401
+pos = 150,0
+postype=P1
+sprpriority=-2
+ownpal=1
+scale = 0.95,0.95
+supermovetime=-1
+removetime = 60
+persistent = 0
+[state 17100, smoke FX]
+type=explod
+trigger1 = time = 7
+anim=19402
+id=19401
+pos =200,0
+postype=P1
+sprpriority=-2
+ownpal=1
+scale = 0.95,0.95
+supermovetime=-1
+removetime = 60
+persistent = 0
+[state 17100, smoke FX]
+type=explod
+trigger1 = time = 10
+anim=19402
+id=19401
+pos =280,0
+postype=P1
+sprpriority=-2
+ownpal=1
+scale = 0.95,0.95
+supermovetime=-1
+removetime = 60
+persistent = 0
+[state 17100, smoke FX]
+type=explod
+trigger1 = time = 11
+anim=19402
+id=19401
+pos =320,0
+postype=P1
+sprpriority=-2
+ownpal=1
+scale = 0.95,0.95
+supermovetime=-1
+removetime = 60
+persistent = 0
+[state 17100, smoke FX]
+type=explod
+trigger1 = time = 1
+anim=1206
+id=1206
+pos =-30,0
+postype=P1
+sprpriority=3
+ownpal=1
+scale = 0.95,0.95
+persistent = 0
+
+
+
+[state 17100, smoke FX]
+type=explod
+trigger1 = time = 0
+anim=2430
+id=2430
+pos =-10,-60
+postype=P1
+sprpriority=1
+ownpal=1
+scale = 0.8,0.8
+persistent = 0
+removetime = 120
+supermovetime = -1
+
+
+[State 0, Helper]
+type = Helper
+trigger1 = time = 1
+name = "HA Beam"
+helpertype = normal
+stateno = 7001
+pos = 63,-67
+postype = p1    ;p2,front,back,left,right
+sprpriority = 5
+ownpal = 0
+size.xscale = 2
+size.yscale = 1.60
+
+
+[State 3050, 5]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;------------------
+; UNIBEAM
+; Description: This is the state that KFM changes to if he successfully hits
+;     with Smash Kung Fu Upper. KFM holds his arm high for a short while
+;     longer, then changes back to his idle stand state.
+[Statedef 7001]
+type    = U
+movetype= A
+physics = N
+anim = 21240
+
+[State 3051, 1]
+type = AfterImageTime
+trigger1 = AnimTime < -2
+time = 2
+
+[State 0, BindToParent]
+type = BindToParent
+trigger1 = 1 
+time = 92
+facing = 0
+pos = 70,-69
+
+[State 0, EnvShake]
+type = EnvShake
+trigger1 = time = 0
+time = 49
+freq = 60
+ampl = -4
+phase = 105
+ignorehitpause = 1
+;persistent = 
+
+[State 200, 1]
+type = HitDef
+attr = S, HA
+trigger1 = hitcount < 40
+trigger1 = moveguarded < 40
+getpower = 0
+damage = ceil(ifElse(root,fvar(11) * 20 < 10, 10, root,fvar(11) *20)),1
+animtype = HARD              ;Animation type: Light, Medium, Heavy, Back (def: Light)
+guardflag = MA                   ;Flags on how move is to be guarded against
+hitflag = MAFD                    ;Flags of conditions that move can hit
+priority = 7                ;Attack priority: 0 (least) to 7 (most), 4 default
+;Hit/Miss/Dodge type (Def: Hit)
+pausetime = 0,0                ;Time attacker pauses, time opponent shakes
+guard.pausetime = 0,0
+sparkno =-0                  ;Spark anim no (Def: set above)
+sparkxy = -0, -10               ;X-offset for the "hit spark" rel. to p2,
+;Y-offset for the spark rel. to p1
+hitsound = -15,0                 ;Sound to play on hit
+guardsound = 6, 2                ;Sound to play on guard
+ground.type = High               ;Type: High, Low, Trip (def: Normal)
+ground.slidetime = 2             ;Time that the opponent slides back
+ground.hittime  = 17             ;Time opponent is in hit state
+ground.velocity = -7,-0            ;Velocity at which opponent is pushed
+airguard.velocity = -1.9,-.8     ;Guard velocity in air (def: (air.xvel*1.5, air.yvel/2))
+air.type = High                  ;Type: High, Low, Trip (def: same as ground.type)
+air.velocity = -3,-0           ;X-velocity at which opponent is pushed,
+;Y-velocity at which opponent is pushed
+air.hittime = 15                 ;Time before opponent regains control in air
+fall = 1
+ground.cornerpush.veloff = -2
+air.cornerpush.veloff = -2
+down.cornerpush.veloff = -2
+guard.cornerpush.veloff = -2
+airguard.cornerpush.veloff = 0
+p2stateno = 7002
+p2facing = 1
+[State 7001, VarAdd]
+type = ParentVarAdd
+trigger1 = MoveHit = 1
+fvar(13) = 1
+
+[State 0, DestroySelf]
+type = DestroySelf
+trigger1 = animelem = 49
+trigger2 = parent,stateno = 5000
+trigger3 = parent,stateno = 5001
+trigger4 = parent,stateno = 5070
+trigger5 = parent,stateno = 5071
+persistent = 0

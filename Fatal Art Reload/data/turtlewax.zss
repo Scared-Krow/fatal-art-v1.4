@@ -1,0 +1,4136 @@
+
+#====|DO NOT TOUCH ANY OF THE FUNCTION LOGIC|===========
+#====|Keep scrolling to get to the stuff you can touch|=====
+#========|Dash prevention|=======
+[Function NoFwd() val]
+
+if !Root,Map(QCF) &&
+	!Root,Map(HCF) &&
+	!Root,Map(sHCF) &&
+	!Root,Map(DP) &&
+	!Root,Map(FBF) &&
+	(!Root,Map(f360) && !Root,Map(r360)) &&
+	!Root,Map(MiB) &&
+	!Root,Map(QCFx2) &&
+	!Root,Map(FHCF) &&
+	!Root,Map(HCFx2) &&
+	!Root,Map(HCBF) &&
+	!Root,Map(QCBHCF) &&
+	!Root,Map(BFBF) &&
+	!Root,Map(PRTZ) &&
+	!Root,Map(TGK)
+{
+ let val=1;
+}
+else
+{
+let val=0;
+}
+
+#========|Dash prevention|=======
+[Function NoBack() val]
+
+if !Root,Map(QCB) &&
+	!Root,Map(HCB) &&
+	!Root,Map(sHCB) &&
+	!Root,Map(RDP) &&
+	!Root,Map(BFB) &&
+	(!Root,Map(f360) && !Root,Map(r360)) &&
+	!Root,Map(RMiB) &&
+	!Root,Map(QCBx2) &&
+	!Root,Map(BHCB) &&
+	!Root,Map(HCBx2) &&
+	!Root,Map(HCFB) &&
+	!Root,Map(QCFHCB) &&
+	!Root,Map(FBFB) &&
+	!Root,Map(RPRTZ) &&
+		!Root,Map(RTGK)
+{
+ let val=1;
+}
+else
+{
+let val=0;
+}
+
+[Statedef -4]
+#THESE ARE DEFAULT VALUES, CHANGE THEM IN YOUR CHARACTER/FILES. DO NOT CHANGE THEM HERE.
+#YOU CAN SET THESE MAPS IN YOUR CHARACTER'S DEF FILE OR IN THEIR CODE. JUST DON'T DO IT
+#HERE!
+#How many buttons? either 1 for yes or -1 for no
+ignorehitpause if Map(btn6)=0
+{
+MapSet{map:"btn6";value:1}
+}
+
+
+#How much time in frames do we have to press the next button to complete a Hundred Hand Slap Motion, only set once here, you can set it anywhere else
+ignorehitpause if Map(MashPCt)=0
+{
+MapSet{map:"MashPCt";value:10}
+}
+#How many times do we need to mash to complete the motion, only set once here, you can set it anywhere else
+ignorehitpause if Map(MashCt)=0
+{
+MapSet{map:"MashCt";value:5}
+}
+
+#Charge partitioning?
+MapSet{map:"part";value:0}
+MapSet{map:"ChargePartitionTime";value:15}
+
+#How much time can we wait to cancel a move?
+ignorehitpause if map(MoveCancelTime)=0
+{
+MapSet{map:"MoveCancelTime";value:1}
+}
+
+if !Map(D_ChargeTime)#Down charge ala Flash Kick 
+{
+MapSet{map:"D_ChargeTime";value:48}
+}
+
+if !Map(D_BufferTime)#How much time a complete charge is stored
+{
+MapSet{map:"D_BufferTime";value:9}
+}
+
+if !Map(B_ChargeTime)#Back charge ala Sonic Boom 
+{
+MapSet{map:"B_ChargeTime";value:48}
+}
+
+if !Map(B_BufferTime)#How much time a complete charge is stored
+{
+MapSet{map:"B_BufferTime";value:9}
+}
+
+#========|END OF THINGS YOU CAN COPY|========================================
+#DO NOT TOUCH ANY BELOW UNLESS YOU KNOW EXACTLY WHAT YOU'RE DOING!
+if(numhelper(191919)=0)&&!ishelper&&teamside=[1,2]{
+#see common.cds
+
+Helper{
+		id: 191919;
+		stateno: 19191900;
+		ownpal: 1;
+		name:"TurtleWax";
+		size.height: 0;
+		keyctrl:1;
+		pausemovetime:99999;
+		supermovetime:99999;
+		preserve:1;
+	}
+}
+
+
+if ishelper(191919) {
+let snk=root,map(Buffer_Snk)=1;
+#==============================================================================#
+#Command Buffering File based on (Capcom VS. SNK 2) 1.8                        #
+#Original system for Capcom VS. SNK: Collision Course                          #
+#by Vans                                                                       #
+#Modifications by Jesuszilla for Command interpretation                        #
+#Adaptation by Kamekaze for Ikemen GO, updates by Jesuszilla for improved bit  #
+#usage                                                                         #
+#==============================================================================#
+#Introduction:
+#This is the 15-tick / 2-tick based command buffering system. Coded to be Capcom
+#compliant following Capcom vs. SNK 2 as a guide.
+#
+#The helper is capable of providing buffering as well as PERFECT reversed
+#commands in addition to negative edge checking for command var iables.
+#
+#Any and all editions should be done in the BUFFER DEFINITION section.
+#
+#Unless you plan to modify the whole system, do not touch the mapnames, ever.
+
+
+ignorehitpause if 1{BindToRoot{time:1;pos:-Const(size.ground.back),Const(size.mid.pos.y)}}
+
+
+#----------------------------[BUFFER DECREASE]---------------------------------#
+# The button and cardinal direction buffers are special in that they do not use
+# normal integer subtraction for each buffer. That is because it would make the
+# code ugly and unreadable. Thus, it uses bitwise shifting through division due
+# to I.K.E.M.E.N. GO's lack of bitwise shift operators.
+#
+# Think of each button and direction as an enumeration flag. When initializing
+# (when a button is first pressed), it initializes the most significant bits.
+# The buffer decreases by shifting the entire array down to the next size of
+# bits. There are 7 buttons, so 7 bits are used. Therefore, up to 4 ticks of
+# button buffering can be stored in one var in this architecture. Directions
+# only require 4 bits because there are only 4 directions. Therefore, the
+# direction arrays can store up to 8 ticks of buffering.
+#
+# In either case, however, the Capcom vs. SNK 2 buffering system used here only
+# uses 2 ticks of buffering.
+#
+# suppose a user presses LP and LK at the same time. The basic bit array in this
+# structure would look as follows:
+#
+# 0010001
+#
+# Going from least significant bit (the rightmost bit) to the most significant
+# bit (the leftmost bit), the bits that are filled for LP and LK are the 1st
+# and 5th bits, respectively.
+#
+# so for the buffering system defined in this file, the variable would actually
+# look as follows for the first tick. Recall that I.K.E.M.E.N. GO int variables are
+# 32 bits:
+#
+# 00000000000000000000100010000000
+#
+# The next tick, this array of 7 bits would be shifted down to the next 7 bits.
+# In I.K.E.M.E.N. GO, this is accomplished by dividing the number by 128. Thus, the
+# bits in the variable would look as follows on the second tick:
+#
+# 00000000000000000000000000010001
+#
+# 00000000000000000100000000000000
+# 00000000000000000100000000000000
+#
+# This algorithm is the same for every variable used for buffering. However,
+# each variable used in this system serves a specific purpose:
+#
+# Map(p_att) - Used to signify button presses.
+# Map(h_dir) - Used to signify button holds.
+# Map(r_att) - Used to signify button releases.
+# Map(p_dir) - Used to signify direction presses.
+# Map(h_dir) - Used to signify direction holds.
+# Map(r_dir) - Used to signify direction releases.
+#
+# A command for Map(p_att) or Map(p_dir) is like a raw button, such as x or F. Similarly,
+# Map(h_att) and Map(h_dir) can be used for hold behavior, like /x or /F. Finally, Map(r_att)
+# and Map(r_dir) are used for release behavior, like ~x or ~F. These are all
+# necessary in order to overcome I.K.E.M.E.N. GO's limitations to provide a more solid
+# command system.
+#
+# If you don't understand this explanation, that is OK. CNS may be your first,
+# or only, computer language, and this system is built upon years of expertise
+# in computer science. You can read up on bitwise operations here. I hope these
+# links survive time!
+#
+# English:
+# http://mugenguild.com/forum/topics/bitwise-variables-demystified-137076.0.html
+# https://en.wikipedia.org/wiki/Bitwise_operation
+#
+# 日本語:
+# https://ja.wikipedia.org/wiki/%E3%83%93%E3%83%83%E3%83%88%E6%BC%94%E7%AE%97
+#
+#--------------------------------[BUTTONS]-------------------------------------#
+#BUTTON:
+#Map(p_att) = PRESS
+#Map(h_dir) = HOLD
+#Map(r_att) = RELEASE
+#Final tick (pattern repeats going up, can store 4 ticks):
+# LP    = 0x01
+# MP    = 0x02
+# HP    = 0x04
+# start = 0x08
+# LK    = 0x10
+# MK    = 0x20
+# HK    = 0x40
+
+
+
+ignorehitpause if(root,hitpausetime=0)
+{
+#Press Dec all buttons
+MapSet{map: "p_att";  value: floor(Map(p_att)/Const(Bit8))}
+MapSet{map: "h_att";  value: floor(Map(h_att)/Const(Bit8))}
+
+MapSet{map: "p_att2"; value: floor(Map(p_att2)/Const(Bit8))}
+MapSet{map: "h_att2"; value: floor(Map(h_att2)/Const(Bit8))}
+MapSet{map: "r_att";  value: floor(Map(r_att)/Const(Bit8))}
+MapSet{map: "r_att2"; value: floor(Map(r_att2)/Const(Bit8))}
+}
+
+MapSet{map: "m_att"; value: floor(Map(m_att)/Const(Bit8))}
+
+#---------------------------------[DIRECTIONS]---------------------------------#
+#DIRECTIONAL:
+#Map(p_dir) = PRESS
+#Map(h_dir) = HOLD
+#Map(r_dir) = RELEASE
+#Final tick (pattern repeats going up, can store 8 ticks):
+# Up      = 0x01
+# Down    = 0x02
+# Back    = 0x04
+# Forward = 0x08
+
+
+
+ignorehitpause if(Map(h_dir)> 0.5)
+{#Hold Dec
+MapSet{map: "h_dir"; value: floor(Map(h_dir)*0.0625)}
+
+
+}
+
+ ignorehitpause if(Map(p_dir)> 0.5)
+{
+#Press Dec
+MapSet{map: "p_dir"; value: Map(h_dir)|floor(Map(p_dir)*0.0625)}
+}
+
+ignorehitpause if(Map(r_dir)> 0.5)
+{
+#Negative Edge
+MapSet{map: "r_dir"; value: floor(Map(r_dir)*0.0625)}
+}
+
+#Zero out because maps are floats
+ignorehitpause if(Map(h_dir)< 1)
+{#Hold Dec
+MapSet{map: "h_dir"; value: 0}
+}
+ ignorehitpause if(Map(p_dir)< 1)
+{
+#Press Dec
+MapSet{map: "p_dir"; value: 0}
+}
+ ignorehitpause if(Map(r_dir)< 1)
+{
+#Negative Edge
+MapSet{map: "r_dir"; value: 0}
+}
+
+
+#DIRECTIONAL:
+#var(i22) = DD
+#Map(i66) = FF
+#Map(i44) = BB
+##endregion
+
+#----------------------------------[COMMANDS]----------------------------------#
+#Map(i236)  = QCF
+#Map(i623)  = DP
+#Map(i421)  = rDP
+#Map(i214)  = QCB
+#Map(i41236)  = HCB
+#Map(i63214)  = HCF
+#Map(i46)  = CB,F
+#Map(i64)  = CF,B
+#Map(i28)  = CD,U
+#Map(i236236)  = QCFx2
+#Map(i214214)  = QCBx2
+
+#------------------- SUPERS ---------------------------------------------------#
+ignorehitpause if 1#root,hitpausetime=0
+{
+ ignorehitpause if(Map(i2)> 0)
+{
+#D Dec
+MapSet{map: "i2"; value: (Map(i2)^(Map(i2)&15)) | ((Map(i2)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i66)> 0)
+{
+#FF Dec
+MapSet{map: "i66"; value: (Map(i66)^(Map(i66)&15)) | ((Map(i66)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i44)> 0)
+{
+#BB Dec
+MapSet{map: "i44"; value: (Map(i44)^(Map(i44)&15)) | ((Map(i44)&15) - 1)}
+}
+
+
+ ignorehitpause if(Map(l66)> 0)
+{
+#FF Dec
+MapSet{map: "l66"; value: (Map(l66)^(Map(l66)&15)) | ((Map(l66)&15) - 1)}
+}
+
+ ignorehitpause if(Map(l44)> 0)
+{
+#BB Dec
+MapSet{map: "l44"; value: (Map(l44)^(Map(l44)&15)) | ((Map(l44)&15) - 1)}
+}
+
+ignorehitpause if(Map(i62486248)> 0)
+{
+#62486248 Dec
+MapSet{map: "i62486248"; value: (Map(i62486248)^(Map(i62486248)&15)) | ((Map(i62486248)&15) - 1)}
+}
+ignorehitpause if(Map(i24862486)> 0)
+{
+#i24862486 Dec
+MapSet{map: "i24862486"; value: (Map(i24862486)^(Map(i24862486)&15)) | ((Map(i24862486)&15) - 1)}
+}
+ignorehitpause if(Map(i48624862)> 0)
+{
+#i48624862 Dec
+MapSet{map: "i48624862"; value: (Map(i48624862)^(Map(i48624862)&15)) | ((Map(i48624862)&15) - 1)}
+}
+ignorehitpause if(Map(i86248624)> 0)
+{
+#i86248624 Dec
+MapSet{map: "i86248624"; value: (Map(i86248624)^(Map(i86248624)&15)) | ((Map(i86248624)&15) - 1)}
+}
+
+
+ignorehitpause if(Map(i42684268)> 0)
+{
+#i42684268 Dec
+MapSet{map: "i42684268"; value: (Map(i42684268)^(Map(i42684268)&15)) | ((Map(i42684268)&15) - 1)}
+}
+ignorehitpause if(Map(i26842684)> 0)
+{
+#i26842684 Dec
+MapSet{map: "i26842684"; value: (Map(i26842684)^(Map(i26842684)&15)) | ((Map(i26842684)&15) - 1)}
+}
+ignorehitpause if(Map(i68426842)> 0)
+{
+#i68426842 Dec
+MapSet{map: "i68426842"; value: (Map(i68426842)^(Map(i68426842)&15)) | ((Map(i68426842)&15) - 1)}
+}
+ignorehitpause if(Map(i84268426)> 0)
+{
+#i84268426 Dec
+MapSet{map: "i84268426"; value: (Map(i84268426)^(Map(i84268426)&15)) | ((Map(i84268426)&15) - 1)}
+}
+
+ignorehitpause if(Map(i632146)> 0)
+{
+#632146 Dec
+MapSet{map: "i632146"; value: (Map(i632146)^(Map(i632146)&15)) | ((Map(i632146)&15) - 1)}
+}
+ignorehitpause if(Map(i412364)> 0)
+{
+#412364 Dec
+MapSet{map: "i412364"; value: (Map(i412364)^(Map(i412364)&15)) | ((Map(i412364)&15) - 1)}
+}
+ignorehitpause if(Map(i23623)> 0)
+{
+#23623 Dec
+MapSet{map: "i23623"; value: (Map(i23623)^(Map(i23623)&15)) | ((Map(i23623)&15) - 1)}
+}
+
+ignorehitpause if(Map(i21421)> 0)
+{
+#21421 Dec
+MapSet{map: "i21421"; value: (Map(i21421)^(Map(i21421)&15)) | ((Map(i21421)&15) - 1)}
+}
+
+ignorehitpause if(Map(i236236)> 0)
+{
+#236236 Dec
+MapSet{map: "i236236"; value: (Map(i236236)^(Map(i236236)&15)) | ((Map(i236236)&15) - 1)}
+}
+ignorehitpause if(Map(i214214)> 0)
+{
+#236236 Dec
+MapSet{map: "i214214"; value: (Map(i214214)^(Map(i214214)&15)) | ((Map(i214214)&15) - 1)}
+}
+ignorehitpause if(Map(i4123641236)> 0)
+{
+#i4123641236 Dec
+MapSet{map: "i4123641236"; value: (Map(i4123641236)^(Map(i4123641236)&15)) | ((Map(i4123641236)&15) - 1)}
+}
+
+ignorehitpause if(Map(i6321463214)> 0)
+{
+#i6321463214 Dec
+MapSet{map: "i6321463214"; value: (Map(i6321463214)^(Map(i6321463214)&15)) | ((Map(i6321463214)&15) - 1)}
+}
+
+ignorehitpause if(Map(i2363214)> 0)
+{
+#i2363214 Dec
+MapSet{map: "i2363214"; value: (Map(i2363214)^(Map(i2363214)&15)) | ((Map(i2363214)&15) - 1)}
+}
+
+ignorehitpause if(Map(i2141236)> 0)
+{
+#i2141236 Dec
+MapSet{map: "i2141236"; value: (Map(i2141236)^(Map(i2141236)&15)) | ((Map(i2141236)&15) - 1)}
+}
+
+ignorehitpause if(Map(i641236)> 0)
+{
+#641236 Dec
+MapSet{map: "i641236"; value: (Map(i641236)^(Map(i641236)&15)) | ((Map(i641236)&15) - 1)}
+}
+
+ignorehitpause if(Map(i463214)> 0)
+{
+#463214 Dec
+MapSet{map: "i463214"; value: (Map(i463214)^(Map(i463214)&15)) | ((Map(i463214)&15) - 1)}
+}
+
+
+
+ignorehitpause if(Map(xx6az)> 0)
+{
+#xx6az Dec
+MapSet{map: "xx6az"; value: (Map(xx6az)^(Map(xx6az)&15)) | ((Map(xx6az)&15) - 1)}
+}
+
+ignorehitpause if(Map(xx4az)> 0)
+{
+#xx4az Dec
+MapSet{map: "xx4az"; value: (Map(xx4az)^(Map(xx4az)&15)) | ((Map(xx4az)&15) - 1)}
+}
+
+ignorehitpause if(Map(xx6ay)> 0)
+{
+#xx6ay Dec
+MapSet{map: "xx6ay"; value: (Map(xx6ay)^(Map(xx6ay)&15)) | ((Map(xx6ay)&15) - 1)}
+}
+
+ignorehitpause if(Map(xx4az)> 0)
+{
+#xx4ay Dec
+MapSet{map: "xx4ay"; value: (Map(xx4ay)^(Map(xx4ay)&15)) | ((Map(xx4ay)&15) - 1)}
+}
+
+ignorehitpause if(Map(r_4646)> 0)
+{
+#xx6ay Dec
+MapSet{map: "r_4646"; value: (Map(r_4646)^(Map(r_4646)&15)) | ((Map(r_4646)&15) - 1)}
+}
+
+ignorehitpause if(Map(r_6464)> 0)
+{
+#xx4ay Dec
+MapSet{map: "r_6464"; value: (Map(r_6464)^(Map(r_6464)&15)) | ((Map(r_6464)&15) - 1)}
+}
+
+ignorehitpause if(Map(r_1319)> 0)
+{
+#xx6ay Dec
+MapSet{map: "r_1319"; value: (Map(r_1319)^(Map(r_1319)&15)) | ((Map(r_1319)&15) - 1)}
+}
+
+ignorehitpause if(Map(r_3137)> 0)
+{
+#xx4ay Dec
+MapSet{map: "r_3137"; value: (Map(r_3137)^(Map(r_3137)&15)) | ((Map(r_3137)&15) - 1)}
+}
+
+ignorehitpause if(Map(i1632143)> 0)
+{
+#i1632143 Dec
+MapSet{map: "i1632143"; value: (Map(i1632143)^(Map(i1632143)&15)) | ((Map(i1632143)&15) - 1)}
+}
+
+ignorehitpause if(Map(i3412361)> 0)
+{
+#i3412361 Dec
+MapSet{map: "i3412361"; value: (Map(i3412361)^(Map(i3412361)&15)) | ((Map(i3412361)&15) - 1)}
+}
+#------------------- SPECIALS -------------------------------------------------#
+
+ignorehitpause if(Map(i6248)> 0)
+{
+#6248 Dec
+MapSet{map: "i6248"; value: (Map(i6248)^(Map(i6248)&15)) | ((Map(i6248)&15) - 1)}
+}
+
+ignorehitpause if(Map(i2486)> 0)
+{
+#2486 Dec
+MapSet{map: "i2486"; value: (Map(i2486)^(Map(i2486)&15)) | ((Map(i2486)&15) - 1)}
+}
+ignorehitpause if(Map(i4862)> 0)
+{
+#4862 Dec
+MapSet{map: "i4862"; value: (Map(i4862)^(Map(i4862)&15)) | ((Map(i4862)&15) - 1)}
+}
+ignorehitpause if(Map(i8624)> 0)
+{
+#8624 Dec
+MapSet{map: "i8624"; value: (Map(i8624)^(Map(i8624)&15)) | ((Map(i8624)&15) - 1)}
+}
+
+ignorehitpause if(Map(i4268)> 0)
+{
+#6248 Dec
+MapSet{map: "i4268"; value: (Map(i4268)^(Map(i4268)&15)) | ((Map(i4268)&15) - 1)}
+}
+
+ignorehitpause if(Map(i2684)> 0)
+{
+#2486 Dec
+MapSet{map: "i2684"; value: (Map(i2684)^(Map(i2684)&15)) | ((Map(i2684)&15) - 1)}
+}
+ignorehitpause if(Map(i6842)> 0)
+{
+#4862 Dec
+MapSet{map: "i6842"; value: (Map(i6842)^(Map(i6842)&15)) | ((Map(i6842)&15) - 1)}
+}
+ignorehitpause if(Map(i8426)> 0)
+{
+#8426 Dec
+MapSet{map: "i8426"; value: (Map(i8426)^(Map(i8426)&15)) | ((Map(i8426)&15) - 1)}
+}
+
+
+ignorehitpause if(Map(i412)> 0)
+{
+#412 Dec
+MapSet{map: "i412"; value: (Map(i412)^(Map(i412)&15)) | ((Map(i412)&15) - 1)}
+}
+ 
+ignorehitpause if(Map(i632)> 0)
+{
+#632 Dec
+MapSet{map: "i632"; value: (Map(i632)^(Map(i632)&15)) | ((Map(i632)&15) - 1)}
+}
+
+ignorehitpause if(Map(i623)> 0)
+{
+#DP Dec
+MapSet{map: "i623"; value: (Map(i623)^(Map(i623)&15)) | ((Map(i623)&15) - 1)}
+}
+
+
+ ignorehitpause if(Map(i421)> 0)
+{
+#rDP Dec
+MapSet{map: "i421"; value: (Map(i421)^(Map(i421)&15)) | ((Map(i421)&15) - 1)}
+}
+
+ignorehitpause if(Map(i263)> 0)
+{
+#DP Dec
+MapSet{map: "i263"; value: (Map(i263)^(Map(i263)&15)) | ((Map(i263)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i241)> 0)
+{
+#rDP Dec
+MapSet{map: "i241"; value: (Map(i241)^(Map(i241)&15)) | ((Map(i241)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i236)> 0)
+{
+#QCF Dec
+MapSet{map: "i236"; value: (Map(i236)^(Map(i236)&15)) | ((Map(i236)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i214)> 0)
+{
+#QCB Dec
+MapSet{map: "i214"; value: (Map(i214)^(Map(i214)&15)) | ((Map(i214)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i426)> 0)
+{
+#HCF Dec
+MapSet{map: "i426"; value: (Map(i426)^(Map(i426)&15)) | ((Map(i426)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i41236)> 0)
+{
+#sHCF Dec
+MapSet{map: "i41236"; value: (Map(i41236)^(Map(i41236)&15)) | ((Map(i41236)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i624)> 0)
+{
+#HCB Dec
+MapSet{map: "i624"; value: (Map(i624)^(Map(i624)&15)) | ((Map(i624)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i63214)> 0)
+{
+#sHCB Dec
+MapSet{map: "i63214"; value: (Map(i63214)^(Map(i63214)&15)) | ((Map(i63214)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i12369)> 0)
+{
+#TGK Dec
+MapSet{map: "i12369"; value: (Map(i12369)^(Map(i12369)&15)) | ((Map(i12369)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i32147)> 0)
+{
+#RTGK Dec
+MapSet{map: "i32147"; value: (Map(i32147)^(Map(i32147)&15)) | ((Map(i32147)&15) - 1)}
+}
+ ignorehitpause if(Map(t46)> 0)
+{
+#BF quick Dec
+MapSet{map: "t46"; value: (Map(t46)^(Map(t46)&15)) | ((Map(t46)&15) - 1)}
+}
+
+ ignorehitpause if(Map(t64)> 0)
+{
+#FB quick Dec
+MapSet{map: "t64"; value: (Map(t64)^(Map(t64)&15)) | ((Map(t64)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i46)> 0)
+{
+#BF Dec
+MapSet{map: "i46"; value: (Map(i46)^(Map(i46)&15)) | ((Map(i46)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i64)> 0)
+{
+#FB Dec
+MapSet{map: "i64"; value: (Map(i64)^(Map(i64)&15)) | ((Map(i64)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i646)> 0)
+{
+#FBF Dec
+MapSet{map: "i646"; value: (Map(i646)^(Map(i646)&15)) | ((Map(i646)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i464)> 0)
+{
+#BFB Dec
+MapSet{map: "i464"; value: (Map(i464)^(Map(i464)&15)) | ((Map(i464)&15) - 1)}
+}
+
+ ignorehitpause if(Map(i22)> 0)
+{
+#DD Dec
+MapSet{map: "i22"; value: (Map(i22)^(Map(i22)&15)) | ((Map(i22)&15) - 1)}
+}
+ ignorehitpause if(Map(i28)> 0)
+{
+#DU Dec
+MapSet{map: "i28"; value: (Map(i28)^(Map(i28)&15)) | ((Map(i28)&15) - 1)}
+}
+
+
+}
+
+
+
+##region cvs2_buffer_init.vns
+#--------------------------[BUFFER DEFINITION]---------------------------------#
+#----------------------------[BUTTON BUFFER]-----------------------------------#
+#Leave the BUTTON BUFFER alone for compatibility.
+#BUTTON:
+#Map(p_att) = PRESS
+#Map(h_dir) = HOLD
+#Map(r_att) = RELEASE
+#Final tick (pattern repeats going up, can store 4 ticks):
+# 1 - LP
+# 2 - MP
+# 4 - HP
+# 8 - Start
+#16 - LK
+#32 - MK
+#64 - HK
+#DIRECTIONAL:
+#Map(p_dir) = PRESS
+#Map(h_dir) = HOLD
+#Map(r_dir) = RELEASE
+#Final tick (pattern repeats going up, can store 8 ticks):
+# 1 - U
+# 2 - D
+# 4 - B
+# 8 - F
+
+#BUTTON HOLD:
+
+ignorehitpause if(command = "start" || command = "hold_start")
+{
+#start init 
+MapSet{map: "h_att"; value: (Map(h_att)|Const(Bit11))}
+}
+
+
+ignorehitpause if(command = "d"|| command = "hold_d")
+{
+#d init 
+MapSet{map: "h_att2"; value: (Map(h_att2)|Const(Bit9))}
+#lp init 
+MapSet{map: "h_att"; value: (Map(h_att)|Const(Bit8))}
+#lk init 
+MapSet{map: "h_att"; value: (Map(h_att)|Const(Bit12))}
+#mp init 
+MapSet{map: "h_att"; value: (Map(h_att)|Const(Bit9))}
+#mk init 
+MapSet{map: "h_att"; value: (Map(h_att)|Const(Bit13))}
+}
+ ignorehitpause if(command = "w"|| command = "hold_w")
+{
+#w init 
+MapSet{map: "h_att2"; value: (Map(h_att2)|129 )}
+}
+ ignorehitpause if(command = "c"|| command = "hold_c")
+{
+#hk init 
+MapSet{map: "h_att"; value: (Map(h_att)|Const(Bit14))}
+#mp init 
+MapSet{map: "h_att"; value: (Map(h_att)|Const(Bit9))}
+#mk init 
+MapSet{map: "h_att"; value: (Map(h_att)|Const(Bit13))}
+}
+
+ ignorehitpause if(command = "z"|| command = "hold_z")
+{
+#hp init 
+MapSet{map: "h_att"; value: (Map(h_att)|Const(Bit10))}
+#lp init 
+MapSet{map: "h_att"; value: (Map(h_att)|Const(Bit8))}
+#lk init 
+MapSet{map: "h_att"; value: (Map(h_att)|Const(Bit12))}
+}
+
+ ignorehitpause if(command = "b"||command = "hold_b")
+{
+#mk init 
+MapSet{map: "h_att"; value: (Map(h_att)|Const(Bit13))}
+}
+
+ ignorehitpause if(command = "y"|| command = "hold_y")
+{
+#mp init 
+MapSet{map: "h_att"; value: (Map(h_att)|Const(Bit9))}
+}
+
+ ignorehitpause if(command = "a"|| command = "hold_a")
+{
+#lk init 
+MapSet{map: "h_att"; value: (Map(h_att)|Const(Bit12))}
+}
+
+ ignorehitpause if(command = "x"|| command = "hold_x")
+{
+#lp init 
+MapSet{map: "h_att"; value: (Map(h_att)|Const(Bit8))}
+}
+
+
+#BUTTON PRESS:
+
+
+ ignorehitpause if(command = "start" )
+{
+#start init 
+MapSet{map: "p_att"; value: (Map(h_att)|1024)}
+}
+
+
+ ignorehitpause if(command = "d")
+{
+#d init 
+MapSet{map: "p_att2"; value: (Map(p_att2)|129)}
+#lp init 
+MapSet{map: "p_att"; value: (Map(p_att)|Const(Bit8))}
+MapSet{map: "m_att"; value: (Map(m_att)|Const(Bit8))}
+#lk init 
+MapSet{map: "p_att"; value: (Map(p_att)|Const(Bit12))}
+MapSet{map: "m_att"; value: (Map(m_att)|Const(Bit12))}
+#mp init 
+MapSet{map: "p_att"; value: (Map(p_att)|Const(Bit9))}
+MapSet{map: "m_att"; value: (Map(m_att)|Const(Bit9))}
+#mk init 
+MapSet{map: "p_att"; value: (Map(p_att)|Const(Bit13))}
+MapSet{map: "m_att"; value: (Map(m_att)|Const(Bit13))}
+}
+ ignorehitpause if(command = "w")
+{
+#w init 
+MapSet{map: "p_att2"; value: (Map(p_att2)|258)}
+}
+ignorehitpause if(command = "c")
+{
+#hk init 
+MapSet{map: "p_att"; value: (Map(p_att)|Const(Bit14))}
+MapSet{map: "m_att"; value: (Map(m_att)|Const(Bit14))}
+#mp init 
+MapSet{map: "p_att"; value: (Map(p_att)|Const(Bit9))}
+MapSet{map: "m_att"; value: (Map(m_att)|Const(Bit9))}
+#mk init 
+MapSet{map: "p_att"; value: (Map(p_att)|Const(Bit13))}
+MapSet{map: "m_att"; value: (Map(m_att)|Const(Bit13))}
+}
+ignorehitpause if(command = "z")
+{
+#hp init 
+MapSet{map: "p_att"; value: (Map(p_att)|Const(Bit10))}
+MapSet{map: "m_att"; value: (Map(m_att)|Const(Bit10))}
+#lp init 
+MapSet{map: "p_att"; value: (Map(p_att)|Const(Bit8))}
+MapSet{map: "m_att"; value: (Map(m_att)|Const(Bit8))}
+#lk init 
+MapSet{map: "p_att"; value: (Map(p_att)|Const(Bit12))}
+MapSet{map: "m_att"; value: (Map(m_att)|Const(Bit12))}
+}
+
+ignorehitpause if(command = "b")
+{
+#mk init 
+MapSet{map: "p_att"; value: (Map(p_att)|Const(Bit13))}
+MapSet{map: "m_att"; value: (Map(m_att)|Const(Bit13))}
+}
+
+ignorehitpause if(command = "y")
+{
+#mp init 
+MapSet{map: "p_att"; value: (Map(p_att)|Const(Bit9))}
+MapSet{map: "m_att"; value: (Map(m_att)|Const(Bit9))}
+}
+
+ignorehitpause if(command = "a")
+{
+#lk init 
+MapSet{map: "p_att"; value: (Map(p_att)|Const(Bit12))}
+MapSet{map: "m_att"; value: (Map(m_att)|Const(Bit12))}
+}
+
+ignorehitpause if(command = "x" )
+{
+#lp init 
+MapSet{map: "p_att"; value: (Map(p_att)|Const(Bit8))}
+MapSet{map: "m_att"; value: (Map(m_att)|Const(Bit8))}
+}
+
+#BUTTON RELEASE:
+
+ ignorehitpause if((Map(h_att)&Const(Bit11)) = 0 && (Map(h_att)&8) > 0 )
+{
+#start init 
+MapSet{map: "r_att"; value: (Map(r_att)|8)}
+}
+
+ ignorehitpause if((Map(h_att2)&Const(Bit9)) = 0 && (Map(h_att)&2) > 0)
+{
+#d init 
+MapSet{map: "r_att2"; value: (Map(r_att2)|Const(Bit9))}
+}
+
+ignorehitpause if((Map(h_att2)&Const(Bit8)) = 0 && (Map(h_att2)&1) > 0)
+{
+#w init 
+MapSet{map: "r_att2"; value: (Map(r_att2)|Const(Bit8))}
+}
+
+
+ ignorehitpause if((Map(h_att)&8192) = 0 && (Map(h_att)&64) > 0)
+{
+#hk init 
+MapSet{map: "r_att"; value: (Map(r_att)|Const(Bit7))}
+}
+
+ ignorehitpause if((Map(h_att)&512) = 0 && (Map(h_att)&4) > 0)
+{
+#hp init 
+MapSet{map: "r_att"; value: (Map(r_att)|4)}
+}
+
+ ignorehitpause if((Map(h_att)&4096) = 0 && (Map(h_att)&32) > 0)
+{
+#mk init 
+MapSet{map: "r_att"; value: (Map(r_att)|Const(Bit6))}
+}
+
+ ignorehitpause if((Map(h_att)&Const(Bit9)) = 0 && (Map(h_att)&2) > 0)
+{
+#mp init 
+MapSet{map: "r_att"; value: (Map(r_att)|2)}
+}
+
+ ignorehitpause if((Map(h_att)&2048) = 0 && (Map(h_att)&16) > 0)
+{
+#lk init 
+MapSet{map: "r_att"; value: (Map(r_att)|Const(Bit5))}
+}
+
+ ignorehitpause if((Map(h_att)&Const(Bit8)) = 0 && (Map(h_att)&1) > 0)
+{
+#lp init 
+MapSet{map: "r_att"; value: (Map(r_att)|1)}
+}
+
+
+
+#DIRECTION PRESS:
+ ignorehitpause if command = "up2"
+{
+#up
+MapSet{map: "p_dir"; value: (Map(p_dir)|Const(Bit5))}
+
+}
+
+ ignorehitpause if command = "down2"
+{
+#down
+MapSet{map: "p_dir"; value: (Map(p_dir)|Const(Bit6))}
+
+}
+
+ ignorehitpause if command = "back2" && ( p2dist x >=0&&!Root,Map(turncheck)||Root,Map(turncheck)&&facing=root,facing)|| command = "fwd2" && (p2dist x <0&&!Root,Map(turncheck)||  Root,Map(turncheck)&&facing!=root,facing )
+{
+#back 
+MapSet{map: "p_dir"; value: (Map(p_dir)|Const(Bit7))}
+
+}
+
+
+
+ ignorehitpause if command="fwd2" && ( p2dist x >=0&&!Root,Map(turncheck)||Root,Map(turncheck)&&facing=root,facing )|| command = "back2" && (p2dist x <0&&!Root,Map(turncheck)||Root,Map(turncheck)&&facing!=root,facing)
+{
+#fwd
+MapSet{map: "p_dir"; value: (Map(p_dir)|Const(Bit8))}
+
+}
+
+
+
+
+
+#DIRECTION HOLD:
+ignorehitpause if(command = "up" || command = "holdup")
+{
+#up init 
+MapSet{map: "h_dir"; value: (Map(h_dir)|Const(Bit5))}
+
+}
+
+ ignorehitpause if(command = "down" || command = "holddown")
+{
+#down init 
+MapSet{map: "h_dir"; value: (Map(h_dir)|Const(Bit6))}
+
+}
+
+ ignorehitpause if(command = "back" || command = "holdback") && (p2dist x > 0 && !Root,Map(turncheck) || Root,Map(turncheck)&&facing=root,facing) || (command = "fwd" || command = "holdfwd") && (p2dist x <= 0 && !Root,Map(turncheck) || Root,Map(turncheck) && facing!=root,facing)
+{
+#back init 
+MapSet{map: "h_dir"; value: (Map(h_dir)|Const(Bit7))}
+
+}
+
+
+ignorehitpause if(command = "fwd" || command = "holdfwd")    && (p2dist x > 0 && !Root,Map(turncheck) || Root,Map(turncheck)&&facing=root,facing) || (command = "back" || command = "holdback") && (p2dist x <= 0 && !Root,Map(turncheck) || Root,Map(turncheck) && facing!=root,facing)
+{
+
+#fwd init 
+ MapSet{map: "h_dir"; value: (Map(h_dir)|Const(Bit8));}
+
+}
+
+
+#DIRECTION RELEASE:
+
+ignorehitpause if((Map(h_dir)&16) = 0 && (Map(h_dir)&1) > 0)
+{
+#up init 
+MapSet{map: "r_dir"; value: (Map(r_dir)|1)}
+}
+ ignorehitpause if((Map(h_dir)&32) = 0 && (Map(h_dir)&2) > 0)
+{
+#down init 
+MapSet{map: "r_dir"; value: (Map(r_dir)|2)}
+}
+
+ ignorehitpause if((Map(h_dir)&64) = 0 && (Map(h_dir)&4) > 0) #&&( p2dist x >0&&!Root,Map(turncheck) ||Root,Map(turncheck)&&facing=root,facing) || ((Map(h_dir)&Const(Bit8)) = 0 && (Map(h_dir)&8) > 0) && (p2dist x <=0&&!Root,Map(turncheck)||Root,Map(turncheck)&&facing!=root,facing)
+{
+#back init 
+MapSet{map: "r_dir"; value: (Map(r_dir)|4)}
+}
+
+ ignorehitpause if((Map(h_dir)&Const(Bit8)) = 0 && (Map(h_dir)&8) > 0)# && ( p2dist x >0&&!Root,Map(turncheck)||Root,Map(turncheck)&&facing=root,facing ) || ((Map(h_dir)&64) = 0 && (Map(h_dir)&4) > 0)&& (p2dist x <=0&&!Root,Map(turncheck)||Root,Map(turncheck)&&facing!=root,facing)
+{
+#fwd init 
+MapSet{map: "r_dir"; value: (Map(r_dir)|8)}
+}
+
+
+
+if (Map(h_dir)=72||Map(h_dir)=132)
+{
+MapSet{map:"r_dir";value:0}
+}
+#---block fix
+if (Map(p_att)>=128|| Map(r_att)>0&&root,stateno>=200)
+{
+AssertSpecial{flag:nostandguard;flag2:nocrouchguard;flag3:noairguard;redirectid:root,id}
+} 
+
+if root,map(LockInput)
+{
+ MapSet{map: "r_dir"; value: 0}
+ MapSet{map: "h_dir"; value: 0}
+ MapSet{map: "p_dir"; value: 0}
+ MapSet{map: "r_att"; value: 0}
+ MapSet{map: "p_att"; value: 0}
+ MapSet{map: "h_att"; value: 0}
+ MapSet{map: "m_att"; value: 0}
+}
+##endregion
+
+#----------------------------[COMMAND BUFFER]----------------------------------#
+#This is where ONLY THE NECESSARY commands are buffered. The buffer requires
+#both the regular command and its reversed equivalent.
+#
+#ALL COMMANDS SET HERE MUST ALSO BE PUT IN [Commands] UNDER [Buffer Decrease]
+#
+#One last thing, just like the CMD file, put the complicated commands on top.
+#Command checklist:
+#
+#Map(i214)         = QCF
+#Map(i623)         = DP
+#Map(i421)         = HCB
+#Map(i464)         = CB,F
+#Map(i646)         = CD,U
+#Map(i236236)         = QCFx2
+#Map(i214214)         = QCBx2
+#Map(i641236)-var(49) = 360
+
+#-----------------[SUPERS]-----------------
+#These represent how many frames you have to do the next part of an input
+#For example, if you start with D a given motion will begin their countdown based 
+#on the values defined below, for "qc" that is 12 frames of time you have to input DF
+#then you have 12 additional frames to input F to complete the QCF motion.
+#ONLY CHANGE THESE IF YOU UNDERSTAND THIS
+let sntimer=40;
+
+if map(qc)=0
+{mapset{map:"qc";value:9}}
+if map(qc2)=0
+{mapset{map:"qc2";value:12}}
+let b720 = cond($snk,15,12);			#Timing for 720 input
+let qd   = cond($snk,15,map(qc));		#timing for QCFQC and its inverse
+let qc2  = cond($snk,15,map(qc2));	#timing for QCFx2 and its inverse
+let fh2  = cond($snk,15,10);			#timing for F,HCF and its inverse
+let qh1  = cond($snk,15,15);			#timing for QCFHCB and its inverse
+let hcb2 = cond($snk,15,15);			#timing for HCBx2 and its inverse
+let sgs1 = cond($snk,15,15);			#timing for any SGS 
+let bfb  = cond($snk,15,15);			#timing for B,F,B,F and its inverse
+let ptz  = cond($snk,15,15);			#timing for pretzel motion and its inverse
+let b360 = cond($snk,15,14);			#timing for any 360 input and its inverse
+let CBT  = cond($snk,15,15);			#timing for B,F and its inverse
+let TBT  = cond($snk,15,6);			#timing for the quicker B,F and its inverse
+let BFT  = cond($snk,15,15);			#timing for F,B,F and its inverse
+let hc   = cond($snk,15,15);			#timing for HCB and its inverse
+let tg   = cond($snk,15,15);			#timing for TGK and its inverse
+let qd   = cond($snk,15,15);			#timing for F,DF,D and its inverse
+let dp   = cond($snk,15,13);			#timing for dp and its inverse
+let mb   = cond($snk,15,11);			#timing for midnight bliss motion (D,F,DF) and its inverse
+let qc   = cond($snk,15,12);			#timing for QCF and its inverse
+let cd   = cond($snk,15,15);			#timing for D,U
+let lf   = cond($snk,15,12);			#timing for the special version of F,F not to be confused with the run/dash input!
+let dd   = cond($snk,15,12);			#timing for D,D
+let jkf  = cond($snk,15,14);			#timing for DB,DF,DB,UF
+let iLag = 0;			#additional input lag (in frames)
+
+
+
+
+#62486248 - F,D,B,U,F,D,B,U
+if map(i62486248t)
+{
+mapadd{map:"i62486248t";value:-1}
+}
+		ignorehitpause if (Map(i62486248) <= $b720 && (Map(h_dir)&240) = 128)
+	{
+	#QCFx2Init 
+	MapSet{map: "i62486248"; value: $b720 + Const(Bit5)*1}
+	mapset{map:"i62486248t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i62486248)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i62486248"; value: $b720 + Const(Bit5)*2}
+	}
+        ignorehitpause if(floor(Map(i62486248)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 64))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i62486248"; value: $b720 + Const(Bit5)*3}
+	}
+        ignorehitpause if(floor(Map(i62486248)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 16))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i62486248"; value: $b720 + Const(Bit5)*4}
+	}
+        ignorehitpause if(floor(Map(i62486248)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i62486248"; value: $b720 + Const(Bit5)*5}
+	}
+         
+		ignorehitpause if(floor(Map(i62486248)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i62486248"; value: $b720 + Const(Bit5)*6}
+	}
+		ignorehitpause if (floor(Map(i62486248)/Const(Bit5)) = 6 && ((Map(p_dir)&240) = 64))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i62486248"; value: $b720 + Const(Bit5)*7}
+	}
+		ignorehitpause if(floor(Map(i62486248)/Const(Bit5)) = 7 && ((Map(p_dir)&240) = 16))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i62486248"; value: $b720 + Const(Bit5)*8}
+	}
+
+		ignorehitpause if( Map(i62486248) && (Map(i62486248)&15) = 0||!map(i62486248t)&&$snk)
+	{
+	
+	MapSet{map: "i62486248"; value: 0}
+	}
+
+#i24862486 - D,B,U,F,D,B,U,F
+if map(i24862486t)
+{
+mapadd{map:"i24862486t";value:-1}
+}
+		ignorehitpause if (Map(i24862486) <= $b720 && (Map(h_dir)&240) = 32)
+	{
+	#QCFx2Init 
+	MapSet{map: "i24862486"; value: $b720 + Const(Bit5)*1}
+	mapset{map:"i24862486t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i24862486)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 64))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i24862486"; value: $b720 + Const(Bit5)*2}
+	}
+    	ignorehitpause if(floor(Map(i24862486)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 16))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i24862486"; value: $b720 + Const(Bit5)*3}
+	}
+    	ignorehitpause if(floor(Map(i24862486)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i24862486"; value: $b720 + Const(Bit5)*4}
+	}
+    	ignorehitpause if(floor(Map(i24862486)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i24862486"; value: $b720 + Const(Bit5)*5}
+	} 
+    	ignorehitpause if(floor(Map(i24862486)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 64))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i24862486"; value: $b720 + Const(Bit5)*6}
+	}
+        ignorehitpause if(floor(Map(i24862486)/Const(Bit5)) = 6 && ((Map(p_dir)&240) = 16))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i24862486"; value: $b720 + Const(Bit5)*7}
+	}
+        ignorehitpause if(floor(Map(i24862486)/Const(Bit5)) = 7 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i24862486"; value: $b720 + Const(Bit5)*8}
+	}
+
+		ignorehitpause if( Map(i24862486) && (Map(i24862486)&15) = 0||!map(i24862486t)&&$snk)
+	{
+	
+	MapSet{map: "i24862486"; value: 0}
+	}
+
+#i48624862 - B,U,F,D,B,U,F,D
+if map(i48624862t)
+{
+mapadd{map:"i48624862t";value:-1}
+}
+		ignorehitpause if (Map(i48624862) <= $b720 && (Map(h_dir)&240) = 64)
+	{
+	#QCFx2Init 
+	MapSet{map: "i48624862"; value: $b720 + Const(Bit5)*1}
+	mapset{map:"i48624862t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i48624862)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 16))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i48624862"; value: $b720 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i48624862)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i48624862"; value: $b720 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i48624862)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i48624862"; value: $b720 + Const(Bit5)*4}
+	}
+        ignorehitpause if(floor(Map(i48624862)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 64))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i48624862"; value: $b720 + Const(Bit5)*5}
+	}
+         
+		ignorehitpause if(floor(Map(i48624862)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 16))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i48624862"; value: $b720 + Const(Bit5)*6}
+	}
+		ignorehitpause if(floor(Map(i48624862)/Const(Bit5)) = 6 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i48624862"; value: $b720 + Const(Bit5)*7}
+	}
+		ignorehitpause if(floor(Map(i48624862)/Const(Bit5)) = 7 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i48624862"; value: $b720 + Const(Bit5)*8}
+	}
+
+		ignorehitpause if( Map(i48624862) && (Map(i48624862)&15) = 0||!map(i48624862t)&&$snk)
+	{
+	
+	MapSet{map: "i48624862"; value: 0}
+	}
+
+#i86248624 - U,F,D,B,U,F,D,B
+if map(i86248624t)
+{
+mapadd{map:"i86248624t";value:-1}
+}
+		ignorehitpause if (Map(i86248624) <= $b720 && (Map(h_dir)&240) = 16)
+	{
+	#QCFx2Init 
+	MapSet{map: "i86248624"; value: $b720 + Const(Bit5)*1}
+	mapset{map:"i86248624t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i86248624)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i86248624"; value: $b720 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i86248624)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i86248624"; value: $b720 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i86248624)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 64))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i86248624"; value: $b720 + Const(Bit5)*4}
+	}
+        ignorehitpause if(floor(Map(i86248624)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 16))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i86248624"; value: $b720 + Const(Bit5)*5}
+	}
+         
+		ignorehitpause if(floor(Map(i86248624)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i86248624"; value: $b720 + Const(Bit5)*6}
+	}
+		ignorehitpause if(floor(Map(i86248624)/Const(Bit5)) = 6 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i86248624"; value: $b720 + Const(Bit5)*7}
+	}
+		ignorehitpause if(floor(Map(i86248624)/Const(Bit5)) = 7 && ((Map(p_dir)&240) = 64))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i86248624"; value: $b720 + Const(Bit5)*8}
+	}
+
+		ignorehitpause if( Map(i86248624) && (Map(i86248624)&15) = 0||!map(i86248624t)&&$snk)
+	{
+	
+	MapSet{map: "i86248624"; value: 0}
+	}
+
+
+#i42684268 - B,D,F,U,B,D,F,U
+if map(i42684268t)
+{
+mapadd{map:"i42684268t";value:-1}
+}
+		ignorehitpause if (Map(i42684268) <= $b720 && (Map(h_dir)&240) = 64)
+	{
+	#QCFx2Init 
+	MapSet{map: "i42684268"; value: $b720 + Const(Bit5)*1}
+	mapset{map:"i42684268t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i42684268)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i42684268"; value: $b720 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i42684268)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i42684268"; value: $b720 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i42684268)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 16))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i42684268"; value: $b720 + Const(Bit5)*4}
+	}
+        ignorehitpause if(floor(Map(i42684268)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 64))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i42684268"; value: $b720 + Const(Bit5)*5}
+	}
+         
+		ignorehitpause if(floor(Map(i42684268)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i42684268"; value: $b720 + Const(Bit5)*6}
+	}
+		ignorehitpause if(floor(Map(i42684268)/Const(Bit5)) = 6 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i42684268"; value: $b720 + Const(Bit5)*7}
+	}
+		ignorehitpause if(floor(Map(i42684268)/Const(Bit5)) = 7 && ((Map(p_dir)&240) = 16))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i42684268"; value: $b720 + Const(Bit5)*8}
+	}
+
+		ignorehitpause if( Map(i42684268) && (Map(i42684268)&15) = 0||!map(i42684268t)&&$snk)
+	{
+	
+	MapSet{map: "i42684268"; value: 0}
+	}
+
+#i26842684 - D,F,U,B,D,F,U,B
+if map(i26842684t)
+{
+mapadd{map:"i26842684t";value:-1}
+}
+		ignorehitpause if (Map(i26842684) <= $b720 && (Map(h_dir)&240) = 32)
+	{
+	#QCFx2Init 
+	MapSet{map: "i26842684"; value: $b720 + Const(Bit5)*1}
+	mapset{map:"i26842684t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i26842684)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i26842684"; value: $b720 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i26842684)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 16))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i26842684"; value: $b720 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i26842684)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 64))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i26842684"; value: $b720 + Const(Bit5)*4}
+	}
+        ignorehitpause if(floor(Map(i26842684)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i26842684"; value: $b720 + Const(Bit5)*5}
+	}
+         
+		ignorehitpause if(floor(Map(i26842684)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i26842684"; value: $b720 + Const(Bit5)*6}
+	}
+		ignorehitpause if(floor(Map(i26842684)/Const(Bit5)) = 6 && ((Map(p_dir)&240) = 16))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i26842684"; value: $b720 + Const(Bit5)*7}
+	}
+		ignorehitpause if(floor(Map(i26842684)/Const(Bit5)) = 7 && ((Map(p_dir)&240) = 64))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i26842684"; value: $b720 + Const(Bit5)*8}
+	}
+
+		ignorehitpause if( Map(i26842684) && (Map(i26842684)&15) = 0||!map(i26842684t)&&$snk)
+	{
+	
+	MapSet{map: "i26842684"; value: 0}
+	}
+
+#i68426842 - F,U,B,D,F,U,B,D
+if map(i68426842t)
+{
+mapadd{map:"i68426842t";value:-1}
+}
+ignorehitpause if (Map(i68426842) <= $b720 && (Map(h_dir)&240) = 128)
+	{
+	#QCFx2Init 
+	MapSet{map: "i68426842"; value: $b720 + Const(Bit5)*1}
+	mapset{map:"i68426842t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i68426842)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 16))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i68426842"; value: $b720 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i68426842)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 64))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i68426842"; value: $b720 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i68426842)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i68426842"; value: $b720 + Const(Bit5)*4}
+	}
+        ignorehitpause if(floor(Map(i68426842)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i68426842"; value: $b720 + Const(Bit5)*5}
+	}
+         
+		ignorehitpause if(floor(Map(i68426842)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 16))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i68426842"; value: $b720 + Const(Bit5)*6}
+	}
+		ignorehitpause if(floor(Map(i68426842)/Const(Bit5)) = 6 && ((Map(p_dir)&240) = 64))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i68426842"; value: $b720 + Const(Bit5)*7}
+	}
+		ignorehitpause if(floor(Map(i68426842)/Const(Bit5)) = 7 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i68426842"; value: $b720 + Const(Bit5)*8}
+	}
+
+		ignorehitpause if( Map(i68426842) && (Map(i68426842)&15) = 0||!map(i68426842t)&&$snk)
+	{
+	
+	MapSet{map: "i68426842"; value: 0}
+	}
+
+#i84268426 - U,B,D,F,U,B,D,F
+if map(i84268426t)
+{
+mapadd{map:"i84268426t";value:-1}
+}
+		ignorehitpause if (Map(i84268426)<=$b720 && (Map(h_dir)&240) = 16)
+	{
+	#QCFx2Init 
+	MapSet{map: "i84268426"; value: $b720 + Const(Bit5)*1}
+	mapset{map:"i84268426t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i84268426)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 64))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i84268426"; value: $b720 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i84268426)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i84268426"; value: $b720 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i84268426)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i84268426"; value: $b720 + Const(Bit5)*4}
+	}
+        ignorehitpause if(floor(Map(i84268426)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 16))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i84268426"; value: $b720 + Const(Bit5)*5}
+	}
+         
+		ignorehitpause if(floor(Map(i84268426)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 64))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i84268426"; value: $b720 + Const(Bit5)*6}
+	}
+		ignorehitpause if(floor(Map(i84268426)/Const(Bit5)) = 6 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i84268426"; value: $b720 + Const(Bit5)*7}
+	}
+		ignorehitpause if(Map(i84268426)/Const(Bit5)) = 7 && ((Map(p_dir)&240) = 128)
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i84268426"; value: $b720 + Const(Bit5)*8}
+	}
+		ignorehitpause if( Map(i84268426) && (Map(i84268426)&15) = 0||!map(i84268426t)&&$snk)
+	{
+	
+	MapSet{map: "i84268426"; value: 0}
+	}
+
+
+
+#QCFQC - D,DF,F,D,DF
+if map(i23623t)
+{
+mapadd{map:"i23623t";value:-1}
+}
+		ignorehitpause if (Map(i23623) <= $qd && ((Map(p_dir)&240) = 32 || (Map(r_dir)&15) = 2||(Map(h_dir)&240) = 32))
+	{
+	#QCFx2Init 
+	MapSet{map: "i23623"; value: $qd + Const(Bit5)*1}
+	mapset{map:"i23623t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i23623)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 160))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i23623"; value: $qd + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i23623)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i23623"; value: $qd + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i23623)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i23623"; value: $qd + Const(Bit5)*4}
+	}
+		ignorehitpause if(floor(Map(i23623)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 160))
+	{
+	#QCFx2 Init 5
+	MapSet{map: "i23623"; value: $qd + Const(Bit5)*5}
+	}
+
+		ignorehitpause if( Map(i23623) && (Map(i23623)&15) = 0||!map(i23623t)&&$snk)
+	{
+	
+	MapSet{map: "i23623"; value: 0}
+	}
+
+#QCBQC - D,DB,B,D,DB
+if map(i21421t)
+{
+mapadd{map:"i21421t";value:-1}
+}
+		ignorehitpause if (Map(i21421) <= $qd && ((Map(p_dir)&240) = 32 || (Map(r_dir)&15) = 2||(Map(h_dir)&240) = 32))
+	{
+	#QCFx2Init 
+	MapSet{map: "i21421"; value: $qd + Const(Bit5)*1}
+	mapset{map:"i21421t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i21421)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 96))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i21421"; value: $qd + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i21421)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 64 || (Map(p_dir)&15) = 8))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i21421"; value: $qd + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i21421)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i21421"; value: $qd + Const(Bit5)*4}
+	}
+		ignorehitpause if(floor(Map(i21421)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 96))
+	{
+	#QCFx2 Init 5
+	MapSet{map: "i21421"; value: $qd + Const(Bit5)*5}
+	}
+
+		ignorehitpause if( Map(i21421) && (Map(i21421)&15) = 0||!map(i21421t)&&$snk)
+	{
+	
+	MapSet{map: "i21421"; value: 0}
+	}
+
+
+#QCFx2 - D,DF,F,D,DF,F
+if map(i236236t)
+{
+mapadd{map:"i236236t";value:-1}
+}
+		ignorehitpause if (Map(i236236) <= $qc2 && ((Map(p_dir)&240) = 32 || (Map(r_dir)&15) = 2||(Map(h_dir)&240) = 32))
+	{
+	#QCFx2Init 
+	MapSet{map: "i236236"; value: $qc2 + Const(Bit5)*1}
+	mapset{map:"i236236t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i236236)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 160))
+	{
+	#QCFx2 Init 2
+	MapSet{map: "i236236"; value: $qc2 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i236236)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 3
+	MapSet{map: "i236236"; value: $qc2 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i236236)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFx2 Init 4
+	MapSet{map: "i236236"; value: $qc2 + Const(Bit5)*4}
+	}
+		ignorehitpause if(floor(Map(i236236)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 160))
+	{
+	#QCFx2 Init 5
+	MapSet{map: "i236236"; value: $qc2 + Const(Bit5)*5}
+	}
+  		ignorehitpause if(floor(Map(i236236)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFx2 Init 6
+	MapSet{map: "i236236"; value: $qc2 + Const(Bit5)*6}
+	}
+
+		ignorehitpause if (Map(i236236) && (Map(i236236)&15) = 0||!map(i236236t)&&$snk)
+	{
+	
+	MapSet{map: "i236236"; value: 0}
+	}
+
+#QCBx2 - D,DB,B,D,DB,B
+if map(i214214t)
+{
+mapadd{map:"i214214t";value:-1}
+}
+		ignorehitpause if (Map(i214214)<= $qc2 && ((Map(p_dir)&240) = 32 || (Map(r_dir)&15) = 2||(Map(h_dir)&240) = 32))
+	{
+	#QCBx2 Init 
+	MapSet{map: "i214214"; value: $qc2 + Const(Bit5)*1}
+	mapset{map:"i214214t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i214214)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 96))
+	{
+	#QCBx2 Init 2
+	MapSet{map: "i214214"; value: $qc2 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i214214)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 64))
+	{
+	#QCBx2 Init 3
+	MapSet{map: "i214214"; value: $qc2 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i214214)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 32))
+	{
+	#QCBx2 Init 4
+	MapSet{map: "i214214"; value: $qc2 + Const(Bit5)*4}
+	}
+		ignorehitpause if(floor(Map(i214214)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 96))
+	{
+	#QCBx2 Init 5
+	MapSet{map: "i214214"; value: $qc2 + Const(Bit5)*5}
+	}
+  		ignorehitpause if(floor(Map(i214214)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 64))
+	{
+	#QCBx2 Init 6
+	MapSet{map: "i214214"; value: $qc2 + Const(Bit5)*6}
+	}
+
+		ignorehitpause if Map(i214214) && (Map(i214214)&15) = 0||!map(i214214t)&&$snk
+	{
+	
+	MapSet{map: "i214214"; value: 0}
+	}
+
+
+#HCBF - F,DF,D,DB,B,F
+if map(i632146t)
+{
+mapadd{map:"i632146t";value:-1}
+}
+		ignorehitpause if (Map(i632146) <= $fh2 && ((Map(h_dir)&240) = 128))
+	{
+	#HCBF Init 
+	MapSet{map: "i632146"; value: $fh2 + Const(Bit5)*1}
+	mapset{map:"i632146t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i632146)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 160||$snk))
+	{
+	#HCBF Init 2
+	MapSet{map: "i632146"; value: $fh2 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i632146)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 32))
+	{
+	#HCBF Init 3
+	MapSet{map: "i632146"; value: $fh2 + Const(Bit5)*3}
+	}
+  		ignorehitpause if(floor(Map(i632146)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 96||$snk))
+	{
+	#HCBF Init 4
+	MapSet{map: "i632146"; value: $fh2 + Const(Bit5)*4}
+	}
+  		ignorehitpause if(floor(Map(i632146)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 64))
+	{
+	#HCBF Init 5
+	MapSet{map: "i632146"; value: $fh2 + Const(Bit5)*5}
+	}
+		ignorehitpause if(floor(Map(i632146)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 128))
+	{
+	#HCBF Init 6
+	MapSet{map: "i632146"; value: $fh2 + Const(Bit5)*6}
+	}
+		ignorehitpause if Map(i632146) && (Map(i632146)&15) = 0||!map(i632146t)&&$snk
+	{
+
+	MapSet{map: "i632146"; value: 0}
+	}
+
+#HCFB - B,DB,D,DF,F,B
+if map(i412364t)
+{
+mapadd{map:"i412364t";value:-1}
+}
+		ignorehitpause if (Map(i412364) <= $fh2 && ((Map(h_dir)&240) = 64))
+	{
+	#HCFB Init 
+	MapSet{map: "i412364"; value: $fh2 + Const(Bit5)*1}
+	mapset{map:"i412364t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i412364)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 96||$snk))
+	{
+	#HCFB Init 2
+	MapSet{map: "i412364"; value: $fh2 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i412364)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 32))
+	{
+	#HCFB Init 4
+	MapSet{map: "i412364"; value: $fh2 + Const(Bit5)*3}
+	}
+  		ignorehitpause if(floor(Map(i412364)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 160||$snk))
+	{
+	#HCFB Init 6
+	MapSet{map: "i412364"; value: $fh2 + Const(Bit5)*4}
+	}
+	  	ignorehitpause if(floor(Map(i412364)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 128))
+	{
+	#HCFB Init 6
+	MapSet{map: "i412364"; value: $fh2 + Const(Bit5)*5}
+	}
+	  	ignorehitpause if(floor(Map(i412364)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 64))
+	{
+	#HCFB Init 6
+	MapSet{map: "i412364"; value: $fh2 + Const(Bit5)*6}
+	}
+
+		ignorehitpause if  Map(i412364) && (Map(i412364)&15) = 0||!map(i412364t)&&$snk
+	{
+	
+	MapSet{map: "i412364"; value: 0}
+	}
+
+
+#FHCF - F,B,DB,D,DF,F
+if map(i641236t)
+{
+mapadd{map:"i641236t";value:-1}
+}
+		ignorehitpause if(Map(i641236) <= $fh2 && ((Map(h_dir)&240) = 128))
+	{
+	#FHCF Init 
+	MapSet{map: "i641236"; value: $fh2 + Const(Bit5)*1}
+	mapset{map:"i641236t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i641236)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 64))
+	{
+	#FHCF Init 2
+	MapSet{map: "i641236"; value: $fh2 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i641236)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 96||$snk))
+	{
+	#FHCF Init 4
+	MapSet{map: "i641236"; value: $fh2 + Const(Bit5)*3}
+	}
+  		ignorehitpause if(floor(Map(i641236)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 32))
+	{
+	#FHCF Init 5
+	MapSet{map: "i641236"; value: $fh2 + Const(Bit5)*4}
+	}
+  		ignorehitpause if(floor(Map(i641236)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 160||$snk))
+	{
+	#FHCF Init 6
+	MapSet{map: "i641236"; value: $fh2 + Const(Bit5)*5}
+	}
+  		ignorehitpause if(floor(Map(i641236)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 128))
+	{
+	#FHCF Init 7
+	MapSet{map: "i641236"; value: $fh2 + Const(Bit5)*6}
+	}
+
+		ignorehitpause if Map(i641236) && (Map(i641236)&15) = 0||!map(i641236t)&&$snk
+	{
+	
+	MapSet{map: "i641236"; value: 0}
+	}
+
+#BHCB - B,F,DF,D,DB,B
+if map(i463214t)
+{
+mapadd{map:"i463214t";value:-1}
+}
+		ignorehitpause if (Map(i463214) <= $fh2 && ((Map(h_dir)&240) = 64))
+	{
+	#BHCB Init 
+	MapSet{map: "i463214"; value: $fh2 + Const(Bit5)*1}
+	mapset{map:"i463214t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i463214)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 128||$snk))
+	{
+	#BHCB Init 2
+	MapSet{map: "i463214"; value: $fh2 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i463214)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 160))
+	{
+	#BHCB Init 4
+	MapSet{map: "i463214"; value: $fh2 + Const(Bit5)*3}
+	}
+  		ignorehitpause if(floor(Map(i463214)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 32))
+	{
+	#BHCB Init 5
+	MapSet{map: "i463214"; value: $fh2 + Const(Bit5)*4}
+	}
+  		ignorehitpause if(floor(Map(i463214)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 96||$snk) || (Map(p_dir)&15) = 6)
+	{
+	#BHCB Init 6
+	MapSet{map: "i463214"; value: $fh2 + Const(Bit5)*5}
+	}
+  		ignorehitpause if(floor(Map(i463214)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 64))
+	{
+	#BHCB Init 7
+	MapSet{map: "i463214"; value: $fh2 + Const(Bit5)*6}
+	}
+
+		ignorehitpause if Map(i463214) && (Map(i463214)&15) = 0||!map(i463214t)&&$snk
+	{
+	
+	MapSet{map: "i463214"; value: 0}
+	}
+
+#QCFHCB - D,DF,F,DF,D,DB,B
+if map(i2363214t)
+{
+mapadd{map:"i2363214t";value:-1}
+}
+		ignorehitpause if (Map(i2363214) <= $qh1 && ((Map(p_dir)&240) = 32 || (Map(r_dir)&15) = 2||(Map(h_dir)&240) = 32))
+	{
+	#QCFHCB Init 
+	MapSet{map: "i2363214"; value: $qh1 + Const(Bit5)*1}
+	mapset{map:"i2363214t";value:$sntimer}
+ 
+	}
+		ignorehitpause if(floor(Map(i2363214)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 160||$snk))
+	{
+	#QCFHCB Init 2
+	MapSet{map: "i2363214"; value: $qh1 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i2363214)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 128))
+	{
+	#QCFHCB Init 3
+	MapSet{map: "i2363214"; value: $qh1 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i2363214)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 160||$snk))
+	{
+	#QCFHCB Init 4
+	MapSet{map: "i2363214"; value: $qh1 + Const(Bit5)*4}
+	}
+	ignorehitpause if(floor(Map(i2363214)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 32))
+	{
+	#QCFHCB Init 5
+	MapSet{map: "i2363214"; value: $qh1 + Const(Bit5)*5}
+	}
+	ignorehitpause if(floor(Map(i2363214)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 96||$snk))
+	{
+	#QCFHCB Init 5
+	MapSet{map: "i2363214"; value: $qh1 + Const(Bit5)*6}
+	}
+	ignorehitpause if(floor(Map(i2363214)/Const(Bit5)) = 6 && ((Map(p_dir)&240) = 64||!$snk))
+	{
+	#QCFHCB Init 5
+	MapSet{map: "i2363214"; value: $qh1 + Const(Bit5)*7}
+	}
+
+		ignorehitpause if Map(i2363214) && (Map(i2363214)&15) = 0||!map(i2363214t)&&$snk
+	{
+	
+	MapSet{map: "i2363214"; value: 0}
+	}
+
+#QCBHCF - D,DB,B,DB,D,DF,F
+if map(i2141236t)
+{
+mapadd{map:"i2141236t";value:-1}
+}
+		ignorehitpause if (Map(i2141236) <= $qh1 && ((Map(p_dir)&240) = 32 || (Map(r_dir)&15) = 2||(Map(h_dir)&240) = 32))
+	{
+	#QCBHCF Init 
+	MapSet{map: "i2141236"; value: $qh1 + Const(Bit5)*1}
+	mapset{map:"i2141236t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i2141236)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 96||$snk))
+	{
+	#QCBHCF Init 2
+	MapSet{map: "i2141236"; value: $qh1 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i2141236)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 64))
+	{
+	#QCBHCF Init 3
+	MapSet{map: "i2141236"; value: $qh1 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i2141236)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 96||$snk))
+	{
+	#QCBHCF Init 4
+	MapSet{map: "i2141236"; value: $qh1 + Const(Bit5)*4}
+	}
+	
+	ignorehitpause if(floor(Map(i2141236)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 32))
+	{
+	#QCBHCF Init 5
+	MapSet{map: "i2141236"; value: $qh1 + Const(Bit5)*5}
+	}
+	ignorehitpause if(floor(Map(i2141236)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 160||$snk))
+	{
+	#QCBHCF Init 5
+	MapSet{map: "i2141236"; value: $qh1 + Const(Bit5)*6}
+	}
+	ignorehitpause if(floor(Map(i2141236)/Const(Bit5)) = 6 && ((Map(p_dir)&240) = 128||!$snk))
+	{
+	#QCBHCF Init 5
+	MapSet{map: "i2141236"; value: $qh1 + Const(Bit5)*7}
+	}
+
+		ignorehitpause if Map(i2141236) && (Map(i2141236)&15) = 0||!map(i2141236t)&&$snk
+	{
+	
+	MapSet{map: "i2141236"; value: 0}
+	}
+
+#HCBx2 - F,D,B,F,D,B
+if map(i6321463214t)
+{
+mapadd{map:"i6321463214t";value:-1}
+}
+		ignorehitpause if (Map(i6321463214) <= $hcb2 && ((Map(h_dir)&240) = 128))
+	{
+	#HCBx2 Init 
+	MapSet{map: "i6321463214"; value: $hcb2 + Const(Bit5)*1}
+	mapset{map:"i6321463214t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i6321463214)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 32))
+	{
+	#HCBx2 Init 2
+	MapSet{map: "i6321463214"; value: $hcb2 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i6321463214)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 64))
+	{
+	#HCBx2 Init 3
+	MapSet{map: "i6321463214"; value: $hcb2 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i6321463214)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 128))
+	{
+	#HCBx2 Init 4
+	MapSet{map: "i6321463214"; value: $hcb2 + Const(Bit5)*4}
+	}
+	ignorehitpause if(floor(Map(i6321463214)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 32))
+	{
+	#HCBx2 Init 5
+	MapSet{map: "i6321463214"; value: $hcb2 + Const(Bit5)*5}
+	}
+		ignorehitpause if(floor(Map(i6321463214)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = cond(!$snk,96,64)))
+	{
+	#HCBx2 Init 5
+	MapSet{map: "i6321463214"; value: $hcb2 + Const(Bit5)*6}
+	}
+
+		ignorehitpause if  Map(i6321463214) && (Map(i6321463214)&15) = 0||!map(i6321463214t)&&$snk
+	{
+	MapSet{map: "i6321463214"; value: 0}
+	}
+
+#HCFx2 - B,D,F,B,D,F
+if map(i4123641236t)
+{
+mapadd{map:"i4123641236t";value:-1}
+}
+		ignorehitpause if (Map(i4123641236) <= $hcb2  && ((Map(h_dir)&240) = 64))
+	{
+	#HCBx2 Init 
+	MapSet{map: "i4123641236"; value: $hcb2 + Const(Bit5)*1}
+	mapset{map:"i4123641236t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i4123641236)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 32))
+	{
+	#HCBx2 Init 2
+	MapSet{map: "i4123641236"; value: $hcb2 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i4123641236)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 128))
+	{
+	#HCBx2 Init 3
+	MapSet{map: "i4123641236"; value: $hcb2 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i4123641236)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 64))
+	{
+	#HCBx2 Init 4
+	MapSet{map: "i4123641236"; value: $hcb2 + Const(Bit5)*4}
+	}
+			ignorehitpause if(floor(Map(i4123641236)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 32))
+	{
+	#HCBx2 Init 5
+	MapSet{map: "i4123641236"; value: $hcb2 + Const(Bit5)*5}
+	}
+		ignorehitpause if(floor(Map(i4123641236)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = cond(!$snk,160,128)))
+	{
+	#HCBx2 Init 5
+	MapSet{map: "i4123641236"; value: $hcb2 + Const(Bit5)*6}
+	}
+
+		ignorehitpause if  Map(i4123641236) && (Map(i4123641236)&15) = 0||!map(i4123641236t)&&$snk
+	{
+	MapSet{map: "i4123641236"; value: 0}
+	}
+
+#SGS6 button - x,x,F,a,z
+if map(xx6azt)
+{
+mapadd{map:"xx6azt";value:-1}
+}
+		ignorehitpause if (Map(xx6az) <= $sgs1 && (Map(r_att)&129) > 0)
+	{
+	#xx6az Init 
+	MapSet{map: "xx6az"; value: $sgs1 + Const(Bit5)*1}
+	mapset{map:"xx6azt";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(xx6az)/Const(Bit5)) = 1 && (Map(p_att)&129) > 0)
+	{
+	#xx6az Init 2
+	MapSet{map: "xx6az"; value: $sgs1 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(xx6az)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 128))
+	{
+	#xx6az Init 3
+	MapSet{map: "xx6az"; value: $sgs1 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(xx6az)/Const(Bit5)) = 3 && (Map(p_att)&2048) > 0)
+	{
+	#xx6az Init 4
+	MapSet{map: "xx6az"; value: $sgs1 + Const(Bit5)*4}
+	}
+		ignorehitpause if(floor(Map(xx6az)/Const(Bit5)) = 4 && (Map(p_att)&512) > 0)
+	{
+	#xx6az Init 5
+	MapSet{map: "xx6az"; value: $sgs1 + Const(Bit5)*5}
+	}
+		ignorehitpause if Map(xx6az) && (Map(xx6az)&15) = 0||!map(xx6azt)&&$snk
+	{
+	MapSet{map: "xx6az"; value: 0}
+	}
+#SGS6 button - x,x,B,a,z
+if map(xx4azt)
+{
+mapadd{map:"xx4azt";value:-1}
+}
+		ignorehitpause if (Map(xx4az) < $sgs1 && (Map(r_att)&129) > 0)
+	{
+	#xx6az Init 
+	MapSet{map: "xx4az"; value: $sgs1 + Const(Bit5)*1}
+	mapset{map:"xx4azt";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(xx4az)/Const(Bit5)) = 1 && (Map(p_att)&129) > 0)
+	{
+	#xx6az Init 2
+	MapSet{map: "xx4az"; value: $sgs1 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(xx4az)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 64))
+	{
+	#xx6az Init 3
+	MapSet{map: "xx4az"; value: $sgs1 + Const(Bit5)*3}
+	}
+ 		ignorehitpause if(floor(Map(xx4az)/Const(Bit5)) = 3 && (Map(p_att)&2048) > 0)
+	{
+	#xx6az Init 4
+	MapSet{map: "xx4az"; value: $sgs1 + Const(Bit5)*4}
+	}
+		ignorehitpause if(floor(Map(xx4az)/Const(Bit5)) = 4 && (Map(p_att)&512) > 0)
+	{
+	#xx6az Init 5
+	MapSet{map: "xx4az"; value: $sgs1 + Const(Bit5)*5}
+	}
+		ignorehitpause if Map(xx4az) && (Map(xx4az)&15) = 0||!map(xx4azt)&&$snk
+	{
+	MapSet{map: "xx4az"; value: 0}
+	}
+
+#SGS4 button - x,x,F,a,y
+if map(xx6ayt)
+{
+mapadd{map:"xx6ayt";value:-1}
+}
+		ignorehitpause if (Map(xx6ay) <= $sgs1 && (Map(r_att)&129) > 0)
+	{
+	#xx6az Init 
+	MapSet{map: "xx6ay"; value: $sgs1 + Const(Bit5)*1}
+	mapset{map:"xx6ayt";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(xx6ay)/Const(Bit5)) = 1 && (Map(p_att)&129) > 0)
+	{
+	#xx6az Init 2
+	MapSet{map: "xx6ay"; value: $sgs1 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(xx6ay)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 128))
+	{
+	#xx6az Init 3
+	MapSet{map: "xx6ay"; value: $sgs1 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(xx6ay)/Const(Bit5)) = 3 && (Map(p_att)&2048) > 0)
+	{
+	#xx6az Init 4
+	MapSet{map: "xx6ay"; value: $sgs1 + Const(Bit5)*4}
+	}
+		ignorehitpause if(floor(Map(xx6ay)/Const(Bit5)) = 4 && (Map(p_att)&258) > 0)
+	{
+	#xx6az Init 5
+	MapSet{map: "xx6ay"; value: $sgs1 + Const(Bit5)*5}
+	}
+		ignorehitpause if Map(xx6ay) && (Map(xx6ay)&15) = 0||!map(xx6ayt)&&$snk
+	{
+	MapSet{map: "xx6ay"; value: 0}
+	}
+
+#SGS4 button - x,x,B,a,y
+if map(xx4ayt)
+{
+mapadd{map:"xx4ayt";value:-1}
+}
+		ignorehitpause if (Map(xx4ay) <= $sgs1 && (Map(r_att)&129) > 0)
+	{
+	#xx6az Init 
+	MapSet{map: "xx4ay"; value: $sgs1 + Const(Bit5)*1}
+	mapset{map:"xx4ayt";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(xx4ay)/Const(Bit5)) = 1 && (Map(p_att)&129) > 0)
+	{
+	#xx6az Init 2
+	MapSet{map: "xx4ay"; value: $sgs1 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(xx4ay)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 64))
+	{
+	#xx6az Init 3
+	MapSet{map: "xx4ay"; value: $sgs1 + Const(Bit5)*3}
+	}
+ 		ignorehitpause if(floor(Map(xx4ay)/Const(Bit5)) = 3 && (Map(p_att)&2048) > 0)
+	{
+	#xx6az Init 4
+	MapSet{map: "xx4ay"; value: $sgs1 + Const(Bit5)*4}
+	}
+		ignorehitpause if(floor(Map(xx4ay)/Const(Bit5)) = 4 && (Map(p_att)&258) > 0)
+	{
+	#xx6az Init 5
+	MapSet{map: "xx4ay"; value: $sgs1 + Const(Bit5)*5}
+	}
+		ignorehitpause if Map(xx4ay) && (Map(xx4ay)&15) = 0||!map(xx4ayt)&&$snk
+	{
+	MapSet{map: "xx4ay"; value: 0}
+	}
+
+
+#BFBF button - B,F,B,F
+if map(r_4646t)
+{
+mapadd{map:"r_4646t";value:-1}
+}
+		ignorehitpause if (Map(r_4646) <= $bfb + Const(Bit5)*1 && cond(!root,Map(part) && !root,Map(NoCharge), root,Map(B_ChargeReady), (Map(r_dir)&4) > 0))
+	{
+	#BFBF Init 
+	MapSet{map: "r_4646"; value: $bfb + Const(Bit5)*1}
+	mapset{map:"r_4646t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(r_4646)/Const(Bit5)) = 1 && (Map(p_dir)&128) > 0)
+	{
+	#BFBF Init 2
+	MapSet{map: "r_4646"; value: $bfb + Const(Bit5)*2}
+	}
+        ignorehitpause if(floor(Map(r_4646)/Const(Bit5)) = 2 && (Map(p_dir)&64) > 0)
+	{
+	#BFBF Init 3
+	MapSet{map: "r_4646"; value: $bfb + Const(Bit5)*3}
+	}
+        ignorehitpause if(floor(Map(r_4646)/Const(Bit5)) = 3 && (Map(p_dir)&128) > 0)
+	{
+	#BFBF Init 4
+	MapSet{map: "r_4646"; value: $bfb + Const(Bit5)*4}
+	}
+		ignorehitpause if Map(r_4646) && (Map(r_4646)&15) = 0||!map(r_4646t)&&$snk
+	{
+	MapSet{map: "r_4646"; value: 0}
+	}
+#FBFB button - F,B,F,B
+if map(r_6464t)
+{
+mapadd{map:"r_6464t";value:-1}
+}
+		ignorehitpause if (Map(r_6464) <= $bfb + Const(Bit5)*1 && cond(!root,Map(part) && !root,Map(NoCharge), root,Map(B_ChargeReady), (Map(r_dir)&8) > 0))
+	{
+	#xx6az Init 
+	MapSet{map: "r_6464"; value: $bfb + Const(Bit5)*1}
+	mapset{map:"r_6464t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(r_6464)/Const(Bit5)) = 1 && (Map(p_dir)&64) > 0)
+	{
+	#xx6az Init 2
+	MapSet{map: "r_6464"; value: $bfb + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(r_6464)/Const(Bit5)) = 2 && (Map(p_dir)&128) > 0)
+	{
+	#xx6az Init 3
+	MapSet{map: "r_6464"; value: $bfb + Const(Bit5)*3}
+	}
+ 		ignorehitpause if(floor(Map(r_6464)/Const(Bit5)) = 3 && (Map(p_dir)&64) > 0)
+	{
+	#xx6az Init 4
+	MapSet{map: "r_6464"; value: $bfb + Const(Bit5)*4}
+	}
+		ignorehitpause if Map(r_6464) && (Map(r_6464)&15) = 0||!map(r_6464t)&&$snk
+	{
+	MapSet{map: "r_6464"; value: 0}
+	}
+
+#JKF button - DB,DF,DB,UF
+if map(r_1319t)
+{
+mapadd{map:"r_1319t";value:-1}
+}
+		ignorehitpause if (Map(r_1319) <= $jkf + Const(Bit5)*1 && cond(!root,Map(part) && !root,Map(NoCharge), root,Map(B_ChargeReady) && root,Map(D_ChargeReady), (Map(r_dir)&15) = 6))
+	{
+	#JKF Init 
+	MapSet{map: "r_1319"; value: $jkf + Const(Bit5)*1}
+	mapset{map:"r_1319t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(r_1319)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 160 ||(Map(h_dir)&240)=160))
+	{
+	#xx6az Init 2
+	MapSet{map: "r_1319"; value: $jkf + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(r_1319)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 96||(Map(h_dir)&240)=96))
+	{
+	#xx6az Init 3
+	MapSet{map: "r_1319"; value: $jkf + Const(Bit5)*3}
+	}
+ 		ignorehitpause if(floor(Map(r_1319)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 144||(Map(h_dir)&240)=144))
+	{
+	#xx6az Init 4
+	MapSet{map: "r_1319"; value: $jkf + Const(Bit5)*4}
+	}
+		ignorehitpause if Map(r_1319) && (Map(r_1319)&15) = 0||!map(r_1319t)&&$snk
+	{
+	MapSet{map: "r_1319"; value: 0}
+	}
+#RJKF button - DF,DB,DF,UB
+if map(r_3137t)
+{
+mapadd{map:"r_3137t";value:-1}
+}
+		ignorehitpause if (Map(r_3137) <= $jkf + Const(Bit5)*1 && cond(!root,Map(part) && !root,Map(NoCharge), root,Map(F_ChargeReady) && root,Map(D_ChargeReady), ((Map(r_dir)&15) = 10)))
+	{
+	#xx6az Init 
+	MapSet{map: "r_3137"; value: $jkf + Const(Bit5)*1}
+	mapset{map:"r_3137t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(r_3137)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 96||(Map(h_dir)&240)=96))
+	{
+	#xx6az Init 2
+	MapSet{map: "r_3137"; value: $jkf + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(r_3137)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 160 ||(Map(h_dir)&240)=160))
+	{
+	#xx6az Init 3
+	MapSet{map: "r_3137"; value: $jkf + Const(Bit5)*3}
+	}
+ 		ignorehitpause if(floor(Map(r_3137)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 80))
+	{
+	#xx6az Init 4
+	MapSet{map: "r_3137"; value: $jkf + Const(Bit5)*4}
+	}
+		ignorehitpause if Map(r_3137) && (Map(r_3137)&15) = 0||!map(r_3137t)&&$snk
+	{
+	MapSet{map: "r_3137"; value: 0}
+	}
+
+#PRTZ button - DB,F,DF,D,DB,B,DF
+if map(i1632143t)
+{
+mapadd{map:"i1632143t";value:-1}
+}
+		ignorehitpause if (Map(i3412361) <= $ptz && ((Map(h_dir)&240) = 96))
+	{
+	#xx6az Init 
+	MapSet{map: "i1632143"; value: $ptz + Const(Bit5)*1}
+	mapset{map:"i1632143t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i1632143)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 128))
+	{
+	#xx6az Init 2
+	MapSet{map: "i1632143"; value: $ptz + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i1632143)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 160))
+	{
+	#xx6az Init 3
+	MapSet{map: "i1632143"; value: $ptz + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i1632143)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 32))
+	{
+	#xx6az Init 4
+	MapSet{map: "i1632143"; value: $ptz + Const(Bit5)*4}
+	}
+		ignorehitpause if(floor(Map(i1632143)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 96))
+	{
+	#xx6az Init 5
+	MapSet{map: "i1632143"; value: $ptz + Const(Bit5)*5}
+	}
+ 		ignorehitpause if(floor(Map(i1632143)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 64))
+	{
+	#xx6az Init 6
+	MapSet{map: "i1632143"; value: $ptz + Const(Bit5)*6}
+	}
+		ignorehitpause if(floor(Map(i1632143)/Const(Bit5)) = 6 && ((Map(p_dir)&240) = 160))
+	{
+	#xx6az Init 7
+	MapSet{map: "i1632143"; value: $ptz + Const(Bit5)*7}
+	}
+		ignorehitpause if Map(i1632143) && (Map(i1632143)&15) = 0||!map(i1632143t)&&$snk
+	{
+	MapSet{map: "i1632143"; value: 0}
+	}
+
+#RPRTZ button - DF,B,DB,D,DF,F,DB
+if map(i3412361t)
+{
+mapadd{map:"i3412361t";value:-1}
+} 
+		ignorehitpause if (Map(i3412361) <= $ptz && ((Map(h_dir)&240) = 160))
+	{
+	#xx6az Init 
+	MapSet{map: "i3412361"; value: $ptz + Const(Bit5)*1}
+	mapset{map:"i3412361t";value:$sntimer}
+	}
+	ignorehitpause if(floor(Map(i3412361)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 64))
+	{
+	#xx6az Init 2
+	MapSet{map: "i3412361"; value: $ptz + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i3412361)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 96))
+	{
+	#xx6az Init 3
+	MapSet{map: "i3412361"; value: $ptz + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i3412361)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 32))
+	{
+	#xx6az Init 4
+	MapSet{map: "i3412361"; value: $ptz + Const(Bit5)*4}
+	}
+ 		ignorehitpause if(floor(Map(i3412361)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 128))
+	{
+	#xx6az Init 5
+	MapSet{map: "i3412361"; value: $ptz + Const(Bit5)*5}
+	}
+		ignorehitpause if(floor(Map(i3412361)/Const(Bit5)) = 5 && ((Map(p_dir)&240) = 160))
+	{
+	#xx6az Init 6
+	MapSet{map: "i3412361"; value: $ptz + Const(Bit5)*6}
+	}
+		ignorehitpause if(floor(Map(i3412361)/Const(Bit5)) = 6 && ((Map(p_dir)&240) = 96))
+	{
+	#xx6az Init 7
+	MapSet{map: "i3412361"; value: $ptz + Const(Bit5)*7}
+	}
+		ignorehitpause if Map(i3412361) && (Map(i3412361)&15) = 0||!map(i3412361t)&&$snk
+	{
+	MapSet{map: "i3412361"; value: 0}
+	}
+#----------------[SPECIALS]----------------
+
+
+
+#6248 - F,D,B,U
+if map(i6248t)
+{
+mapadd{map:"i6248t";value:-1}
+} 
+		ignorehitpause if (Map(i6248) <= $b360 && ((Map(h_dir)&240) = 128))
+	{
+	#6248 Init 
+	MapSet{map: "i6248"; value: $b360 + Const(Bit5)*1}
+	mapset{map:"i6248t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i6248)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 32))
+	{
+	#6248 Init 2
+	MapSet{map: "i6248"; value: $b360 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i6248)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 64))
+	{
+	#6248 Init 3
+	MapSet{map: "i6248"; value: $b360 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i6248)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 16))
+	{
+	#6248 Init 4
+	MapSet{map: "i6248"; value: $b360 + Const(Bit5)*4}
+	}
+		ignorehitpause if( Map(i6248) && (Map(i6248)&15) = 0||!map(i6248t)&&$snk)
+	{
+	
+	MapSet{map: "i6248"; value: 0}
+	}
+
+#2486 - D,B,U,F
+if map(i2486t)
+{
+mapadd{map:"i2486t";value:-1}
+} 
+		ignorehitpause if (Map(i2486) <= $b360  && ((Map(h_dir)&240) = 32))
+	{
+	#2486 Init 
+	MapSet{map: "i2486"; value: $b360 + Const(Bit5)*1}
+	mapset{map:"i2486t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i2486)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 64))
+	{
+	#2486 Init 2
+	MapSet{map: "i2486"; value: $b360 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i2486)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 16))
+	{
+	#2486 Init 3
+	MapSet{map: "i2486"; value: $b360 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i2486)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 128))
+	{
+	#2486 Init 4
+	MapSet{map: "i2486"; value: $b360 + Const(Bit5)*4}
+	}
+		ignorehitpause if( Map(i2486) && (Map(i2486)&15) = 0||!map(i2486t)&&$snk)
+	{
+	
+	MapSet{map: "i2486"; value: 0}
+	}
+
+#4862 - B,U,F,D
+if map(i4862t)
+{
+mapadd{map:"i4862t";value:-1}
+} 
+		ignorehitpause if (Map(i4862) <= $b360  && ((Map(h_dir)&240) = 64))
+	{
+	#4862 Init 
+	MapSet{map: "i4862"; value: $b360 + Const(Bit5)*1}
+	mapset{map:"i4862t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i4862)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 16))
+	{
+	#4862 Init 2
+	MapSet{map: "i4862"; value: $b360 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i4862)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 128))
+	{
+	#4862 Init 3
+	MapSet{map: "i4862"; value: $b360 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i4862)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 32))
+	{
+	#4862 Init 4
+	MapSet{map: "i4862"; value: $b360 + Const(Bit5)*4}
+	}
+		ignorehitpause if( Map(i4862) && (Map(i4862)&15) = 0||!map(i4862t)&&$snk)
+	{
+	
+	MapSet{map: "i4862"; value: 0}
+	}
+
+#8624 - U,F,D,B
+if map(i8624t)
+{
+mapadd{map:"i8624t";value:-1}
+}  
+		ignorehitpause if (Map(i8624) <= $b360 && ((Map(h_dir)&240) = 16))
+	{
+	#8624 Init 
+	MapSet{map: "i8624"; value: $b360 + Const(Bit5)*1}
+	mapset{map:"i8624t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i8624)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 128))
+	{
+	#8624 Init 2
+	MapSet{map: "i8624"; value: $b360 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i8624)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 32))
+	{
+	#8624 Init 3
+	MapSet{map: "i8624"; value: $b360 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i8624)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 64))
+	{
+	#8624 Init 4
+	MapSet{map: "i8624"; value: $b360 + Const(Bit5)*4}
+	}
+		ignorehitpause if( Map(i8624) && (Map(i8624)&15) = 0||!map(i8624t)&&$snk)
+	{
+	
+	MapSet{map: "i8624"; value: 0}
+	}
+
+#4268 - B,D,F,U
+if map(i4268t)
+{
+mapadd{map:"i4268t";value:-1}
+}  
+		ignorehitpause if (Map(i4268) <= $b360 && ((Map(h_dir)&240) = 64))
+	{
+	#4268 Init 
+	MapSet{map: "i4268"; value: $b360 + Const(Bit5)*1}
+	mapset{map:"i4268t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i4268)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 32))
+	{
+	#4268 Init 2
+	MapSet{map: "i4268"; value: $b360 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i4268)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 128))
+	{
+	#4268 Init 3
+	MapSet{map: "i4268"; value: $b360 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i4268)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 16))
+	{
+	#4268 Init 4
+	MapSet{map: "i4268"; value: $b360 + Const(Bit5)*4}
+	}
+		ignorehitpause if(Map(i4268) && (Map(i4862)&15) = 0||!map(i4268t)&&$snk)
+	{
+	
+	MapSet{map: "i4268"; value: 0}
+	}
+
+#2684 - D,F,U,B
+if map(i2684t)
+{
+mapadd{map:"i2684t";value:-1}
+}  
+		ignorehitpause if (Map(i2684) <= $b360 && ((Map(h_dir)&240) = 32))
+	{
+	#2684 Init 
+	MapSet{map: "i2684"; value: $b360 + Const(Bit5)*1}
+	mapset{map:"i2684t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i2684)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 128))
+	{
+	#2684 Init 2
+	MapSet{map: "i2684"; value: $b360 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i2684)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 16))
+	{
+	#2684 Init 3
+	MapSet{map: "i2684"; value: $b360 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i2684)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 64))
+	{
+	#2684 Init 4
+	MapSet{map: "i2684"; value: $b360 + Const(Bit5)*4}
+	}
+		ignorehitpause if( Map(i2684) && (Map(i2684)&15) = 0||!map(i2684t)&&$snk)
+	{
+	
+	MapSet{map: "i2684"; value: 0}
+	}
+
+#6842 - F,U,B,D
+if map(i6842t)
+{
+mapadd{map:"i6842t";value:-1}
+}  
+		ignorehitpause if (Map(i6842) <= $b360 && ((Map(h_dir)&240) = 128))
+	{
+	#6842 Init 
+	MapSet{map: "i6842"; value: $b360 + Const(Bit5)*1}
+	mapset{map:"i6842t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i6842)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 16))
+	{
+	#6842 Init 2
+	MapSet{map: "i6842"; value: $b360 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i6842)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 64))
+	{
+	#6842 Init 3
+	MapSet{map: "i6842"; value: $b360 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i6842)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 32))
+	{
+	#6842 Init 4
+	MapSet{map: "i6842"; value: $b360 + Const(Bit5)*4}
+	}
+		ignorehitpause if( Map(i6842) && (Map(i6842)&15) = 0||!map(i6842t)&&$snk)
+	{
+	
+	MapSet{map: "i6842"; value: 0}
+	}
+
+#8426 - U,B,D,F
+if map(i8426t)
+{
+mapadd{map:"i8426t";value:-1}
+}  
+		ignorehitpause if(Map(i8426) <= $b360 && ((Map(h_dir)&240) = 16))
+	{
+	#8426 Init 
+	MapSet{map: "i8426"; value: $b360 + Const(Bit5)*1}
+	mapset{map:"i8426t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i8426)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 64))
+	{
+	#8426 Init 2
+	MapSet{map: "i8426"; value: $b360 + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i8426)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 32))
+	{
+	#8426 Init 3
+	MapSet{map: "i8426"; value: $b360 + Const(Bit5)*3}
+	}
+		ignorehitpause if(floor(Map(i8426)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 128))
+	{
+	#8426 Init 4
+	MapSet{map: "i8426"; value: $b360 + Const(Bit5)*4}
+	}
+		ignorehitpause if( Map(i8426) && (Map(i8426)&15) = 0||!map(i8426t)&&$snk)
+	{
+	
+	MapSet{map: "i8426"; value: 0}
+	}
+
+
+
+#The more directions needed to complete the motion will determine how many mapset statements you will have to put in place
+#The example below is a simple B,F motion so we only need two map sets that will listen for B and F respectively
+#The last mapset clears the input if the alloted time has passed.
+#CBF 
+       if map(i46t)
+{
+mapadd{map:"i46t";value:-1}
+}   
+		ignorehitpause if(Map(i46) <= $CBT + Const(Bit5)*1 && cond(!root,Map(part) && !root,Map(NoCharge), root,Map(B_ChargeReady), (Map(r_dir)&4) > 0))
+	{
+	#CB,F Init 
+	MapSet{map: "i46"; value: $CBT + Const(Bit5)*1}
+	mapset{map:"i46t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i46)/Const(Bit5)) = 1 && (Map(h_dir)&136) > 0)
+	{
+	#CB,F Init 2
+	MapSet{map: "i46"; value: $CBT + Const(Bit5)*2}
+	}
+
+		ignorehitpause if(Map(i46) && (Map(i46)&15) = 0||!map(i46t)&&$snk)
+	{
+	
+	MapSet{map: "i46"; value: 0}
+	}
+
+
+
+#CFB - (charge)F,B
+if map(i64t)
+{
+mapadd{map:"i64t";value:-1}
+} 
+		ignorehitpause if(Map(i64) <= $CBT + Const(Bit5)*1 && cond(!root,Map(part) && !root,Map(NoCharge), root,Map(F_ChargeReady), (Map(r_dir)&8) > 0))
+	{
+	#CF,B Init 
+	MapSet{map: "i64"; value: $CBT + Const(Bit5)*1}
+	mapset{map:"i64t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i64)/Const(Bit5)) = 1 && (map(p_dir)&68) > 0)
+	{
+	#CF,B Init 2
+	MapSet{map: "i64"; value: $CBT + Const(Bit5)*2}
+	}
+
+		ignorehitpause if(Map(i64) && (Map(i64)&15) = 0||!map(i64t)&&$snk)
+	{
+	
+	MapSet{map: "i64"; value: 0}
+	}
+
+#TBF - quicker B,F, less lenient 
+if map(t46t)
+{
+mapadd{map:"t46t";value:-1}
+} 
+		ignorehitpause if(Map(t46) < $TBT && (Map(r_dir)&68) > 0)
+	{
+	#CB,F Init 
+	MapSet{map: "t46"; value: $TBT + Const(Bit5)*1}
+	mapset{map:"t46t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(t46)/Const(Bit5)) = 1 && (map(p_dir)&240) = 128)
+	{
+	#CB,F Init 2
+	MapSet{map: "t46"; value: $TBT + Const(Bit5)*2}
+	}
+
+		ignorehitpause if(Map(t46) && (Map(t46)&15) = 0||!map(t46t)&&$snk)
+	{
+	
+	MapSet{map: "t46"; value: 0}
+	}
+
+
+
+#TFB - F,B
+if map(t64t)
+{
+mapadd{map:"t64t";value:-1}
+} 
+		ignorehitpause if(Map(t64) < $TBT && (Map(r_dir)&136) > 0)
+	{
+	#CF,B Init 
+	MapSet{map: "t64"; value: $TBT + Const(Bit5)*1}
+	mapset{map:"t64t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(t64)/Const(Bit5)) = 1 && (map(p_dir)&240) = 64)
+	{
+	#CF,B Init 2
+	MapSet{map: "t64"; value: $TBT + Const(Bit5)*2}
+	}
+
+		ignorehitpause if(Map(t64) && (Map(t64)&15) = 0||!map(t64t)&&$snk)
+	{
+	
+	MapSet{map: "t64"; value: 0}
+	}
+
+
+
+#BFB - B,F,B
+if map(i464t)
+{
+mapadd{map:"i464t";value:-1}
+} 
+		ignorehitpause if(Map(i464) <= $BFT && (Map(h_dir)&68) > 0)
+	{
+	#BFB Init 
+	MapSet{map: "i464"; value: $BFT + Const(Bit5)*1}
+	mapset{map:"i464t";value:$sntimer}
+	}
+
+		ignorehitpause if(floor(Map(i464)/Const(Bit5)) = 1 && ((Map(p_dir)&136) > 0))
+	{
+	#BFBInit 2
+	MapSet{map: "i464"; value: $BFT + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i464)/Const(Bit5)) = 2 && ((Map(p_dir)&68) > 0))
+	{
+	#BFB Init 3 
+	MapSet{map: "i464"; value: $BFT + Const(Bit5)*3}
+	}
+		ignorehitpause if(Map(i464) && (Map(i464)&15) = 0||!map(i464t)&&$snk)
+	{
+	
+	MapSet{map: "i464"; value: 0}
+	}
+
+
+#In this motion we have what is commonly known as "zanretsuken" which is a F,B,F motion. This requires 3 mapsets
+#To render the motion properly
+#The last mapset clears the input if the alloted time has passed.
+#FBF - F,B,F
+if map(i646t)
+{
+mapadd{map:"i646t";value:-1}
+} 
+		ignorehitpause if(Map(i646) <= $BFT && (Map(h_dir)&136) > 0)
+	{
+	#FBF Init 
+	MapSet{map: "i646"; value: $BFT + Const(Bit5)*1}
+	mapset{map:"i646t";value:$sntimer}
+	}
+
+		ignorehitpause if(floor(Map(i646)/Const(Bit5)) = 1 && ((Map(p_dir)&68) > 0))
+	{
+	#FBF Init 2
+	MapSet{map: "i646"; value: $BFT + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i646)/Const(Bit5)) = 2 && ((Map(p_dir)&136) > 0))
+	{
+	#FBF Init 3 
+	MapSet{map: "i646"; value: $BFT + Const(Bit5)*3}
+	}
+		ignorehitpause if(Map(i646) && (Map(i646)&15) = 0||!map(i646t)&&$snk)
+	{
+	
+	MapSet{map: "i646"; value: 0}
+	}
+
+#======|Hundred Hand Slap Definition|=====
+let hhs = root,map(MashPCt);
+
+if Map(mashtimer)>0#&&root,hitpausetime=0  
+{
+
+MapAdd{map: "mashtimer"; value:  -1}
+
+}
+if Map(mashtimerk)>0#&&root,hitpausetime=0 
+{
+MapAdd{map: "mashtimerk"; value:  -1}
+}
+
+
+#HHSP - mash p continuously, either in a piano or constant press of the same button ending on that button
+ ignorehitpause if  (((Map(m_att)&3)=Const(Bit1)||
+		  (Map(m_att)&3)=Const(Bit2)||
+		  (Map(m_att)&3)=Const(Bit1)+Const(Bit2))||
+((Map(m_att)&7)=Const(Bit3)||(Map(m_att)&7)=Const(Bit1)+Const(Bit3)||(Map(m_att)&7)=Const(Bit3)+Const(Bit2)||(Map(m_att)&7)=Const(Bit3)+Const(Bit1)+Const(Bit2))&&root,Map(btn6)=1)
+{
+#HHSP init
+
+MapAdd{map: "hhsp"; value: 1}
+
+MapSet{map: "mashtimer";value:$hhs}
+
+}
+
+ ignorehitpause if  (((Map(m_att)&48)=Const(Bit5)||(Map(m_att)&48)=Const(Bit6)||(Map(m_att)&48)=Const(Bit5)+Const(Bit6))||
+((Map(m_att)&112)=Const(Bit7)||(Map(m_att)&112)=Const(Bit5)+Const(Bit7)||(Map(m_att)&112)=Const(Bit7)+Const(Bit6)||(Map(m_att)&112)=Const(Bit5)+Const(Bit6)+Const(Bit7))&&root,Map(btn6)=1)
+{
+#HHSK init
+MapAdd{map: "hhsk"; value: 1}
+
+MapSet{map: "mashtimerk";value:$hhs}
+
+}
+
+
+if Map(mashtimer)<=0
+{
+MapSet{map:"hhsp";value:0}
+}
+if Map(mashtimerk)<=0
+{
+MapSet{map:"hhsk";value:0}
+}
+
+
+#=========Charge Buffer
+
+#Charge Back
+
+ignorehitpause if((Map(h_dir)&64) > 0 || cond(Root,Map(turncheck),0,p2dist X =[0,-15]) && (Map(r_dir)&15) = 4)
+{
+MapAdd{map: "i4"; value: 1}
+		ignorehitpause if(Map(i4) >= Root,Map(B_ChargeTime) )
+	{	
+	RootMapSet{map: "B_ChargeReady"; value: Map(B_BufferTime)}     
+	}       
+}
+
+
+ignorehitpause if((Map(h_dir)&128) > 0 || cond(Root,Map(turncheck),0,p2dist X =[0,-15]) && (Map(r_dir)&15) = 8)
+{
+ 	ignorehitpause if(Map(i4)> 0)
+	{
+		if(Map(BCPT)=0)
+		{
+			MapSet{map: "BCPT"; value: Root,Map(ChargePartitionTime)}
+		}
+		#Count down 
+		if !Root,Map(part)
+		{
+			MapSet{map: "i4"; value: 0}
+		}
+		else if( Map(BCPT)=1)
+		{
+			MapSet{map: "i4"; value:0}
+		}
+	}
+}
+
+#Charge Forward
+
+ignorehitpause if((Map(h_dir)&128) > 0 || cond(Root,Map(turncheck),0,p2dist X =[0,-15]) && (Map(r_dir)&15) = 8)
+{
+MapAdd{map: "i6"; value: 1}
+		ignorehitpause if(Map(i6) >= Root,Map(B_ChargeTime) )
+	{	
+	RootMapSet{map: "F_ChargeReady"; value: Map(B_BufferTime)}     
+	}       
+}
+
+
+ignorehitpause if((Map(h_dir)&64) > 0 || cond(Root,Map(turncheck),0,p2dist X =[0,-15]) && (Map(r_dir)&15) = 4)
+{
+ 	ignorehitpause if(Map(i6)> 0)
+	{
+		if(Map(BCPT)=0)
+		{
+			MapSet{map: "BCPT"; value: Root,Map(ChargePartitionTime)}
+		}
+		#Count down 
+		if !Root,Map(part)
+		{
+			MapSet{map: "i6"; value: 0}
+		}
+		else if( Map(BCPT)=1)
+		{
+			MapSet{map: "i6"; value:0}
+		}
+	}
+}
+
+
+
+#Charge Down
+		ignorehitpause if((Map(h_dir)&34) > 0)
+	{
+		MapAdd{map: "ic2"; value: 1}
+		ignorehitpause if(Map(ic2) >= Root,Map(D_ChargeTime))
+		{
+			RootMapSet{map: "D_ChargeReady"; value: Map(D_BufferTime)}
+		}    
+    }
+
+#Charge Down Dec
+ignorehitpause if((Map(h_dir)&34) = 0)
+{
+	ignorehitpause if(Map(ic2)> 0)
+	{
+		if(Map(DCPT)=0)
+		{
+			MapSet{map: "DCPT"; value: Root,Map(ChargePartitionTime)}
+		}
+		if !Root,Map(part)
+		{
+			#Count down 
+			MapSet{map: "ic2"; value: floor(Map(ic2)/8)}
+		}
+		else
+		{
+			if(Map(DCPT)=1)
+			{
+				MapSet{map: "ic2"; value:0}
+			}
+		}
+	}
+}
+
+if (root,hitpausetime=0){
+ignorehitpause if(Map(BCPT)> 0)
+{
+#Count down 
+MapAdd{map: "BCPT"; value: -1}
+}
+ignorehitpause if(Map(DCPT)> 0)
+{
+#Count down 
+MapAdd{map: "DCPT"; value: -1}
+}
+ignorehitpause if(Root,Map(D_ChargeReady)> 0)
+{
+#Count down 
+RootMapAdd{map: "D_ChargeReady"; value: -1}
+}
+ignorehitpause if(Root,Map(B_ChargeReady)> 0)
+{
+#Count down 
+RootMapAdd{map: "B_ChargeReady"; value: -1}
+}
+ignorehitpause if(Root,Map(F_ChargeReady)> 0)
+{
+#Count down 
+RootMapAdd{map: "F_ChargeReady"; value: -1}
+}
+}
+#======================
+#TGK - DB,D,DF,F,UF
+
+if map(i12369t)
+{
+mapadd{map:"i12369t";value:-1}
+} 
+	ignorehitpause if(Map(i12369) <= $tg && ((Map(h_dir)&240) = 96))
+	{
+	#TGK Init 
+	MapSet{map: "i12369"; value: $tg + Const(Bit5)*1}
+	mapset{map:"i12369t";value:$sntimer}
+	}
+
+	ignorehitpause if(floor(Map(i12369)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 32))
+	{
+	#TGK Init 2
+	MapSet{map: "i12369"; value: $tg + Const(Bit5)*2}
+	}
+	ignorehitpause if(floor(Map(i12369)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 160))
+	{
+	#TGK Init 3
+	MapSet{map: "i12369"; value: $tg + Const(Bit5)*3}
+	}
+	ignorehitpause if(floor(Map(i12369)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 128))
+	{
+	#TGK Init 2
+	MapSet{map: "i12369"; value: $tg + Const(Bit5)*4}
+	}
+	ignorehitpause if(floor(Map(i12369)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 144))
+	{
+	#TGK Init 4
+	MapSet{map: "i12369"; value: $tg + Const(Bit5)*5}
+	}
+	
+	ignorehitpause if(Map(i12369) && (Map(i12369)&15) = 0||!map(i12369t)&&$snk)
+	{
+	MapSet{map: "i12369"; value: 0}
+	}
+#======================
+#RTGK - DF,D,DB,B,UB
+
+if map(i32147t)
+{
+mapadd{map:"i32147t";value:-1}
+} 
+	ignorehitpause if(Map(i32147) <= $tg && ((Map(h_dir)&240) = 160))
+	{
+	#TGK Init 
+	MapSet{map: "i32147"; value: $tg + Const(Bit5)*1}
+	mapset{map:"i32147t";value:$sntimer}
+	}
+
+	ignorehitpause if(floor(Map(i32147)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 32))
+	{
+	#TGK Init 2
+	MapSet{map: "i32147"; value: $tg + Const(Bit5)*2}
+	}
+	ignorehitpause if(floor(Map(i32147)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 96))
+	{
+	#TGK Init 3
+	MapSet{map: "i32147"; value: $tg + Const(Bit5)*3}
+	}
+	ignorehitpause if(floor(Map(i32147)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 64))
+	{
+	#TGK Init 2
+	MapSet{map: "i32147"; value: $tg + Const(Bit5)*4}
+	}
+	ignorehitpause if(floor(Map(i32147)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 80))
+	{
+	#TGK Init 4
+	MapSet{map: "i32147"; value: $tg + Const(Bit5)*5}
+	}
+	
+	ignorehitpause if(Map(i32147) && (Map(i32147)&15) = 0||!map(i32147t)&&$snk)
+	{
+	MapSet{map: "i32147"; value: 0}
+	}
+
+#HCB - F,D,B
+if map(i624t)
+{
+mapadd{map:"i624t";value:-1}
+} 
+		ignorehitpause if(Map(i624) <= $hc && ((Map(h_dir)&240) = 128))
+	{
+	#HCB Init 
+	MapSet{map: "i624"; value: $hc + Const(Bit5)*1}
+	mapset{map:"i624t";value:$sntimer}
+	}
+
+		ignorehitpause if(floor(Map(i624)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 32))
+	{
+	#HCB Init 2
+	MapSet{map: "i624"; value: $hc + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i624)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 64))
+	{
+	#HCB Init 3 
+	MapSet{map: "i624"; value: $hc + Const(Bit5)*3}
+	}
+		ignorehitpause if(Map(i624) && (Map(i624)&15) = 0||!map(i624t)&&$snk)
+	{
+	
+	MapSet{map: "i624"; value: 0}
+	}
+
+#sHCB - F,DF,D,DB,B
+if map(i63214t)
+{
+mapadd{map:"i63214t";value:-1}
+} 
+		ignorehitpause if (Map(i63214) <= $hc && ((Map(h_dir)&240) = 128))
+	{
+	#sHCB Init 
+	MapSet{map: "i63214"; value: $hc + Const(Bit5)*1}
+	mapset{map:"i63214t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i63214)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 160))
+	{
+	#sHCB Init 2
+	MapSet{map: "i63214"; value: $hc + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i63214)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 32))
+	{
+	#sHCB Init 3
+	MapSet{map: "i63214"; value: $hc + Const(Bit5)*3}
+	}
+  		ignorehitpause if(floor(Map(i63214)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 96))
+	{
+	#sHCB Init 4
+	MapSet{map: "i63214"; value: $hc + Const(Bit5)*4}
+	}
+  		ignorehitpause if(floor(Map(i63214)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 64))
+	{
+	#sHCB Init 5
+	MapSet{map: "i63214"; value: $hc + Const(Bit5)*5}
+	}
+		ignorehitpause if(Map(i63214) && (Map(i63214)&15) = 0||!map(i63214t)&&$snk)
+	{
+	MapSet{map: "i63214"; value: 0}
+	}
+
+
+
+#HCF - B,D,F
+if map(i426t)
+{
+mapadd{map:"i426t";value:-1}
+} 
+		ignorehitpause if(Map(i426) <= $hc && ((Map(h_dir)&240) = 64))
+	{
+	
+	MapSet{map: "i426"; value: $hc + Const(Bit5)*1}
+	mapset{map:"i426t";value:$sntimer}
+	}
+
+		ignorehitpause if(floor(Map(i426)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 32))
+	{
+	#HCF Init 2
+	MapSet{map: "i426"; value: $hc + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i426)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 128))
+	{
+	#HCF Init 3 
+	MapSet{map: "i426"; value: $hc + Const(Bit5)*3}
+	}
+		ignorehitpause if(Map(i426) && (Map(i426)&15) = 0||!map(i426t)&&$snk)
+	{
+	
+	MapSet{map: "i426"; value: 0}
+	}
+
+#sHCF - B,DB,D,DF,F
+if map(i41236t)
+{
+mapadd{map:"i41236t";value:-1}
+} 
+		ignorehitpause if (Map(i41236) <= $hc && ((Map(h_dir)&240) = 64))
+	{
+	#sHCF Init 
+	MapSet{map: "i41236"; value: $hc + Const(Bit5)*1}
+	mapset{map:"i41236t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i41236)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 96))
+	{
+	#sHCF Init 2
+	MapSet{map: "i41236"; value: $hc + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i41236)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 32))
+	{
+	#sHCF Init 4
+	MapSet{map: "i41236"; value: $hc + Const(Bit5)*3}
+	}
+  		ignorehitpause if(floor(Map(i41236)/Const(Bit5)) = 3 && ((Map(p_dir)&240) = 160))
+	{
+	#sHCF Init 5
+	MapSet{map: "i41236"; value: $hc + Const(Bit5)*4}
+	}
+	  	ignorehitpause if(floor(Map(i41236)/Const(Bit5)) = 4 && ((Map(p_dir)&240) = 128))
+	{
+	#HCF Init 5
+	MapSet{map: "i41236"; value: $hc + Const(Bit5)*5}
+	}
+		ignorehitpause if(Map(i41236) && (Map(i41236)&15) = 0||!map(i41236t)&&$snk)
+	{
+	
+	MapSet{map: "i41236"; value: 0}
+	}
+
+#QCD - F,DF,D
+if map(i632t)
+{
+mapadd{map:"i632t";value:-1}
+} 
+		ignorehitpause if(Map(i632) <= $qd && ((Map(h_dir)&240) = 128))
+	{
+	
+	MapSet{map: "i632"; value: $qd + Const(Bit5)*1}
+	mapset{map:"i632t";value:$sntimer}
+	}
+    ignorehitpause if(floor(Map(i632)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 160 || (Map(p_dir)&240) = 10))
+	{
+	#QCD Init 2
+	MapSet{map: "i632"; value: $qd + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i632)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 32))
+	{
+	#QCD Init 2
+	MapSet{map: "i632"; value: $qd + Const(Bit5)*3}
+	}
+		ignorehitpause if(Map(i632) && (Map(i632)&15) = 0||!map(i632t)&&$snk)
+	{
+	
+	MapSet{map: "i632"; value: 0}
+	}
+
+
+
+#RQCD - B,DF,D
+if map(i412t)
+{
+mapadd{map:"i412t";value:-1}
+} 
+		ignorehitpause if(Map(i412) <= $qd && ((Map(h_dir)&240) = 64))
+	{
+	
+	MapSet{map: "i412"; value: $qd + Const(Bit5)*1}
+	mapset{map:"i412t";value:$sntimer}
+	}
+ 		ignorehitpause if(floor(Map(i412)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 96))
+	{
+	#QCD Init 2
+	MapSet{map: "i412"; value: $qd + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i412)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 32))
+	{
+	#QCD Init 2
+	MapSet{map: "i412"; value: $qd + Const(Bit5)*3}
+	}
+		ignorehitpause if(Map(i412) && (Map(i412)&15) = 0||!map(i412t)&&$snk)
+	{
+	
+	MapSet{map: "i412"; value: 0}
+	}
+
+
+
+
+
+
+
+
+
+#rDP
+if map(i421t)
+{
+mapadd{map:"i421t";value:-1}
+} 
+		ignorehitpause if(Map(i421) <= $dp && ((Map(h_dir)&240) = 64 ))
+	{
+	
+	MapSet{map: "i421"; value:$dp + Const(Bit5)*1}
+	mapset{map:"i421t";value:$sntimer}
+	}
+
+		ignorehitpause if(floor(Map(i421)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 32))
+	{
+	#rDP Init 2
+	MapSet{map: "i421"; value: $dp + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i421)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 96))
+	{
+	#rDP Init 3 
+	MapSet{map: "i421"; value: $dp + Const(Bit5)*3}
+	}
+		ignorehitpause if(Map(i421) && (Map(i421)&15) = 0||!map(i421t)&&$snk)
+	{
+	
+	MapSet{map: "i421"; value: 0}
+	}
+
+
+
+#DP
+if map(i623t)
+{
+mapadd{map:"i623t";value:-1}
+} 
+		ignorehitpause if(Map(i623) <= $dp && ((Map(h_dir)&240) = 128 ))
+	{
+	
+	MapSet{map: "i623"; value: $dp + Const(Bit5)*1}
+	mapset{map:"i623t";value:$sntimer}
+	}
+
+		ignorehitpause if(floor(Map(i623)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 32))
+	{
+	#rDP Init 2
+	MapSet{map: "i623"; value: $dp + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i623)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 160 || (Map(p_dir)&240) = 10))
+	{
+	#rDP Init 3 
+	MapSet{map: "i623"; value: $dp + Const(Bit5)*3}
+	}
+		ignorehitpause if(Map(i623) && (Map(i623)&15) = 0||!map(i623t)&&$snk)
+	{
+	
+	MapSet{map: "i623"; value: 0}
+	}
+
+
+#MiB - D,F,DF
+if map(i263t)
+{
+mapadd{map:"i263t";value:-1}
+}  
+		ignorehitpause if(Map(i263) <= $mb && ((Map(h_dir)&240) = 32 ))
+	{
+	
+	MapSet{map: "i263"; value: $mb + Const(Bit5)*1}
+	mapset{map:"i263t";value:$sntimer}
+	}
+
+		ignorehitpause if(floor(Map(i263)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 128))
+	{
+	#QCD Init 2
+	MapSet{map: "i263"; value: $mb + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i263)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 160))
+	{
+	#QCD Init 2
+	MapSet{map: "i263"; value: $mb + Const(Bit5)*3}
+	}
+		ignorehitpause if(Map(i263) && (Map(i263)&15) = 0||!map(i263t)&&$snk)
+	{
+	
+	MapSet{map: "i263"; value: 0}
+	}
+
+
+
+#RMiB - D,B,DB
+if map(i241t)
+{
+mapadd{map:"i241t";value:-1}
+}  
+		ignorehitpause if(Map(i241) <= $mb && ((Map(h_dir)&240) = 32 ))
+	{
+	
+	MapSet{map: "i241"; value: $mb + Const(Bit5)*1}
+	mapset{map:"i241t";value:$sntimer}
+	}
+
+		ignorehitpause if(floor(Map(i241)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 64))
+	{
+	#QCD Init 2
+	MapSet{map: "i241"; value: $mb + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i241)/Const(Bit5)) = 2 &&  ((Map(p_dir)&240) = 96))
+	{
+	#QCD Init 2
+	MapSet{map: "i241"; value: $mb + Const(Bit5)*3}
+	}
+		ignorehitpause if(Map(i241) && (Map(i241)&15) = 0||!map(i241t)&&$snk)
+	{
+	
+	MapSet{map: "i241"; value: 0}
+	}
+
+
+
+
+#QCB
+if map(i214t)
+{
+mapadd{map:"i214t";value:-1}
+}  
+		ignorehitpause if(Map(i214) <= $qc && ((Map(r_dir)&15) = 2||(Map(p_dir)&240) = 32||(Map(h_dir)&240) = 32))
+	{
+	#QCB Init 1
+	MapSet{map: "i214"; value: $qc + Const(Bit5)*1}
+	mapset{map:"i214t";value:$sntimer}
+	}
+
+		ignorehitpause if(floor(Map(i214)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 96))
+	{
+	#QCB Init 2
+	MapSet{map: "i214"; value: $qc + Const(Bit5)*2}
+	}
+		ignorehitpause if(floor(Map(i214)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 64))
+	{
+	#QCB Init 3 
+	MapSet{map: "i214"; value: $qc + Const(Bit5)*3}
+	}
+		ignorehitpause if(Map(i214) && (Map(i214)&15) = 0||!map(i214t)&&$snk)
+	{
+	
+	MapSet{map: "i214"; value: 0}
+	}
+
+
+
+#QCF
+if map(i236t)
+{
+mapadd{map:"i236t";value:-1}
+}  
+                                                                    #v reset motion if active
+		ignorehitpause if(Map(i236) <= $qc && ((Map(r_dir)&15) = 2||(Map(p_dir)&240) = 32||(Map(h_dir)&240) = 32))
+	{
+	#rDP Init 2
+	MapSet{map: "i236"; value: $qc + Const(Bit5)*1}
+	mapset{map:"i236t";value:$sntimer}
+	}
+
+		ignorehitpause if(floor(Map(i236)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 160))
+	{
+	#rDP Init 2
+	MapSet{map: "i236"; value: $qc + Const(Bit5)*2}
+	}
+    	ignorehitpause if(floor(Map(i236)/Const(Bit5)) = 2 && ((Map(p_dir)&240) = 128))
+	{
+	#rDP Init 3 
+	MapSet{map: "i236"; value: $qc + Const(Bit5)*3}
+	}
+		ignorehitpause if(Map(i236) && (Map(i236)&15) = 0||!map(i236t)&&$snk)
+	{
+	MapSet{map: "i236"; value: 0}
+	}
+
+
+
+#CDU - (charge)D,U
+
+		ignorehitpause if(Map(i28) <= $cd + Const(Bit5)*1 && cond(!root,Map(part) && !root,Map(NoCharge), root,Map(D_ChargeReady), (Map(r_dir)&2) > 0))
+	{
+	#CD,U Init 
+	MapSet{map: "i28"; value: $cd + Const(Bit5)*1}
+	mapset{map:"i62486248t";value:$sntimer}
+	}
+		ignorehitpause if(floor(Map(i28)/Const(Bit5)) = 1 && (Map(h_dir)&17) > 0)
+	{
+	#CD,U Init 2
+	MapSet{map: "i28"; value: $cd + Const(Bit5)*2}
+	}
+
+		ignorehitpause if(Map(i28) && (Map(i28)&15) = 0)
+	{
+	
+	MapSet{map: "i28"; value: 0}
+	}
+
+#DD - D,D
+ 
+		ignorehitpause if(Map(i22) <= $dd && (Map(r_dir)&15) = 2)
+	{
+	#CB,F Init 
+	MapSet{map: "i22"; value: $dd + Const(Bit5)*1}
+
+	}
+		ignorehitpause if(floor(Map(i22)/Const(Bit5)) = 1 && (Map(p_dir)&240) = 32)
+	{
+	#CB,F Init 2
+	MapSet{map: "i22"; value: $dd + Const(Bit5)*2}
+	}
+
+		ignorehitpause if(Map(i22) && (Map(i22)&15) = 0)
+	{
+	
+	MapSet{map: "i22"; value: 0}
+	}
+
+#LFF - F,F
+
+		ignorehitpause if(Map(l66) <= $lf &&((Map(r_dir)&15) = 8))
+	{
+	#FF Init 
+	MapSet{map: "l66"; value: $lf - 3 + Const(Bit5)*1}
+
+	}
+		ignorehitpause if(floor(Map(l66)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 128))
+	{
+	#FF Init 2
+	MapSet{map: "l66"; value: $lf + Const(Bit5)*2}
+	}
+
+		ignorehitpause if(Map(l66) && (Map(l66)&15) = 0)
+	{
+	
+	MapSet{map: "l66"; value: 0}
+	}
+
+
+
+#LBB - B,B
+
+		ignorehitpause if(Map(l44) <= $lf &&((Map(r_dir)&15) = 4))
+	{
+	#LBB Init 
+	MapSet{map: "l44"; value: $lf - 3 + Const(Bit5)*1}
+
+	}
+		ignorehitpause if(floor(Map(l44)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 64))
+	{
+	#LBB Init 2
+	MapSet{map: "l44"; value: $lf + Const(Bit5)*2}
+	}
+
+		ignorehitpause if( Map(l44) && ((Map(l44)&15) = 0 ))
+	{
+	
+	MapSet{map: "l44"; value: 0}
+	}
+
+
+#Dash/Run accidental input prevention
+if var(51)<=0 || (Map(h_dir)&204)=0
+{var(51):=0;}
+
+if (Map(h_dir)&192) > 0 && var(51) < 9
+{var(51):=var(51)+cond((Map(h_dir)&192) > 0, 1, -1);}
+
+
+#D - Longjump
+		ignorehitpause if !Map(i2) && (Map(p_dir)&34) > 0
+	{
+	#D Init
+	MapSet{map: "i2"; value: 9 + Const(Bit5)*1}
+	}
+		ignorehitpause if (Map(i2) && (Map(i2)&15) = 0)
+	{
+	MapSet{map: "i2"; value: 0}
+	}
+
+#FF - F,F
+
+		ignorehitpause if Map(i66) <= 9 && ((Map(r_dir)&15) = 8) && var(51) <8
+	{
+	#FF Init 
+	MapSet{map: "i66"; value: 9 + Const(Bit5)*1}
+	}
+		ignorehitpause if(floor(Map(i66)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 128))
+	{
+	#FF Init 2
+	MapSet{map: "i66"; value:  6 + Const(Bit5)*2}
+	}
+
+		ignorehitpause if( Map(i66) && ((Map(i66)&15) = 0 ))
+	{
+	
+	MapSet{map: "i66"; value: 0}
+	}
+
+
+
+#BB - B,B
+
+		ignorehitpause if!Map(i44) <= 9 && ((Map(r_dir)&15) = 4) && var(51) < 8
+	{
+	#FF Init 
+	MapSet{map: "i44"; value: 9 + Const(Bit5)*1}
+	}
+		ignorehitpause if(floor(Map(i44)/Const(Bit5)) = 1 && ((Map(p_dir)&240) = 64))
+	{
+	#FF Init 2
+	MapSet{map: "i44"; value:  6 + Const(Bit5)*2}
+	}
+
+		ignorehitpause if( Map(i44) && ((Map(i44)&15) = 0 ))
+	{
+	
+	MapSet{map: "i44"; value: 0}
+	}
+
+
+
+
+
+
+
+#map buttons
+ignorehitpause if(1) && !Map(menu){
+#regular inputs
+RootMapSet{map:"x";  value:(Map(p_att) &(Const(Bit8)|Const(Bit1)))  > 0}
+RootMapSet{map:"y";  value:(Map(p_att) &(Const(Bit9)|Const(Bit2)))  > 0}
+RootMapSet{map:"z";  value:(Map(p_att) &(Const(Bit10)|Const(Bit3))) > 0}
+RootMapSet{map:"s";  value:(Map(p_att) &(Const(Bit11)|Const(Bit4))) > 0}
+RootMapSet{map:"w";  value:(Map(p_att2)&(Const(Bit8)|Const(Bit1)))  > 0}
+RootMapSet{map:"a";  value:(Map(p_att) &(Const(Bit12)|Const(Bit5))) > 0}
+RootMapSet{map:"b";  value:(Map(p_att) &(Const(Bit13)|Const(Bit6))) > 0}
+RootMapSet{map:"c";  value:(Map(p_att) &(Const(Bit14)|Const(Bit7))) > 0}
+RootMapSet{map:"d";  value:(Map(p_att2)&(Const(Bit9)|Const(Bit2)))  > 0}
+RootMapSet{map:"h_x";value:(Map(h_att) &(Const(Bit8)|Const(Bit1)))  > 0}
+RootMapSet{map:"h_y";value:(Map(h_att) &(Const(Bit9)|Const(Bit2)))  > 0}
+RootMapSet{map:"h_z";value:(Map(h_att) &(Const(Bit10)|Const(Bit3))) > 0}
+RootMapSet{map:"h_w";value:(Map(h_att2)&(Const(Bit8)|Const(Bit1)))  > 0}
+RootMapSet{map:"h_s";value:(Map(h_att) &(Const(Bit11)|Const(Bit4))) > 0}
+RootMapSet{map:"h_a";value:(Map(h_att) &(Const(Bit12)|Const(Bit5))) > 0}
+RootMapSet{map:"h_b";value:(Map(h_att) &(Const(Bit13)|Const(Bit6))) > 0}
+RootMapSet{map:"h_c";value:(Map(h_att) &(Const(Bit14)|Const(Bit7))) > 0}
+RootMapSet{map:"h_d";value:(Map(h_att2)&(Const(Bit9)|Const(Bit2)))  > 0}
+RootMapSet{map:"r_x";value:(Map(r_att) &(Const(Bit8)|Const(Bit1)))  > 0}
+RootMapSet{map:"r_y";value:(Map(r_att) &(Const(Bit9)|Const(Bit2)))  > 0}
+RootMapSet{map:"r_z";value:(Map(r_att) &(Const(Bit10)|Const(Bit3))) > 0}
+RootMapSet{map:"r_w";value:(Map(r_att2)&(Const(Bit8)|Const(Bit1)))  > 0}
+RootMapSet{map:"r_s";value:(Map(h_att) &(Const(Bit11)|Const(Bit4))) > 0}
+RootMapSet{map:"r_a";value:(Map(r_att) &(Const(Bit12)|Const(Bit5))) > 0}
+RootMapSet{map:"r_b";value:(Map(r_att) &(Const(Bit13)|Const(Bit6))) > 0}
+RootMapSet{map:"r_c";value:(Map(r_att) &(Const(Bit14)|Const(Bit7))) > 0}
+RootMapSet{map:"r_d";value:(Map(r_att2)&(Const(Bit9)|Const(Bit2)))  > 0}
+
+
+#map directions
+ignorehitpause if(1) && !Map(menu){
+RootMapSet{map:"p_Up"; value:(Map(p_dir)&(Const(Bit5)|Const(Bit1))) > 0}
+RootMapSet{map:"p_Dn"; value:(Map(p_dir)&(Const(Bit6)|Const(Bit2))) > 0}
+RootMapSet{map:"p_Bk"; value:(Map(p_dir)&(Const(Bit7)|Const(Bit3))) > 0}
+RootMapSet{map:"p_Fd"; value:(Map(p_dir)&(Const(Bit8)|Const(Bit4))) > 0}
+RootMapSet{map:"h_Up"; value:(Map(h_dir)&(Const(Bit5)|Const(Bit1))) > 0}
+RootMapSet{map:"h_Dn"; value:(Map(h_dir)&(Const(Bit6)|Const(Bit2))) > 0}
+RootMapSet{map:"h_Bk"; value:(Map(h_dir)&(Const(Bit7)|Const(Bit3))) > 0}
+RootMapSet{map:"h_Fd"; value:(Map(h_dir)&(Const(Bit8)|Const(Bit4))) > 0}
+RootMapSet{map:"r_Up"; value:(Map(h_dir)&Const(Bit1))               > 0}
+RootMapSet{map:"r_Dn"; value:(Map(h_dir)&Const(Bit2))               > 0}
+RootMapSet{map:"r_Bk"; value:(Map(h_dir)&Const(Bit3))               > 0}
+RootMapSet{map:"r_Fd"; value:(Map(h_dir)&Const(Bit4))               > 0}
+}
+
+RootMapSet{map:"Mashing";value:0}
+ignorehitpause if(
+(Map(p_att) &(Const(Bit8)|Const(Bit1)))  > 0||
+(Map(p_att) &(Const(Bit9)|Const(Bit2)))  > 0||
+(Map(p_att) &(Const(Bit10)|Const(Bit3))) > 0||
+(Map(p_att2)&(Const(Bit8)|Const(Bit1)))  > 0||
+(Map(p_att) &(Const(Bit12)|Const(Bit5))) > 0||
+(Map(p_att) &(Const(Bit13)|Const(Bit6))) > 0||
+(Map(p_att) &(Const(Bit14)|Const(Bit7))) > 0||
+ Root,command="up"||
+ Root,command="fwd"||
+ Root,command="down"||
+ Root,command="back"){
+RootMapSet{map:"Mashing";value:1;}
+}
+
+#-----------|DOUBLE BUTTON|-----------
+RootMapSet{map:"xy"; value: ((Map(p_att)&(Const(Bit8)|Const(Bit1)))  > 0 && (Map(p_att)&(Const(Bit9)|Const(Bit2)))  > 0 )}
+RootMapSet{map:"yz"; value: ((Map(p_att)&(Const(Bit9)|Const(Bit2)))  > 0 && (Map(p_att)&(Const(Bit10)|Const(Bit3))) > 0 )}
+RootMapSet{map:"ab"; value: ((Map(p_att)&(Const(Bit12)|Const(Bit5))) > 0 && (Map(p_att)&(Const(Bit13)|Const(Bit6))) > 0 )}
+RootMapSet{map:"bc"; value: ((Map(p_att)&(Const(Bit13)|Const(Bit6))) > 0 && (Map(p_att)&(Const(Bit14)|Const(Bit7))) > 0 )}
+RootMapSet{map:"xa"; value: ((Map(p_att)&(Const(Bit8)|Const(Bit1)))  > 0 && (Map(p_att)&(Const(Bit12)|Const(Bit5))) > 0 )}
+RootMapSet{map:"yb"; value: ((Map(p_att)&(Const(Bit9)|Const(Bit2)))  > 0 && (Map(p_att)&(Const(Bit13)|Const(Bit6))) > 0 )}
+RootMapSet{map:"zc"; value: ((Map(p_att)&(Const(Bit10)|Const(Bit3))) > 0 && (Map(p_att)&(Const(Bit14)|Const(Bit7))) > 0 )}
+RootMapSet{map:"dw"; value: ((Map(p_att2)&(Const(Bit9)|Const(Bit2))) > 0 && (Map(p_att)&(Const(Bit8)|Const(Bit1)))  > 0 )}
+RootMapSet{map:"zw"; value: ((Map(p_att)&(Const(Bit10)|Const(Bit3))) > 0 && (Map(p_att)&(Const(Bit8)|Const(Bit1)))  > 0 )}
+RootMapSet{map:"cd"; value: ((Map(p_att)&(Const(Bit14)|Const(Bit7))) > 0 && (Map(p_att2)&(Const(Bit9)|Const(Bit2))) > 0 )}
+
+#-------|Hundred Hand Slap logic|-----
+
+RootMapSet{map:"HHSP";value: (Map(mashtimer) > 0  && Map(hhsp) > root,Map(MashCt))}
+
+RootMapSet{map:"HHSK";value: (Map(mashtimerk) > 0 && Map(hhsk) > root,Map(MashCt))}
+
+#--------------------------------------
+
+#super Input
+
+if !root,Map(LockInputHy)
+{
+#only store recent completed 720
+if ((floor(Map(i62486248)/Const(Bit5)) = 8 &&
+	floor(Map(i24862486)/Const(Bit5)) < 8 &&
+	floor(Map(i48624862)/Const(Bit5)) < 8 &&
+	floor(Map(i86248624)/Const(Bit5)) < 8) ||
+	(floor(Map(i68426842)/Const(Bit5)) = 8  &&
+	floor(Map(i84268426)/Const(Bit5)) < 8  &&
+	floor(Map(i42684268)/Const(Bit5)) < 8  &&
+	floor(Map(i26842684)/Const(Bit5)) < 8))
+{
+#store any 720
+Mapset{map:"rot2";value:6}
+}
+
+if ((floor(Map(i24862486)/Const(Bit5)) < 8 &&
+	floor(Map(i48624862)/Const(Bit5)) < 8  &&
+	floor(Map(i86248624)/Const(Bit5)) < 8  &&
+	floor(Map(i62486248)/Const(Bit5)) < 8) ||
+	(floor(Map(i26842684)/Const(Bit5)) = 8 &&
+	floor(Map(i68426842)/Const(Bit5)) < 8  &&
+	floor(Map(i84268426)/Const(Bit5)) < 8  &&
+	floor(Map(i42684268)/Const(Bit5)) < 8))
+{
+#store any 720
+Mapset{map:"rot2";value:2}
+}
+
+if ((floor(Map(i48624862)/Const(Bit5)) = 8 &&
+	floor(Map(i86248624)/Const(Bit5)) < 8  &&
+	floor(Map(i62486248)/Const(Bit5)) < 8  &&
+	floor(Map(i24862486)/Const(Bit5)) < 8) ||
+	(floor(Map(i42684268)/Const(Bit5)) = 8 &&
+	floor(Map(i26842684)/Const(Bit5)) < 8  &&
+	floor(Map(i68426842)/Const(Bit5)) < 8  &&
+	floor(Map(i84268426)/Const(Bit5)) < 8))
+{
+#store any 720
+Mapset{map:"rot2";value:4}
+}
+
+if ((floor(Map(i86248624)/Const(Bit5)) = 8  &&
+	floor(Map(i62486248)/Const(Bit5)) < 8  &&
+	floor(Map(i24862486)/Const(Bit5)) < 8  &&
+	floor(Map(i48624862)/Const(Bit5)) < 8) ||
+	(floor(Map(i84268426)/Const(Bit5)) = 8  &&
+	floor(Map(i42684268)/Const(Bit5)) < 8  &&
+	floor(Map(i26842684)/Const(Bit5)) < 8  &&
+	floor(Map(i68426842)/Const(Bit5)) < 8))
+{
+#store any 720
+Mapset{map:"rot2";value:8}
+}
+
+if Map(rot2) =6
+{
+#overwrite this shit
+
+RootMapSet{map:"f720";value: floor(Map(i62486248)/Const(Bit5)) = 8}
+RootMapSet{map:"r720";value: floor(Map(i68426842)/Const(Bit5)) = 8}
+}
+
+if  Map(rot2) =2
+{
+#overwrite this shit
+
+
+RootMapSet{map:"f720";value: floor(Map(i24862486)/Const(Bit5)) = 8}
+RootMapSet{map:"r720";value: floor(Map(i26842684)/Const(Bit5)) = 8}
+}
+
+if  Map(rot2) =4
+{
+#overwrite this shit
+
+
+RootMapSet{map:"f720";value: floor(Map(i48624862)/Const(Bit5)) = 8}
+RootMapSet{map:"r720";value: floor(Map(i42684268)/Const(Bit5)) = 8}
+
+}
+
+if  Map(rot2) =8
+{
+#overwrite this shit
+
+
+RootMapSet{map:"f720";value: floor(Map(i86248624)/Const(Bit5)) = 8}
+RootMapSet{map:"r720";value: floor(Map(i84268426)/Const(Bit5)) = 8}
+}
+
+
+
+
+
+#overwrite this shit
+
+
+RootMapSet{map:"PRTZ";value:  floor(Map(i1632143)/Const(Bit5)) = 7}
+RootMapSet{map:"RPRTZ";value: floor(Map(i3412361)/Const(Bit5)) = 7}
+
+#overwrite this shit
+ if Map(xx6az) > Map(xx4az)
+ {
+  MapSet{map:"xx4az";value:0}
+ }
+  if Map(xx6az) < Map(xx4az) 
+ {
+  MapSet{map:"xx6az";value:0}
+ }
+
+
+RootMapSet{map:"SGS6";value:  floor(Map(xx6az)/Const(Bit5)) = 5}
+RootMapSet{map:"RSGS6";value: floor(Map(xx4az)/Const(Bit5)) = 5}
+
+#overwrite this shit
+ if Map(xx6ay) > Map(xx4ay)
+ {
+  MapSet{map:"xx4ay";value:0}
+ }
+  if Map(xx6ay) < Map(xx4ay) 
+ {
+  MapSet{map:"xx6ay";value:0}
+ }
+
+RootMapSet{map:"SGS4";value:  floor(Map(xx6ay)/Const(Bit5)) = 5}
+RootMapSet{map:"RSGS4";value: floor(Map(xx4ay)/Const(Bit5)) = 5}
+
+#overwrite this shit
+ if Map(r_1319) > Map(r_3137)
+ {
+  MapSet{map:"r_3137";value:0}
+ }
+  if Map(r_1319) < Map(r_3137) 
+ {
+  MapSet{map:"r_1319";value:0}
+ }
+
+RootMapSet{map:"JKF";value:  floor(Map(r_1319)/Const(Bit5)) = 4}
+RootMapSet{map:"RJKF";value: floor(Map(r_3137)/Const(Bit5)) = 4}
+
+
+#overwrite this shit
+ if Map(r_4646) > Map(r_6464)
+ {
+  MapSet{map:"r_6464";value:0}
+ }
+  if Map(r_4646) < Map(r_6464) 
+ {
+  MapSet{map:"r_4646";value:0}
+ }
+
+RootMapSet{map:"FBFB";value: floor(Map(r_6464)/Const(Bit5)) = 4}
+RootMapSet{map:"BFBF";value: floor(Map(r_4646)/Const(Bit5)) = 4}
+
+
+#overwrite this shit
+
+
+RootMapSet{map:"QCFQC";value: floor(Map(i23623)/Const(Bit5)) = 5}
+RootMapSet{map:"QCBQC";value: floor(Map(i21421)/Const(Bit5)) = 5}
+
+
+
+#overwrite this shit
+
+
+
+RootMapSet{map:"QCFx2";value: floor(Map(i236236)/Const(Bit5)) = 6}
+RootMapSet{map:"QCBx2";value: floor(Map(i214214)/Const(Bit5)) = 6}
+
+
+#overwrite this shit
+
+
+
+RootMapSet{map:"HCBF";value: floor(Map(i632146)/Const(Bit5)) = 6}
+RootMapSet{map:"HCFB";value: floor(Map(i412364)/Const(Bit5)) = 6}
+
+#overwrite this shit
+
+
+
+RootMapSet{map:"FHCF";value: floor(Map(i641236)/Const(Bit5)) = 6}
+RootMapSet{map:"BHCB";value: floor(Map(i641236)/Const(Bit5)) = 6}
+
+#overwrite this shit
+
+RootMapSet{map:"QCFHCB";value: floor(Map(i2363214)/Const(Bit5)) = 7}
+RootMapSet{map:"QCBHCF";value: floor(Map(i2141236)/Const(Bit5)) = 7}
+
+#overwrite this shit
+ if Map(i6321463214) > Map(i4123641236)
+ {
+  MapSet{map:"i4123641236";value:0}
+ }
+  if Map(i6321463214) < Map(i4123641236) 
+ {
+  MapSet{map:"i6321463214";value:0}
+ }
+
+
+RootMapSet{map:"HCBx2";value: floor(Map(i6321463214)/Const(Bit5)) = 6}
+RootMapSet{map:"HCFx2";value: floor(Map(i4123641236)/Const(Bit5)) = 56}
+}
+#--------Special inputs
+if !root,map(LockInputSp) 
+{
+RootMapSet{map:"QCF";value: floor(Map(i236)/Const(Bit5)) = 3}
+RootMapSet{map:"QCB";value: floor(Map(i214)/Const(Bit5)) = 3}
+
+#overwrite this shit
+
+
+RootMapSet{map:"DP";value:  floor(Map(i623)/Const(Bit5)) = 3}
+RootMapSet{map:"RDP";value: floor(Map(i421)/Const(Bit5)) = 3}
+
+#overwrite this shit
+
+
+RootMapSet{map:"MiB";value:  floor(Map(i263)/Const(Bit5)) = 3}
+RootMapSet{map:"RMiB";value: floor(Map(i241)/Const(Bit5)) = 3}
+
+
+#overwrite this shit
+
+
+#only store recent completed 360
+if ((floor(Map(i6248)/Const(Bit5)) = 4 &&
+	floor(Map(i2486)/Const(Bit5)) < 4  &&
+	floor(Map(i4862)/Const(Bit5)) < 4  &&
+	floor(Map(i8624)/Const(Bit5)) < 4) ||
+	(floor(Map(i6842)/Const(Bit5)) = 4 &&
+	floor(Map(i8426)/Const(Bit8)) < 4  &&
+	floor(Map(i4268)/Const(Bit8)) < 4  &&
+	floor(Map(i2684)/Const(Bit8)) < 4))
+{
+#store any 360
+Mapset{map:"rot";value:6}
+}
+
+if ((floor(Map(i2486)/Const(Bit5)) = 4 &&
+	floor(Map(i4862)/Const(Bit5)) < 4  &&
+	floor(Map(i8624)/Const(Bit5)) < 4  &&
+	floor(Map(i6248)/Const(Bit5)) < 4) ||
+	floor((Map(i2684)/Const(Bit5)) = 4 &&
+	floor(Map(i6842)/Const(Bit5)) < 4  &&
+	floor(Map(i8426)/Const(Bit5)) < 4  &&
+	floor(Map(i4268)/Const(Bit5)) < 4))
+{
+#store any 360
+Mapset{map:"rot";value:2}
+}
+
+if ((floor(Map(i4862)/Const(Bit5)) = 4  &&
+	floor(Map(i8624)/Const(Bit5)) < 4  &&
+	floor(Map(i6248)/Const(Bit5)) < 4  &&
+	floor(Map(i2486)/Const(Bit5)) < 4) ||
+	(floor(Map(i4268)/Const(Bit5)) = 4 &&
+	floor(Map(i2684)/Const(Bit5)) < 4  &&
+	floor(Map(i6842)/Const(Bit5)) < 4  &&
+	floor(Map(i8426)/Const(Bit5)) < 4))
+{
+#store any 360
+Mapset{map:"rot";value:4}
+}
+
+if ((floor(Map(i8624)/Const(Bit5)) = 4 &&
+	floor(Map(i6248)/Const(Bit5)) < 4  &&
+	floor(Map(i2486)/Const(Bit5)) < 4  &&
+	floor(Map(i4862)/Const(Bit5)) < 4) ||
+	(floor(Map(i8426)/Const(Bit5)) = 4 &&
+	floor(Map(i4268)/Const(Bit5)) < 4  &&
+	floor(Map(i2684)/Const(Bit5)) < 4  &&
+	floor(Map(i6842)/Const(Bit5)) < 4))
+{
+#store any 360
+Mapset{map:"rot";value:8}
+}
+ 
+
+if Map(rot) =6
+{
+
+
+RootMapSet{map:"f360";value: floor(Map(i6248)/Const(Bit5)) = 4}
+RootMapSet{map:"r360";value: floor(Map(i6842)/Const(Bit5)) = 4}
+}
+
+if  Map(rot) =2
+{
+
+
+RootMapSet{map:"f360";value: floor(Map(i2486)/Const(Bit5)) = 4}
+RootMapSet{map:"r360";value: floor(Map(i2684)/Const(Bit5)) = 4}
+}
+
+if  Map(rot) =4
+{
+
+
+RootMapSet{map:"f360";value: floor(Map(i4862)/Const(Bit5)) = 4}
+RootMapSet{map:"r360";value: floor(Map(i4268)/Const(Bit5)) = 4}
+
+}
+
+if  Map(rot) =8
+{
+
+
+RootMapSet{map:"f360";value: floor(Map(i8624)/Const(Bit5)) = 4}
+RootMapSet{map:"r360";value: floor(Map(i8426)/Const(Bit5)) = 4}
+}
+
+#overwrite this shit
+
+
+RootMapSet{map:"TGK";value: floor(Map(i12369)/Const(Bit5)) = 5}
+RootMapSet{map:"RTGK";value: floor(Map(i32147)/Const(Bit5)) = 5}
+
+#overwrite this shit
+
+
+RootMapSet{map:"HCF";value: floor(Map(i426)/Const(Bit5)) = 3}
+RootMapSet{map:"HCB";value: floor(Map(i624)/Const(Bit5)) = 3}
+
+#overwrite this shit
+
+
+RootMapSet{map:"sHCF";value: floor(Map(i41236)/Const(Bit5)) = 5}
+RootMapSet{map:"sHCB";value: floor(Map(i63214)/Const(Bit5)) = 5}
+
+#overwrite this shit
+
+
+RootMapSet{map:"BF";value: floor(Map(i46)/Const(Bit5)) = 2}
+RootMapSet{map:"FB";value: floor(Map(i64)/Const(Bit5)) = 2}
+
+
+
+RootMapSet{map:"TBF";value: floor(Map(t46)/Const(Bit5)) = 2}
+RootMapSet{map:"TFB";value: floor(Map(t64)/Const(Bit5)) = 2}
+
+#overwrite this shit
+
+
+RootMapSet{map:"FBF";value: floor(Map(i646)/Const(Bit5)) = 3}
+RootMapSet{map:"BFB";value: floor(Map(i464)/Const(Bit5)) = 3}
+
+RootMapSet{map:"CDU";value: floor(Map(i28)/Const(Bit5)) = 2}
+RootMapSet{map:"DD"; value: floor(Map(i22)/Const(Bit5)) = 2}
+
+#overwrite this shit
+
+
+RootMapSet{map:"QCD"; value: floor(Map(i632)/Const(Bit5)) = 3}
+RootMapSet{map:"rQCD";value: floor(Map(i412)/Const(Bit5)) = 3}
+
+
+
+
+#overwrite this shit
+
+#-----hold command
+#if root,Map(LFF) && cond(Root,Map(turncheck),0,p2dist X =[0,-15])
+#{
+#  MapSet{map:"l44";value:Map(l66)}
+# MapSet{map:"l66";value:0}
+#}
+#if root,Map(LBB) && cond(Root,Map(turncheck),0,p2dist X =[0,-15])
+#{
+#  MapSet{map:"l66";value:Map(l44)}
+# MapSet{map:"l44";value:0}
+#}
+#------
+
+RootMapSet{map:"LFF";value: floor(Map(l66)/Const(Bit5)) = 2}
+RootMapSet{map:"LBB";value: floor(Map(l44)/Const(Bit5)) = 2}
+}
+
+}
+
+
+
+
+let fwdc = call NoFwd();
+let bc = call NoBack();
+if( $fwdc){
+RootMapSet{map:"FF";value: floor(Map(i66)/Const(Bit5)) = 2}
+}
+if( $bc){
+RootMapSet{map:"BB";value: floor(Map(i44)/Const(Bit5)) = 2}
+}
+
+RootMapSet{map:"longjump"; value: floor(Map(i2)/Const(Bit5)) = 1}
+
+#======================Optional Parameters===================
+ignorehitpause if(Root,Map(CanCancel)>0 && root,hitpausetime=0){
+RootMapAdd{map:"CanCancel";value:-1}
+}
+
+ignorehitpause if(root,hitpausetime>0 && root,numtarget){
+ RootMapSet{map:"CanCancel";value:Root,Map(MoveCancelTime) }
+} 
+
+
+DisplaytoClipboard{text:"h=%d r=%d p=%d, BFBF=%d, r_4646=%d, i2=%d";params:Map(h_dir), Map(r_dir),floor(Map(r_4646)/Const(Bit5)), root, Map(BFBF), floor(Map(i641236)/Const(Bit5)), floor(Map(i2363214)/Const(Bit5))}
+
+
+}
+
+[Statedef 19191900; type: a;movetype:a; physics: n; anim: -2; velset: 0, 0; ctrl: 0;]
+attackdist{value:0}
+
+

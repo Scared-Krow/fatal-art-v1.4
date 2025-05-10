@@ -1,0 +1,204 @@
+;Art by J4RMS31
+;Implementation by Ace's Hi & J4RMS31
+
+[Info]
+name = "--Skyline Encounter--"
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -215
+boundright = 215
+boundhigh = -62
+boundlow = 0
+verticalfollow = 0
+tension = 50
+
+[PlayerInfo]
+p1startx = -70
+p1starty = 0
+p1startz = 0
+p1facing = 1
+
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+leftbound  = -1000
+rightbound =  1000
+topbound  =  0
+botbound  =  0
+
+[Scaling]
+topz     = 0
+botz     = 50
+topscale = 1
+botscale = 1.2
+
+[Bound]
+screenleft = 15
+screenright = 15
+
+[StageInfo]
+zoffset = 207
+autoturn = 1
+resetBG = 0
+
+[shadow]
+Intensity = 100
+color = 0,0,0
+yscale = .2
+fade.range = -400,-100
+
+[Reflection]
+intensity = 0
+
+[Music]
+bgmusic = sound/Skyline.mp3
+bgvolume = 255
+
+[BGdef]
+spr = Skyline.sff
+
+[BG sky]
+type  = normal
+spriteno = 0,10
+start = 0, 0
+delta = .1,.1
+
+[BG stars]
+type  = normal
+spriteno = 0,9
+start = 0, 0
+velocity=-.2,0
+tile=1,0
+delta = .1,.1
+
+[BG Moon]
+type  = normal
+spriteno = 0,8
+start = 0, 0
+delta = .1,.1
+
+[BG Moon Glow]
+type  = normal
+spriteno = 0,16
+start = 0, 0
+delta = .1,.1
+trans = add
+
+[BG Back Clouds]
+type  = normal
+spriteno = 0,15
+start = 0, 0
+velocity=-.37,0
+tile=1,0
+delta = .1,.1
+trans = add1
+
+[BG Middle Clouds]
+type  = normal
+spriteno = 0,14
+start = 0, 0
+velocity=-.37,0
+tile=1,0
+delta = .1,.1
+trans = add1
+
+[BG Front Clouds]
+type  = normal
+spriteno = 0,13
+start = 0, 0
+velocity=-.3,0
+tile=1,0
+delta = .1,.1
+
+[BG BackMount]
+type  = normal
+spriteno = 0,7
+start = 0, 0
+velocity=-.4,0
+tile=1,0
+delta = .25,.25
+
+[BG Mount Fog]
+type  = normal
+spriteno = 0,17
+start = 0, 0
+velocity=-.6,0
+tile=1,0
+delta = .25,.25
+trans = add1
+
+[BG FrontMount]
+type  = normal
+spriteno = 0,6
+start = 0, 0
+velocity=-.5,0
+tile=1,0
+delta = .2,.2
+
+
+[BG Back Build]
+type  = normal
+spriteno = 0,5
+start = 0, 0
+velocity=-.8,0
+tile=1,0
+delta = .2,.2
+
+[BG Front Build]
+type  = normal
+spriteno = 0,4
+start = 0, 0
+velocity=-1,0
+tile=1,0
+delta = .2,.2
+
+[BG Rocks]
+type  = normal
+spriteno = 0,3
+start = 0, 0
+velocity=-8,0
+tile=1,0
+
+[BG Tunnel]
+type  = normal
+spriteno = 0,1
+start = 0, 0
+velocity=-9,0
+tile=1,0
+tilespacing = 4000,0
+
+[BG Tunnel Lights]
+type  = normal
+spriteno = 0,2
+start = 0, 0
+velocity=-9,0
+tile=1,0
+tilespacing = 4000,0
+trans = add
+
+[BG Tunnel Top]
+type  = normal
+spriteno = 0,11
+start = 0, 0
+velocity=-9,0
+tile=1,0
+tilespacing = 4000,0
+
+[BG Tunnel Top Lights]
+type  = normal
+spriteno = 0,12
+start = 0, 0
+velocity=-9,0
+tile=1,0
+tilespacing = 4000,0
+trans = add
+
+[BG Train]
+type  = normal
+spriteno = 0,0
+start = 0, 0
+

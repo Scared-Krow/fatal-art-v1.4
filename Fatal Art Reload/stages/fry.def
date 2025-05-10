@@ -1,0 +1,110 @@
+;Art by J4RMS31
+;Implementation by Ace's Hi
+
+[Info]
+name = "-Fry Cooks LIVE-"
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -152
+boundright = 152
+boundhigh = -62
+boundlow = 0
+verticalfollow = 0
+tension = 50
+
+[PlayerInfo]
+p1startx = -70
+p1starty = 0
+p1startz = 0
+p1facing = 1
+
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+leftbound  = -1000
+rightbound =  1000
+topbound  =  0
+botbound  =  0
+
+[Scaling]
+topz     = 0
+botz     = 50
+topscale = 1
+botscale = 1.2
+
+[Bound]
+screenleft = 15
+screenright = 15
+
+[StageInfo]
+zoffset = 207
+autoturn = 1
+resetBG = 0
+
+[shadow]
+Intensity = 100
+color = 0,0,0
+yscale = .5
+fade.range = -400,-100
+
+[Reflection]
+intensity = 0
+
+[Music]
+bgmusic = sound/fry.mp3
+bgvolume = 255
+
+[BGdef]
+spr = fry.sff
+
+[BG sky]
+type  = normal
+spriteno = 0,0
+start = 0, 0
+
+[BG stuff]
+type  = normal
+spriteno = 0,1
+
+[BG rail]
+type  = normal
+spriteno = 0,3
+
+[BG rail2]
+type  = normal
+spriteno = 0,4
+
+[BG wall]
+type  = normal
+spriteno = 0, 10
+
+[BG ground]
+type  = normal
+spriteno = 0, 6
+
+[BG sign]
+type  = normal
+spriteno = 0, 7
+
+[BG glo]
+type  = normal
+spriteno = 0, 9
+trans=add
+
+[BG letters]
+type  = normal
+spriteno = 0, 8
+
+[BG kitchen]
+type  = normal
+spriteno = 0, 5
+
+[BG lights]
+type  = normal
+spriteno = 0,2
+layerno=1
+start=0,15

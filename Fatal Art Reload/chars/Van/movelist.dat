@@ -1,0 +1,31 @@
+<#49F43A>Universal:</>
+Grab			^LP_+^LK
+Reversal Art		^HP_+^HK
+Guard Rush <#F7F95D>(1/2 Bar)</>		input ^2P or ^2K while in block stun
+EX Moves <#F7F95D>(1 Bar)</>		input ^2P or ^2K during a special
+Combo Breaker <#F7F95D>(2 Bars)</>		L_+O while in a combo
+
+<#2ed8ea>Command Normals & Strings:</>
+
+Sunder				_F ^HP
+Heel Hook				_B ^HK
+Charged Launcher			Hold L, then release
+
+Flash Combination				^HP ^HP
+Chop and Slide				_F ^HP ^HK
+
+<#f0f000>Special Moves:</>
+
+High Hat (EX OK)			[_B] _F ^P
+Low Hat (EX OK)			[_B] _F ^K
+Lethal Fist (EX OK) (AIR OK)                                         		_DSF^P
+_!Killer Crush			^HP after Strong Version
+_!Mortal Impact		^HK after Strong Version
+Kick Twister (EX OK)                                                 		_QCF^K
+Phase Away (EX OK)			_D_D^P
+_! Skywards		_U during Phase Away
+
+<#e32d1b>Hyper Arts:</>
+
+NO HESITATION <#F7F95D>(2 Bars)</>                                                		_QCB_QCB^P
+FATAL TECHNIQUE <#F7F95D>(3 Bars)</>				_QCF_QCF^P

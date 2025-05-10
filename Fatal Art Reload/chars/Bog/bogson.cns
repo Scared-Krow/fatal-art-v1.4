@@ -1,0 +1,1338 @@
+;Bog file :]
+
+;Summon deez nuts
+;----------------------
+[Statedef 2000]
+type = S
+movetype = I
+physics = S
+sprpriority = 2
+anim = 2000
+ctrl = 0
+juggle = 0
+
+[State 0, Helper]
+type = Helper
+trigger1 = animelem = 8
+helpertype = Normal
+name = "Bog's Son"
+ID = 2000
+stateno = 2099
+pos = 60,0
+postype = P1
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = animelem = 10
+value = 999,0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 0
+ctrl = 1
+
+;Unsummon deez nuts
+;----------------------
+[Statedef 2001]
+type = S
+movetype = I
+physics = S
+sprpriority = 2
+anim = 2000
+ctrl = 0
+juggle = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = time = 0
+anim = 30202
+ID = 1999
+removetime = -1
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = animelem = 4
+value = 888,0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 0
+ctrl = 1
+
+;Summon deez nuts in the air
+;----------------------
+[Statedef 2010]
+type = A
+movetype = I
+physics = A
+sprpriority = 2
+anim = 2010
+ctrl = 0
+juggle = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = animelem = 2
+v = 4
+value = floor(Vel Y)
+[State Velocity]
+type = mapset
+trigger1 = animelem = 2
+map = "XSpeed"
+value = floor(Vel X)
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 2
+x = 0
+y = 0
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = animelem = 2
+physics = N
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 10
+x = Map(Xspeed)
+y = var(4)
+
+[State 0, Helper]
+type = Helper
+trigger1 = animelem = 8
+helpertype = Normal
+name = "Bog's Son"
+ID = 2000
+stateno = 2099
+pos = 60, -Pos Y
+postype = P1
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = animelem = 11
+statetype = A
+movetype = I
+physics = A
+
+[State 0, CtrlSet]
+type = CtrlSet
+trigger1 = animelem = 10
+value = 1
+
+;Unsummon deez nuts in the air
+;----------------------
+[Statedef 2011]
+type = A
+movetype = I
+physics = A
+sprpriority = 2
+anim = 2010
+ctrl = 0
+juggle = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = animelem = 2
+v = 4
+value = floor(Vel Y)
+[State Velocity]
+type = mapset
+trigger1 = animelem = 2
+map = "XSpeed"
+value = floor(Vel X)
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 2
+x = 0
+y = 0
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = animelem = 2
+physics = N
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 10
+x = Map(Xspeed)
+y = var(4)
+
+[State 0, Explod]
+type = Explod
+trigger1 = time = 0
+anim = 30202
+ID = 1999
+removetime = -1
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = animelem = 11
+statetype = A
+movetype = I
+physics = A
+
+[State 0, CtrlSet]
+type = CtrlSet
+trigger1 = animelem = 10
+value = 1
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = animelem = 4
+value = 888,0
+
+;Unsummon Puppet Anim
+;----------------------
+[Statedef 2089]
+type = S
+movetype = I
+physics = N
+sprpriority = 1
+anim = 2700
+ctrl = 0
+poweradd = 0
+juggle = 0
+velset = 0,0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = time = 0
+value = SCA
+time = 9999
+
+[State 0, DestroySelf]
+type = DestroySelf
+trigger1 = animtime = 0
+
+;Puppet Death
+;----------------------
+[Statedef 2090]
+type = S
+movetype = I
+physics = N
+sprpriority = 1
+anim = 2702
+ctrl = 0
+poweradd = 0
+juggle = 0
+velset = 0,0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = time = 0
+value = SCA
+time = 9999
+
+[State 0, ParentVarAdd]
+type = ParentVarAdd
+trigger1 = time = 0
+v = 5
+value = -1000
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = 900,8
+volumescale = 150
+
+[State 0, DestroySelf]
+type = DestroySelf
+trigger1 = animtime = 0
+
+;Deez nuts rising
+;----------------------
+[Statedef 2099]
+type = S
+movetype = I
+physics = S
+sprpriority = 1
+anim = 2500
+ctrl = 0
+poweradd = 0
+juggle = 0
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = 0, 6
+
+[State 0, HitOverride]
+type = HitOverride
+trigger1 = 1
+attr = SCA, AA, AP
+slot = 0
+stateno = 2090
+time = -1
+forceair = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = , AT
+time = -1
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = 1
+y = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+trigger1 = root, stateno = 2200 || root, stateno = 2205
+value = 2110
+ctrl = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+trigger1 = root, stateno = 2210 || root, stateno = 2215
+value = 2120
+ctrl = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+trigger1 = root, stateno = 2220 || root, stateno = 2225
+value = 2130
+ctrl = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+trigger1 = root, stateno = 2230 || root, stateno = 2235
+value = 2140
+ctrl = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 2100
+ctrl = 0
+
+;Deez nuts Idle
+;----------------------
+[Statedef 2100]
+type = S
+movetype = I
+physics = S
+sprpriority = 1
+anim = 2600
+ctrl = 0
+poweradd = 0
+juggle = 0
+
+[State 0, Turn]
+type = Turn
+trigger1 = enemy, Pos X - Pos X > 0
+trigger1 = facing != 1
+
+[State 0, Turn]
+type = Turn
+trigger1 = enemy, Pos X - Pos X < 0
+trigger1 = facing != -1
+
+[State 0, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 1
+movecamera = 0,0
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = parent, command != "holdfwd"
+trigger1 = parent, command != "holdback"
+trigger1 = anim != 2600
+value = 2600
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = parent, command = "holdfwd"
+trigger1 = anim != 2601
+value = 2601
+[State 0, VelSet]
+type = VelSet
+trigger1 = parent, command = "holdfwd"
+x = 2.3 * cond(parent, facing = facing, 1, -1)
+y = 0
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = parent, command = "holdback"
+trigger1 = anim != 2601
+value = 2601
+[State 0, VelSet]
+type = VelSet
+trigger1 = parent, command = "holdback"
+x = -3 * cond(parent, facing = facing, 1, -1)
+y = 0
+
+
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = var(20) = 1
+trigger2 = parent, movetype = H
+trigger3 = root, numexplod(2000)
+value = 2090
+ctrl = 0
+
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = root, numexplod(1999)
+value = 2089
+ctrl = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = parent, var(5) <= 0
+v = 20
+value = 1
+
+[State 0, ChangeState]
+type = ChangeState
+triggerall = root, command != "holdy"
+triggerall = root, command != "holda"
+triggerall = root, command != "holdb"
+trigger1 = parent, command = "-x"
+value = 2110
+ctrl = 0
+
+[State 0, ChangeState]
+type = ChangeState
+triggerall = root, command != "holdy"
+triggerall = root, command != "holdx"
+triggerall = root, command != "holdb"
+trigger1 = parent, command = "-a"
+value = 2120
+ctrl = 0
+
+[State 0, ChangeState]
+type = ChangeState
+triggerall = root, command != "holdx"
+triggerall = root, command != "holda"
+triggerall = root, command != "holdb"
+trigger1 = parent, command = "-y"
+value = 2130
+ctrl = 0
+
+[State 0, ChangeState]
+type = ChangeState
+triggerall = root, command != "holdy"
+triggerall = root, command != "holda"
+triggerall = root, command != "holdx"
+trigger1 = parent, command = "-b"
+value = 2140
+ctrl = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = parent, command = "ax"
+trigger2 = parent, command = "d"
+trigger3 = parent, stateno = 4001
+trigger4 = parent, stateno = 9876
+value = 2089
+ctrl = 0
+
+;Deez nuts -LP-
+;----------------------
+[Statedef 2110]
+type = S
+movetype = A
+physics = S
+sprpriority = 1
+anim = 2400
+ctrl = 0
+poweradd = 0
+juggle = 0
+velset = 0, 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = parent, command = "ax"
+trigger2 = parent, command = "d"
+trigger3 = parent, stateno = 4001
+trigger4 = parent, stateno = 9876
+value = 2089
+ctrl = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = parent, var(5) <= 0
+v = 20
+value = 1
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = parent, movetype = H
+value = 2090
+ctrl = 0
+
+[State 0, ParentVarAdd]
+type = ParentVarAdd
+trigger1 = time = 0
+v = 5
+value = -200
+
+[State 0, HitOverride]
+type = HitOverride
+trigger1 = 1
+attr = SCA, AA, AP
+slot = 0
+stateno = 2090
+time = -1
+forceair = 0
+
+[State -3, Voice]
+type = PlaySnd
+trigger1 = animelem = 2
+value = 6666, 11 + random%4
+
+
+[State 210, 2]
+type = HitDef
+trigger1 = time = 0
+attr = S, NA
+hitflag = MAFD
+getpower = 15
+animtype  = Medium
+damage    = ceil(ifElse(root,fvar(11) * 24 < 3, 3, root,fvar(11) * 24)), 2
+guardflag = MA
+guard.pausetime = 18,12
+pausetime = 16,16
+sparkno = 5
+sparkxy = -10,-65
+hitsound   = 5,2
+guardsound = 6,2
+ground.type = High
+ground.slidetime = 12
+guard.slidetime = 4
+ground.hittime  = 13
+ground.velocity = -4
+guard.hittime = 6
+guard.velocity = -6
+air.velocity = -2.5,-4
+priority = 4, Hit  
+envshake.time = 6
+envshake.freq = 10
+envshake.ampl = 3
+ground.cornerpush.veloff = 0
+p2facing =1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 2100
+ctrl = 0
+
+;Deez nuts -LK-
+;----------------------
+[Statedef 2120]
+type = S
+movetype = A
+physics = S
+sprpriority = 1
+anim = 2200
+ctrl = 0
+poweradd = 0
+juggle = 0
+velset = 0, 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = parent, command = "ax"
+trigger2 = parent, command = "d"
+trigger3 = parent, stateno = 4001
+trigger4 = parent, stateno = 9876
+value = 2089
+ctrl = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = parent, var(5) <= 0
+v = 20
+value = 1
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = parent, movetype = H
+value = 2090
+ctrl = 0
+
+[State 0, ParentVarAdd]
+type = ParentVarAdd
+trigger1 = time = 0
+v = 5
+value = -150
+
+[State 0, HitOverride]
+type = HitOverride
+trigger1 = 1
+attr = SCA, AA, AP
+slot = 0
+stateno = 2090
+time = -1
+forceair = 0
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 6
+x = 5
+
+[State -3, Voice]
+type = PlaySnd
+trigger1 = animelem = 2
+value = 6666, 11 + random%4
+
+
+[State 200, 1]
+type = HitDef
+trigger1 = time = 0
+attr = S, NA   
+hitflag = MAFD
+getpower = 10
+animtype  = Up
+damage    = ceil(ifElse(root,fvar(11) * 28 < 4, 4, root,fvar(11) * 28)), 4
+priority  = 5
+guardflag = MA
+guard.pausetime = 13,17
+pausetime = 12,12
+guard.pausetime = 14,5
+sparkxy = 0,-110
+sparkno = 6
+hitsound   = 5,2
+guardsound = 6,2
+ground.type = Low
+ground.slidetime = 15
+ground.hittime  = 20
+ground.velocity = 2,-11.3
+guard.velocity = 3
+air.velocity = 1,-8
+airguard.velocity = 2,-4.5
+p2facing = 1
+fall = 1
+fall.recovertime = 40
+yaccel = .4
+fall.recover = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 2100
+ctrl = 0
+
+;Deez nuts -SP-
+;----------------------
+[Statedef 2130]
+type = A
+movetype = A
+physics = N
+sprpriority = 1
+anim = 2100
+ctrl = 0
+poweradd = 0
+juggle = 0
+velset = 0, 0
+sprpriority = -3
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = parent, command = "ax"
+trigger2 = parent, command = "d"
+trigger3 = parent, stateno = 4001
+trigger4 = parent, stateno = 9876
+value = 2089
+ctrl = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = parent, var(5) <= 0
+v = 20
+value = 1
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = parent, movetype = H
+value = 2090
+ctrl = 0
+
+[State 0, HitOverride]
+type = HitOverride
+trigger1 = 1
+attr = SCA, AA, AP
+slot = 0
+stateno = 2090
+time = -1
+forceair = 0
+
+[State 0, ParentVarAdd]
+type = ParentVarAdd
+trigger1 = time = 0
+v = 5
+value = -400
+
+[State -3, Voice]
+type = PlaySnd
+trigger1 = animelem = 2
+value = 6666, 11 + random%4
+
+[State 400, 2]
+type = HitDef
+trigger1 = time%9 = 0
+trigger1 = animelemtime(19) < 0
+attr = CS, NA
+getpower = 10
+damage    = ceil(ifElse(root,fvar(11) * 6 < 1, 1, root,fvar(11) * 6)), 1
+priority  = 2
+animtype  = Light
+hitflag = MAF
+guardflag = MA
+pausetime = 10,10
+guard.pausetime = 9,9
+sparkno = 0
+sparkxy = -10,-42
+hitsound   = 5,0
+guardsound = 6,0
+ground.type = Low
+ground.slidetime = 4
+guard.slidetime = 11
+guard.velocity = -6
+ground.hittime  = 15
+guard.hittime  = 7
+ground.velocity = -5
+air.velocity = -2.5,-2
+p2facing =1
+
+[State 210, 2]
+type = HitDef
+trigger1 = animelem = 19
+attr = S, NA
+hitflag = MAFD
+getpower = 15
+animtype  = Medium
+damage    = ceil(ifElse(root,fvar(11) * 36 < 4, 4, root,fvar(11) * 36)), 4
+guardflag = MA
+guard.pausetime = 18,5
+pausetime = 16,16
+sparkno = 5
+sparkxy = -10,-65
+hitsound   = 5,2
+guardsound = 6,2
+ground.type = High
+ground.slidetime = 12
+guard.slidetime = 20
+ground.hittime  = 24
+ground.velocity = -1,24
+guard.hittime = 20
+guard.velocity = -6
+air.velocity = -1,24
+fall = 1
+fall.yvelocity = -8
+air.fall = 1
+priority = 4, Hit  
+envshake.time = 6
+envshake.freq = 10
+envshake.ampl = 3
+p2facing =1
+p2stateno = 43211
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = animelem = 12
+x = 40
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 13
+x = 2
+y = -4
+[State 0, VelAdd]
+type = VelAdd
+trigger1 = animelemtime(13) > 0
+trigger1 = animelemtime(23) < 0
+y = 0.2
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 23
+y = 0
+[State 0, PosSet]
+type = PosSet
+trigger1 = animelem = 23
+y = 0
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 21
+x = 0.4
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 23
+x = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 2100
+ctrl = 0
+
+;Deez nuts -SK-
+;----------------------
+[Statedef 2140]
+type = S
+movetype = A
+physics = N
+sprpriority = 1
+anim = 2300
+ctrl = 0
+poweradd = 0
+juggle = 0
+velset = 0, 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = parent, command = "ax"
+trigger2 = parent, command = "d"
+trigger3 = parent, stateno = 4001
+trigger4 = parent, stateno = 9876
+value = 2089
+ctrl = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = parent, var(5) <= 0
+v = 20
+value = 1
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = parent, movetype = H
+value = 2090
+ctrl = 0
+
+[State 0, HitOverride]
+type = HitOverride
+trigger1 = 1
+attr = SCA, AA, AP
+slot = 0
+stateno = 2090
+time = -1
+forceair = 0
+
+[State 0, ParentVarAdd]
+type = ParentVarAdd
+trigger1 = time = 0
+v = 5
+value = -300
+
+[State -3, Voice]
+type = PlaySnd
+trigger1 = animelem = 2
+value = 6666, 11 + random%4
+
+[State 200, 1]
+type = HitDef
+trigger1 = time = 0
+attr = S, NA                     ;Attribute: Standing, Normal Attack
+getpower = 10
+hitflag = MAFD
+damage    = ceil(ifElse(root,fvar(11) * 28 < 4, 4, root,fvar(11) * 28)), 4
+animtype = Light                 ;Animation type: Light, Medium, Heavy, Back (def: Light)
+guardflag = MA                   ;Flags on how move is to be guarded against
+hitflag = MAFD                    ;Flags of conditions that move can hit
+priority = 2                ;Attack priority: 0 (least) to 7 (most), 4 default
+;Hit/Miss/Dodge type (Def: Hit)
+guard.pausetime = 13,5
+pausetime = 11, 11                 ;Time attacker pauses, time opponent shakes
+sparkno = 4                      ;Spark anim no (Def: set above)
+sparkxy = -10, -83               ;X-offset for the "hit spark" rel. to p2,
+;Y-offset for the spark rel. to p1
+hitsound = 5, 0                  ;Sound to play on hit
+guardsound = 6, 0                ;Sound to play on guard
+ground.type = High               ;Type: High, Low, Trip (def: Normal)
+ground.slidetime = 5             ;Time that the opponent slides back
+guard.slidetime = 14
+ground.hittime  = 15             ;Time opponent is in hit state
+ground.velocity = 3,-6.5            ;Velocity at which opponent is pushed
+guard.velocity = -2
+airguard.velocity = -1.9,-.8     ;Guard velocity in air (def: (air.xvel*1.5, air.yvel/2))
+air.type = High                  ;Type: High, Low, Trip (def: same as ground.type)
+air.velocity = 3,-6.5           ;X-velocity at which opponent is pushed,
+;Y-velocity at which opponent is pushed
+air.hittime = 15                 ;Time before opponent regains control in air
+p2facing = 1
+air.cornerpush.veloff = -6
+ground.cornerpush.veloff = 0
+fall = 1
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = animelem = 6
+trigger2 = animelem = 7
+trigger3 = animelem = 8
+x = 80
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 2100
+ctrl = 0
+
+;Deez nuts -SK- Followup
+;----------------------
+[Statedef 2141]
+type = S
+movetype = A
+physics = N
+sprpriority = 1
+anim = 2301
+ctrl = 0
+poweradd = 0
+juggle = 0
+velset = 0, 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = parent, movetype = H
+value = 2090
+ctrl = 0
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = time = 0
+x = enemy, Pos X - 20 * facing
+
+[State 200, 1]
+type = HitDef
+trigger1 = time = 0
+attr = S, NA   
+hitflag = MAFD
+getpower = 10
+animtype  = Up
+damage    = ceil(ifElse(root,fvar(11) * 45 < 5, 5, root,fvar(11) * 45)), 6
+priority  = 5
+guardflag = MA
+guard.pausetime = 13,17
+pausetime = 12,12
+guard.pausetime = 14,14
+sparkxy = 0,-110
+sparkno = 6
+hitsound   = 5,2
+guardsound = 6,2
+ground.type = Low
+ground.slidetime = 15
+ground.hittime  = 20
+ground.velocity = 2,-8
+guard.velocity = 3
+air.velocity = 2,-10.3
+airguard.velocity = 2,-4.5
+p2facing = 1
+fall = 1
+fall.recovertime = 40
+yaccel = .4
+fall.recover = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 2100
+ctrl = 0
+
+;Move summon 22A
+;----------------------
+[Statedef 2200]
+type = S
+movetype = I
+physics = S
+sprpriority = 2
+anim = 2000
+ctrl = 0
+poweradd = 20
+juggle = 0
+
+[State 0, Helper]
+type = Helper
+trigger1 = animelem = 8
+helpertype = Normal
+name = "Bog's Son"
+ID = 2000
+stateno = 2099
+pos = 60,0
+postype = P1
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 0
+ctrl = 1
+
+;Move summon 22B
+;----------------------
+[Statedef 2210]
+type = S
+movetype = I
+physics = S
+sprpriority = 2
+anim = 2000
+ctrl = 0
+poweradd = 20
+juggle = 0
+
+[State 0, Helper]
+type = Helper
+trigger1 = animelem = 8
+helpertype = Normal
+name = "Bog's Son"
+ID = 2000
+stateno = 2099
+pos = 60,0
+postype = P1
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 0
+ctrl = 1
+
+;Move summon 22C
+;----------------------
+[Statedef 2220]
+type = S
+movetype = I
+physics = S
+sprpriority = 2
+anim = 2000
+ctrl = 0
+poweradd = 20
+juggle = 0
+
+[State 0, Helper]
+type = Helper
+trigger1 = animelem = 8
+helpertype = Normal
+name = "Bog's Son"
+ID = 2000
+stateno = 2099
+pos = 60,0
+postype = P1
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 0
+ctrl = 1
+
+;Move summon 22D
+;----------------------
+[Statedef 2230]
+type = S
+movetype = I
+physics = S
+sprpriority = 2
+anim = 2000
+ctrl = 0
+poweradd = 20
+juggle = 0
+
+[State 0, Helper]
+type = Helper
+trigger1 = animelem = 8
+helpertype = Normal
+name = "Bog's Son"
+ID = 2000
+stateno = 2099
+pos = 60,0
+postype = P1
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 0
+ctrl = 1
+
+;Move summon 22O
+;----------------------
+[Statedef 2240]
+type = S
+movetype = I
+physics = S
+sprpriority = 2
+anim = 2000
+ctrl = 0
+poweradd = 20
+juggle = 0
+
+[State 0, Helper]
+type = Helper
+trigger1 = animelem = 8
+helpertype = Normal
+name = "Bog's Son"
+ID = 2000
+stateno = 2089
+pos = 60,0
+postype = P1
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 0
+ctrl = 1
+
+;Move Summon 22A
+;----------------------
+[Statedef 2205]
+type = A
+movetype = I
+physics = A
+sprpriority = 2
+anim = 2010
+ctrl = 0
+juggle = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = animelem = 2
+v = 4
+value = floor(Vel Y)
+[State Velocity]
+type = mapset
+trigger1 = animelem = 2
+map = "XSpeed"
+value = floor(Vel X)
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 2
+x = 0
+y = 0
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = animelem = 2
+physics = N
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 10
+x = Map(Xspeed)
+y = var(4)
+
+[State 0, Helper]
+type = Helper
+trigger1 = animelem = 7
+helpertype = Normal
+name = "Bog's Son"
+ID = 2000
+stateno = 2099
+pos = 60, -Pos Y
+postype = P1
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = animelem = 11
+statetype = A
+movetype = I
+physics = A
+
+[State 0, CtrlSet]
+type = CtrlSet
+trigger1 = animelem = 10
+value = 1
+
+;Move Summon 22B
+;----------------------
+[Statedef 2215]
+type = A
+movetype = I
+physics = A
+sprpriority = 2
+anim = 2010
+ctrl = 0
+juggle = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = animelem = 2
+v = 4
+value = floor(Vel Y)
+[State Velocity]
+type = mapset
+trigger1 = animelem = 2
+map = "XSpeed"
+value = floor(Vel X)
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 2
+x = 0
+y = 0
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = animelem = 2
+physics = N
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 10
+x = Map(Xspeed)
+y = var(4)
+
+[State 0, Helper]
+type = Helper
+trigger1 = animelem = 7
+helpertype = Normal
+name = "Bog's Son"
+ID = 2000
+stateno = 2099
+pos = 60, -Pos Y
+postype = P1
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = animelem = 11
+statetype = A
+movetype = I
+physics = A
+
+[State 0, CtrlSet]
+type = CtrlSet
+trigger1 = animelem = 10
+value = 1
+
+;Move Summon 22C
+;----------------------
+[Statedef 2225]
+type = A
+movetype = I
+physics = A
+sprpriority = 2
+anim = 2010
+ctrl = 0
+juggle = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = animelem = 2
+v = 4
+value = floor(Vel Y)
+[State Velocity]
+type = mapset
+trigger1 = animelem = 2
+map = "XSpeed"
+value = floor(Vel X)
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 2
+x = 0
+y = 0
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = animelem = 2
+physics = N
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 10
+x = Map(Xspeed)
+y = var(4)
+
+[State 0, Helper]
+type = Helper
+trigger1 = animelem =7
+helpertype = Normal
+name = "Bog's Son"
+ID = 2000
+stateno = 2099
+pos = 60, -Pos Y
+postype = P1
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = animelem = 11
+statetype = A
+movetype = I
+physics = A
+
+[State 0, CtrlSet]
+type = CtrlSet
+trigger1 = animelem = 10
+value = 1
+
+;Move Summon 22D
+;----------------------
+[Statedef 2235]
+type = A
+movetype = I
+physics = A
+sprpriority = 2
+anim = 2010
+ctrl = 0
+juggle = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = animelem = 2
+v = 4
+value = floor(Vel Y)
+[State Velocity]
+type = mapset
+trigger1 = animelem = 2
+map = "XSpeed"
+value = floor(Vel X)
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 2
+x = 0
+y = 0
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = animelem = 2
+physics = N
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 10
+x = Map(Xspeed)
+y = var(4)
+
+[State 0, Helper]
+type = Helper
+trigger1 = animelem = 7
+helpertype = Normal
+name = "Bog's Son"
+ID = 2000
+stateno = 2099
+pos = 60, -Pos Y
+postype = P1
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = animelem = 11
+statetype = A
+movetype = I
+physics = A
+
+[State 0, CtrlSet]
+type = CtrlSet
+trigger1 = animelem = 10
+value = 1

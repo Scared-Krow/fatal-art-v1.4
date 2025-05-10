@@ -1,0 +1,247 @@
+#===============================================================================
+# This is a simple example of the use of dialogue sctrl introduced in Ikemen GO 0.96, updated to 0.98.2
+# done by Orochi_Kyo. The idea behind this file is to show you how to use this new
+# powerful tool to call helpers and explods, so you can create advanced dialogue
+# scenarios. Sorry for CNS users but I made it in ZSS. Still youll be able to recognize
+# a lot of triggers and sctrls from Mugen, the only difference is the scope.
+# The code is free to use but if you want to credit me if you use it on your proyect,
+# I'll appreciate it.
+# For more info and explanations please visit my site
+# https://costaricaonfoot.blog/2022/07/12/dialogue-system-for-ikemen-go/
+#===============================================================================
+
+[Statedef -4]
+#;-------Added by Orochi Kyo
+#;setting the map to detect active player before the dialogue becomes active
+if !indialogue {
+mapset{map:"isActivePlayer";value:1} #;change this between 0 and 1 according to which player initiates the dialogue
+}
+
+
+#===============================================================================
+# Dialogue for dual window 
+# Copy this block and change the name and the enemynear,name conditionals to activate
+# the dialogue between two chars
+#===============================================================================
+if teamside = 1 && stateno = [190,194] && name = "Akira" && enemynear,name = "Jojo" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>Ah good to see you Jojo. I knew we would cross paths again eventually. <wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set>Cut the shit Akira, you know what I came for. <wait=30>";
+text3 : "<p1><map=self,isActivePlayer,1,set>Again? There is no time for this! There is a great menace coming and it needs to be stopped! Maybe if we could work together for once we could...";
+text4 : "<p2><map=self,isActivePlayer,0,set>Dude. Do you always got to have a stick up your ass?<wait=45>";
+text5 : "<p1><map=self,isActivePlayer,1,set>Hmmph, suit yourself...<wait=60>";
+	}
+}
+
+if teamside = 1 && stateno = [190,194] && name = "Jojo" && enemynear,name = "Akira" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>That kick was some weak shit man. I know you can do better than that. <wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set>Please Jojo. I'm not here to fight you. The fantasy vault is under seige and... <wait=45>";
+text3 : "<p1><map=self,isActivePlayer,1,set>And you keep on ducking and not throwing hands. Look buddy, if you're afraid to fight me that's fine, just don't make lame ass excuses. <wait=45>";
+text4 : "<p2><map=self,isActivePlayer,0,set>Do you honestly think that..hmmph...fine...if this makes you cooperate then i'll entertain you. <wait=45>";
+	}
+}
+
+if teamside = 1 && stateno = [190,194] && name = "Aryr" && enemynear,name = "Zerker" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>What the hell, I'm punching with all my might and he's still not budging, just what the hell are you made out of? <wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set>LOSER’S PUNCHES WEAK! WEAKLINGS DO NOT DESERVE PRECIOUS SECRETS BELONGING TO ZERKER! <wait=45>";
+text3 : "<p1><map=self,isActivePlayer,1,set>Maybe a few bombs will change your mind?";
+text4 : "<p2><map=self,isActivePlayer,0,set>FIREWORKS FILL ZERKER WITH HAPPINESS!! GIMMIE GIMMIE!!!<wait=45>";
+text5 : "<p1><map=self,isActivePlayer,1,set>I think some of those wires might have scrambled his brain...<wait=60>";
+	}
+}
+
+if teamside = 1 && stateno = [190,194] && name = "Zerker" && enemynear,name = "Aryr" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>TELEVISION!! <wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set>Wow you are built like a brick house. Although, you're definitely not the brainy type are you? <wait=45>";
+text3 : "<p1><map=self,isActivePlayer,1,set>ZERKER'S BRAIN IS MASSIVE, ZERKER CAN CREATE A BEAUTIFUL CANVAS OF BLOOD!! AND COMPOSE A SYMPHONY OF YOUR SCREEEAMS!! <wait=45>";
+text4 : "<p2><map=self,isActivePlayer,0,set>That is oddly poetic coming from you. <wait=45>";
+text5 : "<p1><map=self,isActivePlayer,1,set>NOW STEP UP TO ZEKER AND TEST YOUR MIGHT!!!";
+text6 : "<p2><map=self,isActivePlayer,0,set>Alright then...<wait=45>";
+	}
+}
+
+if teamside = 1 && stateno = [190,194] && name = "SPAR" && enemynear,name = "YUPIA" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>So I finally found you Yupia! I'll crush you!<wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set>Ah, another defect seems to have escaped...<wait=45>";
+text3 : "<p1><map=self,isActivePlayer,1,set>I'M NOT JUST SOME DEFECT! I'LL PROVE IT TO YOU!<wait=45>";
+text4 : "<p2><map=self,isActivePlayer,0,set>just another defect...<wait=45>";
+	}
+}
+
+if teamside = 1 && stateno = [190,194] && name = "YUPIA" && enemynear,name = "SPAR" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>This island is such a waste of time...<wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set>YUUPIAAA! I’M HERE TO DESTROY YOUR STUPID ASS!<wait=45>";
+text3 : "<p1><map=self,isActivePlayer,1,set>None of the fighters here are exciting to destroy, not to mention Yuri’s small payments of rice...<wait=45>";
+text4 : "<p2><map=self,isActivePlayer,0,set>HEY! I'M TALKING TO YOU! ARE YOU IGNORING ME!<wait=45>";
+text5 : "<p1><map=self,isActivePlayer,1,set>I would just kill her but that crazy bitch knows everything about this place...<wait=45>";
+text6 : "<p2><map=self,isActivePlayer,0,set> THAT'S IT! I'M DESTROYING YOU!! RIGHT HERE!! RIGHT NOW!!<wait=45>";
+text7 : "<p1><map=self,isActivePlayer,1,set>hmm?<wait=45>";
+	}
+}
+
+if teamside = 1 && stateno = [190,194] && name = "Bog (X)" && enemynear,name = "Vile" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>Interesting...you have a gift...similar to mine. <wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set>I have been waiting a long time to finally meet you Bog. <wait=45>";
+text3 : "<p1><map=self,isActivePlayer,1,set>A dream? A deathwish?";
+text4 : "<p2><map=self,isActivePlayer,0,set>Think of this more as my form of a greeting, now let me see your strength!<wait=45>";
+text5 : "<p1><map=self,isActivePlayer,1,set>Green copycat... get out of my way before I feast on your head!<wait=60>";
+	}
+}
+
+if teamside = 1 && stateno = [190,194] && name = "Vile" && enemynear,name = "Bog (X)" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>I have finally found you, Bog! <wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set>Hmmmm... I wonder what your acid will taste like. <wait=45>";
+text3 : "<p1><map=self,isActivePlayer,1,set>Hahaahaaa... a deadly taste I can assure you. Now let us speak on what we shall do with the Fantasy Vault. <wait=45>";
+text4 : "<p2><map=self,isActivePlayer,0,set>You think you're hot shit bossing me around...? I WILL TEAR YOU LIMB FROM LIMB!! <wait=45>";
+text5 : "<p1><map=self,isActivePlayer,1,set>Excellent! Show me your power! <wait=60>";
+	}
+}
+
+if teamside = 1 && stateno = [190,194] && name = "Bog (ACB)" && enemynear,name = "Bog (X)" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>You have returned? <wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set>The siren ring. You have used it. I am here now. <wait=45>";
+text3 : "<p1><map=self,isActivePlayer,1,set>There was no call. You have been following your own desires.<wait=45>";
+text4 : "<p2><map=self,isActivePlayer,0,set>A pathetic trick! I will eat your face for this! <wait=45>";
+text5 : "<p1><map=self,isActivePlayer,1,set>Hmmmm.... hehehehehe... you'll understand soon enough. <wait=60>";
+	}
+}
+
+if teamside = 1 && stateno = [190,194] && name = "Bog (X)" && enemynear,name = "Bog (ACB)" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>What the hell? More copycats? <wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set>Hehe... I want to eat them all... i'm so hungry... <wait=45>";
+text3 : "<p1><map=self,isActivePlayer,1,set>I came here to feast on succulent flesh... Not end up with a mouth full of acid. You're simply a cheap knockoff.";
+text4 : "<p2><map=self,isActivePlayer,0,set>whos really the copy here? <wait=45>";
+text5 : "<p1><map=self,isActivePlayer,1,set>YOU DARE CHALLENGE MY AUTHORITY?! ILL RIP YOU TO PIECES!! <wait=45>";
+text4 : "<p2><map=self,isActivePlayer,0,set>heheheeheehee... come with me, we are needed elsewhere. <wait=45>";
+text5 : "<p1><map=self,isActivePlayer,1,set>You're finished! ILL SHOW YOU WHO'S THE ORIGINAL! <wait=60>";
+	}
+}
+
+if teamside = 1 && stateno = [190,194] && name = "Fry" && enemynear,name = "Yoyo" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>Hey punk! Where'd you get that toy from? It's pretty sick. <wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set> I was gonna ask the same thing about your pan. Not as cool as my yoyo but I could really go for a bowl of rice right now. <wait=30>";
+text3 : "<p1><map=self,isActivePlayer,1,set>How about a deal, if you win you get my pan, and if I win that yoyo is mine!<wait=30>";
+text4 : "<p2><map=self,isActivePlayer,0,set>Hey I'm down. You'd better go all out though, or else you'll regret calling this thing a toy! <wait=45>";
+text5 : "<p1><map=self,isActivePlayer,1,set>Then let's see what you got!<wait=60>";
+	}
+}
+
+if teamside = 1 && stateno = [190,194] && name = "Yoyo" && enemynear,name = "Fry" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>Uh hey man, why are you walking around with a frying pan? <wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set>*sigh* people keep asking me that. can't you just assume i’m some cook or something? <wait=45>";
+text3 : "<p1><map=self,isActivePlayer,1,set>Well...are you? <wait=45>";
+text4 : "<p2><map=self,isActivePlayer,0,set>sometimes. <wait=45>";
+text5 : "<p1><map=self,isActivePlayer,1,set>wait... you're not that frycook guy i've been seeing on the posters are you? <wait=45>";
+text6 : "<p2><map=self,isActivePlayer,0,set>how about i show you kid! <wait=45>";
+	}
+}
+
+if teamside = 1 && stateno = [190,194] && name = "Rebirth Van" && enemynear,name = "Null" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>what an interesting robot. what is something like that doing out here? <wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set>anomaly detected: state your name immediately.<wait=30>";
+text3 : "<p1><map=self,isActivePlayer,1,set>my name is van. i am from the future in order to change the fate of those who reside in this universe.<wait=45>";
+text4 : "<p2><map=self,isActivePlayer,0,set>VAN DATA COMPLETE: YOU MUST BE DESTROYED. COMBAT OPTIMIZATION NEARLY COMPLETE. <wait=45>";
+text5 : "<p1><map=self,isActivePlayer,1,set>The Fantasy Vault always attracted people with a strong fighting spirit. Perhaps the same goes for you. <wait=45>";
+text6 : "<p2><map=self,isActivePlayer,0,set>SCANNING FOR 'FIGHTING SPIRIT' ... ... ... 0 FIGHTING SPIRITS DETECTED. MUST EXTRACT FROM TARGET. <wait=45>";
+text7 : "<p1><map=self,isActivePlayer,1,set>heh... figures. <wait=45>";
+	}
+}
+
+if teamside = 1 && stateno = [190,194] && name = "Null" && enemynear,name = "Rebirth Van" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>NO SUFFICIENT FIGHTERS FOR DATA COLLECTION. FANTASY VAULT ANALYSIS: FULL OF INCOMPETENCE. <wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set>incompetence? i don't think you've found the right people. <wait=45>";
+text3 : "<p1><map=self,isActivePlayer,1,set>ANOMALY DETECTED: STATE YOUR BUSINESS. <wait=45>";
+text4 : "<p2><map=self,isActivePlayer,0,set>No business with you if you care so much. now if you don't mind, could you kindly move out of the way. <wait=45>";
+text5 : "<p1><map=self,isActivePlayer,1,set>PROCESSING... ... ... TARGET THREATENING. PREPARE FOR COMBAT PROTOCAL. <wait=45>";
+	}
+}
+
+if teamside = 1 && stateno = [190,194] && name = "Yuri" && enemynear,name = "Van" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>Van! Your days end here! <wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set>What the hell!<wait=30>";
+text3 : "<p1><map=self,isActivePlayer,1,set>Hahaaa sorry man I couldn’t help mocking you just a little. could never understand you vengeful martial art types.<wait=45>";
+text4 : "<p2><map=self,isActivePlayer,0,set>You're one to talk, I'd be surprised if anyone can understand a psycho like you. <wait=45>";
+text5 : "<p1><map=self,isActivePlayer,1,set>Honey I'm just doing my job here. you have all this lovely rice sitting around, so I thought you wouldn’t mind me taking it. <wait=45>";
+text6 : "<p2><map=self,isActivePlayer,0,set>Well you thought wrong. So how about you head off this island before I have to do something we'll both regret. <wait=45>";
+text7 : "<p1><map=self,isActivePlayer,1,set>Well looks like Vanny needs to learn how to talk to a lady. Maybe a few extra holes will do the trick!<wait=45>";
+	}
+}
+
+if teamside = 1 && stateno = [190,194] && name = "Van" && enemynear,name = "Yuri" { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><map=self,isActivePlayer,1,set>Yuri! Your days end here! <wait=45>";
+text2 : "<p2><map=self,isActivePlayer,0,set>HAHA! oh look who it is, my favorite little karate boy! <wait=45>";
+text3 : "<p1><map=self,isActivePlayer,1,set>Sorry, not here to chat. I'm here to put an end to you and your pathetic goons. <wait=45>";
+text4 : "<p2><map=self,isActivePlayer,0,set>Awww but we were having so much fun! Hey, I'll even give you a little piece of land when we're done putting your friends 6 feet under! <wait=45>";
+text5 : "<p1><map=self,isActivePlayer,1,set>You bastard... <wait=45>";
+text6 : "<p2><map=self,isActivePlayer,0,set>HAHA AW MAN people like you are a RIOT. Little hot heads that are quick to anger. No wonder your little lady friend got an extra hole in her head! <wait=45>";
+text7 : "<p1><map=self,isActivePlayer,1,set>I'LL FUCKING KILL YOU!<wait=45>";
+	}
+}
+
+
+#===============================================================================
+# End of block for dual window
+#===============================================================================
+
+#===============================================================================
+# Dialogue for single window
+# Copy this block and change the name and the enemynear,name conditionals to activate
+# the dialogue between two chars
+#===============================================================================
+
+if teamside = 1 && stateno = [191,195] && name = "Kung Fu Man" && enemynear,name = "Kung Fu Man" && animtime = 0 && map(singleWindow) { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><p1name=self><map=self,isActivePlayer,1,set>My name is Kung Fu Man!  Who are you?<wait=45> <wait=45>";
+text2 : "<p1><p2name=enemy(0)><map=self,isActivePlayer,0,set>I am <displayname=enemy(0)>.<wait=30>";
+text3 : "<p1><p1name=self><map=self,isActivePlayer,1,set>You dare to stand in my way, you clearly dont know who I am.<wait=30>";
+text4 : "<p1><p1name=enemy(0)><map=self,isActivePlayer,0,set>If you were aware of who I am, you'll be running away.<wait=45>";
+text5 : "<p1><p1name=self><map=self,isActivePlayer,1,set><map=self,callHelperP1,1,set>This is Kung Fu Man Number 2! He is strong and I am stronger!<wait=70>"; #;call a helper
+text6 : "<p1><p1name=enemy(0)><map=self,isActivePlayer,0,set><map=self,callHelperP2,1,set>This is Mini Me and if you think he is strong, you have no idea how strong I am.<wait=70>"; #call a helper
+text7 : "<p1><p1name=self><map=self,isActivePlayer,1,set><map=self,callHelperP1,0,set><map=self,callHelperP2,0,set>I am tired of this, just dont forget I'll give you the chance to get away alive.<wait=45>"; #remove helper
+text8 : "<p1><p1name=enemy(0)><map=self,isActivePlayer,0,set>Ok, Ill put that in your epitaph.<wait=45>"; #remove helper
+text9 : "<p1><p1name=self><map=self,isActivePlayer,1,set>Attack me.<wait=30>";
+text10 :"<p1><p1name=enemy(0)><map=self,isActivePlayer,0,set>You should be the one attacking.<wait=60>";
+	}
+}
+
+if teamside = 1 && stateno = [190,195] && name = "Rebirth Van" && enemynear,name = "Van" && map(singleWindow) { #; a generic trigger to activate the dialogue
+Dialogue {
+hidebars : 1;
+text1 : "<p1><p1name=self><map=self,isActivePlayer,1,set>What a sequence. Me versus myself. <wait=45>";
+	}
+}
+#===============================================================================
+# End of block for single window
+#===============================================================================

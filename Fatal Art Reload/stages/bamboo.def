@@ -1,0 +1,85 @@
+[Info]
+name = "Winter Bamboo"
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -152
+boundright = 152
+boundhigh = 0
+boundlow = 0
+verticalfollow = 0
+tension = 50
+
+[PlayerInfo]
+p1startx = -70
+p1starty = 0
+p1startz = 0
+p1facing = 1
+
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+leftbound  = -1000
+rightbound =  1000
+topbound  =  0
+botbound  =  0
+
+[Scaling]
+topz     = 0
+botz     = 50
+topscale = 1
+botscale = 1.2
+
+[Bound]
+screenleft = 15
+screenright = 15
+
+[StageInfo]
+zoffset = 211
+autoturn = 1
+resetBG = 0
+
+[Shadow]
+color = 128,128,128
+yscale = .3
+
+
+[Music]
+bgmusic = sound/winterbamboo.mp3
+bgvolume = 255
+
+[BGdef]
+spr = stages/bamboo.sff
+
+[BG 1]
+type = normal
+spriteno = 0,0
+start = 0,240
+delta = .2,0
+tile = 1,0
+mask = 0
+
+[BG 2]
+type = normal
+spriteno = 1,0
+start = 0,240
+delta = 1,1
+mask = 1
+
+[BG 3]
+type = normal
+spriteno = 2,0
+start = 68,240
+delta = 1,1
+mask = 1
+
+[BG 3]
+type = normal
+spriteno = 2,1
+layerno = 1
+start = -160,240
+delta = 1,1
+mask = 1

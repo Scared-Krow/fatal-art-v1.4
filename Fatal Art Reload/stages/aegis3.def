@@ -1,0 +1,277 @@
+[Info]
+name = "Aegis Fields (Dawn)"
+author = "Bonehouse"
+
+[Camera]
+startx = 85
+starty = 0
+boundleft = -50
+boundright = 220
+boundhigh = -185
+boundlow = 0
+verticalfollow = 0
+floortension = 0
+tension = 50
+
+[PlayerInfo]
+;--- Player 1 ---
+p1startx = 15          
+p1starty = 0            
+p1startz = 0            
+p1facing = 1            
+
+;--- Player 2 ---
+p2startx = 155
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+;--- Common ---
+leftbound  = -1000 
+rightbound =  1000 
+topbound  =  0     
+botbound  =  0     
+
+[Scaling]
+topz     = 0       
+botz     = 50      
+topscale = 1       
+botscale = 1     
+
+[Bound]
+screenleft = 15    
+screenright = 15  
+
+[StageInfo]
+zoffset = 207
+autoturn = 1
+resetBG = 1
+
+[shadow]
+Intensity = 100
+color = 0,0,0
+yscale = .5
+fade.range = -400,-100
+
+[Reflection]
+intensity = 0
+
+[BGdef]
+spr = aegis3.sff
+
+[BG ground]
+type  = normal
+spriteno = 0, 6
+start = 160, 0
+delta = 0.1, 0.1
+mask = 1
+velocity = 0, 0
+tile = 1, 0
+tilespacing = 0, 0
+[BG ground]
+type  = normal
+spriteno = 0, 6
+start = 60, 0
+delta = 0.1, 0.1
+mask = 1
+velocity = 0, 0
+tile = 1, 0
+tilespacing = 0, 0
+[BG ground]
+type  = normal
+spriteno = 0, 7
+start = 0, 0
+delta = 0.1, 0.1
+mask = 1
+velocity = 0.1, 0
+tile = 1, 0
+tilespacing = 0, 0
+
+[BG ground]
+type  = normal
+spriteno = 0, 76
+start = 160, 170
+delta = 0.1, 0.1
+mask = 1
+velocity = 0.2, 0
+tile = 1, 0
+tilespacing = 0, 0
+[BG ground]
+type  = normal
+spriteno = 0, 77
+start = 160, 170
+delta = 0.1, 0.1
+trans=add
+mask = 1
+velocity = 0.2, 0
+tile = 1, 0
+tilespacing = 0, 0
+
+[BG ground]
+type  = normal
+spriteno = 0, 5
+start = 60, 130
+delta = 0.6, 0.6
+mask = 1
+velocity = 0, 0
+tile = 1, 0
+tilespacing = 0, 0
+[BG ground]
+type  = anim
+actionno = 3
+start = -200, 300
+delta = 0.1, 0.1
+velocity = 0.2, -0.4
+tile = 0, 0
+tilespacing = 0, 0
+
+[BG ground]
+type  = normal
+spriteno = 0, 4
+start = 60, 90
+delta = 0.9, 0.9
+mask = 1
+velocity = 0, 0
+tile = 1, 0
+tilespacing = 0, 0
+[BG ground]
+type  = normal
+spriteno = 0, 10
+start = 280, 76
+delta = 0.9, 0.9
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+
+[BG ground]
+type  = normal
+spriteno = 0, 1
+start = 0, 160
+delta = 1, 1
+mask = 1
+velocity = 0, 0
+tile = 1, 0
+tilespacing = 0, 0
+[BG ground]
+type  = anim
+actionno = 1
+start = -300, 190
+delta = 1, 1
+mask = 1
+velocity = 0, 0
+tile = 5, 0
+tilespacing = 0, 0
+[BG ground2]
+type  = normal
+spriteno = 0, 0
+start = 0, 185
+delta = 1, 1
+mask = 1
+velocity = 0, 0
+tile = 1, 0
+tilespacing = 0, 0
+
+[BG ground]
+type  = anim
+actionno = 6
+start = -150,190
+delta = 1, 1
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+[BG ground]
+type  = anim
+actionno = 7
+start = -148,190
+delta = 1, 1
+trans = add
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+
+
+
+[BG ground]
+type  = anim
+actionno = 2
+start = -100, 260
+delta = 1.2, 1.2
+mask = 1
+layerno = 1
+velocity = 0, 0
+tile = 5, 0
+tilespacing = 0, 0
+
+[BG clouds 3.1 medium]
+type = normal
+spriteno = 0, 3
+layerno = 1
+start = -20,210
+delta = 1.5,1.5
+tile = 1,0
+mask = 1
+
+
+[Begin Action 9]
+0,9, 0,0, 1, , AS100D256
+0,9, 0,0, 1, , AS100D256
+0,9, 0,0, 1, , AS100D256
+0,9, 0,0, 1, , AS100D256
+0,9, 0,0, 1, , AS100D256
+0,9, 0,0, 1, , AS100D256
+0,9, 0,0, 1, , AS100D256
+
+[Begin Action 6]
+6,0, 0,0, 40
+6,1, 0,0, 10
+6,2, 0,0, 10
+6,3, 0,0, 10
+6,4, 0,0, 10
+6,5, 0,0, 10
+
+
+[Begin Action 7]
+7,0, -5,-37, 40, , AS150D256
+7,0, -5,-39, 10, , AS150D256
+7,0, -5,-39, 10, , AS150D256
+7,0, -6,-38, 10, , AS150D256
+7,0, -5,-38, 10, , AS150D256
+7,0, -5,-38, 10, , AS150D256
+
+
+[Begin Action 1]
+1,0, 0,0, 15
+1,1, 0,0, 15
+1,2, 0,0, 15
+
+[Begin Action 2]
+1,0, 0,0, 21, H
+1,1, 0,0, 21, H
+1,2, 0,0, 21, H
+
+
+[Begin action 3] ; birds flying start
+203,0, 0,0, 3
+203,1, 0,0, 3
+203,2, 0,0, 3
+203,3, 0,0, 3
+203,4, 0,0, 3
+
+
+[Begin Action 77]
+0,77, 0,0, 3, , AS150D256
+0,77, 0,0, 3, , AS150D256
+0,77, 0,0, 3, , AS150D256
+
+
+[Begin Action 78]
+0,78, 0,0, 10, , AS50D256
+
+[Begin Action 11]
+0,11, 0,0, 3, , A
+0,11, 0,0, 3, , AS250D256
+0,11, 0,0, 3, , AS210D256
+0,11, 0,0, 3, , AS225D256
+0,11, 0,0, 3, , AS240D256
