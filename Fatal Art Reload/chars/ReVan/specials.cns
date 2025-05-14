@@ -2666,7 +2666,7 @@ ctrl = 0
 
 [State -3, teleport] 
 type = PlaySnd
-trigger1 = animelem = 7
+trigger1 = animelem = 5
 value = 2000,0
 volumescale = 10000000
 

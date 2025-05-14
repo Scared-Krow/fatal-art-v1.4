@@ -688,18 +688,18 @@ type = ChangeState
 value = 360
 triggerall = power >= 500
 triggerall = command = "x" && command = "y"
-triggerall = stateno = [150,151]
-trigger1 = statetype = S || statetype = C
-trigger1 = pos y = 0
+triggerall = stateno = [140,153]
+trigger1 = statetype != A
+
 
 [State -1, Guard Rush]
 type = ChangeState
 value = 370
 triggerall = power >= 500
 triggerall = command = "a" && command = "b"
-triggerall = stateno = [140,151]
-trigger1 = statetype = S || statetype = C
-trigger1 = pos y = 0
+triggerall = stateno = [140,153]
+trigger1 = statetype != A
+
 ;---------------------------------------------------------------------------
 ;grab
 [State -1, grab]
@@ -957,7 +957,7 @@ triggerall = command = "blocking"
 triggerall = command != "holddown"
 trigger1 = ctrl
 trigger1 = statetype != A
-trigger2 = stateno = 1310 || stateno = 1330
+trigger2 = (stateno = 1310 || stateno = 1330) && time > 5
 ;---------------------------------------------------------------------------
 ;REVERSAL ART
 [State -1, The joke makes no sense]
@@ -968,7 +968,7 @@ triggerall = command = "w"
 triggerall = command != "holddown"
 trigger1 = ctrl
 trigger1 = statetype != A
-trigger2 = stateno = 1310 || stateno = 1330
+trigger2 = (stateno = 1310 || stateno = 1330) && time > 5
 ;---------------------------------------------------------------------------
 ;Cr. Reversal Art
 [State -1, Lol]
@@ -1092,7 +1092,7 @@ triggerall = command = "x"
 triggerall = command != "holddown"
 trigger1 = statetype = S
 trigger1 = ctrl
-trigger2 = stateno = 200 && movecontact
+trigger2 = (stateno = 200 || stateno = 400) && movecontact
 ;---------------------------------------------------------------------------
 ;SP>SP
 [State -1, Stand Strong Punch]

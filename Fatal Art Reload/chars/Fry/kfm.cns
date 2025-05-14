@@ -1825,8 +1825,8 @@ kill = 0
 [State 0, DisplayToClipboard]
 type = DisplayToClipboard
 trigger1 = 1
-text = "var(16) = %d"
-params = var(16)
+text = "Map(GBjSP) = %d"
+params = Map(GBjSP)
 ;ignorehitpause = 
 ;persistent = 
 
@@ -2323,7 +2323,7 @@ ignoreHitPause = 1
 [State -2, Dampener] 
 type = VarSet 
 trigger1 = 1 
-fvar(10) = ifElse(fvar(13) < 1, 15.8, ifElse(fvar(13) >= 23, 1, 17.1 - fvar(13))) / 18.0 
+fvar(10) = ifElse(fvar(13) < 1, 15, ifElse(fvar(13) >= 13, 1, 13 - fvar(13))) / 15.0 
 ignoreHitPause = 1 
  
 [State -2, Dampener Limit] 

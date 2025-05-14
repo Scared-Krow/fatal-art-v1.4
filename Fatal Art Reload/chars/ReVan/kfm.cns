@@ -1501,6 +1501,12 @@ triggerall = roundno = 1
 trigger1 = roundstate = 0
 value = 1000
 
+[State Jesus H Christ]
+type = mapset
+trigger1 = stateno = 0
+map = "IMFUCKINGRUNNING"
+value = 0
+
 [State Throw Tech]
 type = mapset
 trigger1 = ctrl

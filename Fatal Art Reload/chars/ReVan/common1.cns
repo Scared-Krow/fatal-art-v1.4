@@ -338,17 +338,38 @@ physics = S
 anim = 100
 sprpriority = 1
 
-[State -3, teleport] 
-type = PlaySnd
-trigger1 = animelem = 1
-value = 100,0
+
+[State 100, 1]
+type = VelSet
+trigger1 = 1
+x = const(velocity.run.fwd.x)
+
+[State 100, 2] ;Prevent run from canceling into walk
+type = AssertSpecial
+trigger1 = 1
+flag = NoWalk
+
+
+
+[State 100, 3] ;Prevent from turning
+type = AssertSpecial
+trigger1 = 1
+flag = NoAutoTurn
+
+[State 100, 4]
+type = ChangeState
+trigger1 = command != "holdfwd"
+value = 101
+
+
+
 
 [State 0, Explod]
 type = Explod
-trigger1 = animelem = 3
-anim = 6400
+trigger1 = TIME = 1
+anim = 6445
 ID = 673
-pos = 0,-40
+pos = -20,0
 postype = p1  ;p2,front,back,left,right
 facing = 1
 vfacing = 1
@@ -358,72 +379,12 @@ accel = 0,0
 random = 0,0
 removetime = -2
 pausemovetime = 0
-scale = 0.7,0.7
+scale = 0.3,0.3
 sprpriority = 0
 ontop = 1
 shadow = 0,0,0
 ownpal = 1
 removeongethit = 0
-
-[State 100, 1]
-type = VelSet
-trigger1 = 1
-x = const(velocity.run.fwd.x)
-
-[State 1200, Shake Screen]
-type = EnvShake
-trigger1 = animelem = 3
-time = 4     ;Time to shake screen
-ampl = 3     ;Amount to shake
-freq = 180   ;A frequency of 180 shakes the screen rapidly
-
-[State 3000, dust FX]
-type = helper
-trigger1 = (time%13)=0
-helpertype = normal
-stateno = 10000
-ID = 10000
-name = "run_dust"
-postype = p1
-pos = 0,0
-ownpal = 1
-
-[State 240, 1]
-type = PlaySnd
-trigger1 = time = 1
-value = 1000,0
-
-[State 240, 1]
-type = PlaySnd
-trigger1 = time = 1
-value = 1000,2
-
-
-[State 100, 2] ;Prevent run from canceling into walk
-type = AssertSpecial
-trigger1 = 1
-flag = NoWalk
-
-[State 100, 3] ;Prevent from turning
-type = AssertSpecial
-trigger1 = 1
-flag = NoAutoTurn
-
-[State 0, Explod]
-type = Explod
-trigger1 = time = 1
-anim = 6445
-postype = p1
-pos = 0,0
-facing = -1
-sprpriority = 3
-ownpal = 1
-scale = 0.6,0.6
-
-[State 100, 4]
-type = ChangeState
-trigger1 = command != "holdfwd"
-value = 101
 
 ;---------------------------------------------------------------------------
 ; Hop backwards

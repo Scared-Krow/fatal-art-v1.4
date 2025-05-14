@@ -823,12 +823,12 @@ trigger2 = stateno = 101
 [State -1, Hop]
 type = ChangeState
 value = 9001
-triggerall = numexplod(44050) <= 1
+triggerall = stateno != 221
+triggerall = numexplod(44050) < 1
 triggerall = command = "z" 
 triggerall = statetype != A
 trigger1 = var(1)
 trigger2 = ctrl
-;trigger3 = stateno = 121000 && movecontact
 ;trigger4 = stateno = 1011
 ;---------------------------------------------------------------------------
 ;Run Back
@@ -844,6 +844,7 @@ trigger1 = ctrl
 [State -1, Run Fwd]
 type = ChangeState
 value = 100
+triggerall = stateno != 100
 trigger1 = command = "FF"
 trigger1 = statetype = S
 trigger1 = ctrl
@@ -860,9 +861,8 @@ triggerall = command = "x"
 triggerall = command != "holddown"
 trigger1 = statetype = S
 trigger1 = ctrl
-trigger2 = moveguarded && stateno = 200
-trigger3 = stateno = 400 && movecontact && time > 5
-trigger4 = stateno = 101
+trigger2 = (stateno = 200 || stateno = 400) && movecontact
+trigger3 = stateno = 101
 ;---------------------------------------------------------------------------
 ;Overhead
 [State -1, Overhead]
@@ -887,8 +887,8 @@ triggerall = command = "y"
 triggerall = command != "holddown"
 trigger1 = statetype = S
 trigger1 = ctrl
-trigger2 = stateno = 230 && movecontact && time > 5
-trigger3 = stateno = 200 && movecontact && time > 4
+trigger2 = stateno = 230 && movecontact
+trigger3 = stateno = 200 && movecontact 
 trigger4 = stateno = 101
 
 [state -1, Enryu Haibi Follow]
@@ -928,7 +928,7 @@ triggerall = stateno = 420 && statetype != A
 trigger1 = movecontact && animelemtime(14) < 0
 value = 1200
 ;---------------------------------------------------------------------------
-;Stand Light Punch
+;Jumping Launcher
 [State -1, Stand Light Punch]
 type = ChangeState
 value = 650
@@ -967,8 +967,8 @@ triggerall = command = "a"
 triggerall = command != "holddown"
 trigger1 = statetype = S
 trigger1 = ctrl
-trigger2 = stateno = 430 && movecontact && time > 3
-trigger3 = stateno = 200 && movecontact && time > 4
+trigger2 = stateno = 430 && movecontact
+trigger3 = stateno = 200 && movecontact
 trigger4 = stateno = 101
 
 ;---------------------------------------------------------------------------
@@ -993,6 +993,7 @@ triggerall = command = "holddown"
 trigger1 = statetype = C
 trigger1 = ctrl
 trigger2 = stateno = 101
+trigger3 = stateno = 400 && movecontact
 ;---------------------------------------------------------------------------
 ;Crouching Strong Punch
 [State -1, Crouching Strong Punch]

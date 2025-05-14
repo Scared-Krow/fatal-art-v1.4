@@ -1608,7 +1608,7 @@ ground.hittime  = 16
 ground.velocity = -2,-4.5
 guard.slidetime = 20
 guard.velocity = -10
-air.velocity = (cond(map(qcbSP) <= 1,-1.25,-2.25)),(cond(map(qcbSP) <= 1,-6.25,-2))
+air.velocity = -2,-3.5
 airguard.velocity = -4,-4.5
 ground.cornerpush.veloff = -8
 air.cornerpush.veloff = -12
@@ -2048,7 +2048,7 @@ sprpriority = -1
 
 [State 0, Explod]
 type = Explod
-trigger1 = animelem =6
+trigger1 = animelem =5
 anim = 91400
 ID = 12100
 pos = 0,0
@@ -2064,7 +2064,7 @@ ownpal = 1
 
 [State 0, Explod]
 type = Explod
-trigger1 = animelem =14
+trigger1 = animelem =13
 anim = 91401
 ID = 12100
 pos = 0,0
@@ -2106,30 +2106,17 @@ trigger1 = time = 0
 v = 15
 value = 25 / (var(16)*25+1)
 
-[State 0, Explod]
-type = Explod
-trigger1 = time = 0
-anim = 9999
-ID = 44051
-removetime = -1
-
-[State Limiter]
-type = mapadd
-trigger1 = time = 0
-map = "qcfLK"
-value = 1
-
 [State 1200, 2]
 type = HitDef
 trigger1 = Time = 0
 attr = S, SA
 getpower = 30
 animtype  = Hard
-damage    = ceil(ifElse(fvar(11) * 34 < 5, 5, fvar(11) * 34)), 10 + var(16)*10
+damage    = ceil(ifElse(fvar(11) * 30 < 5, 5, fvar(11) * 30)), 10 + var(16)*10
 priority  = 5
 guardflag = MA
 hitflag = MAFD
-pausetime = 15,15
+pausetime = 8,8
 sparkxy = -20,-80
 sparkno = 2
 hitsound   = S1000,3
@@ -2140,38 +2127,14 @@ envshake.ampl=3
 ground.type = Low
 ground.slidetime = 16
 ground.hittime  = 20
-ground.velocity = -5
-ground.cornerpush.veloff = -24 ;To push far away when p2 is in corner
-air.cornerpush.veloff = -24
+ground.velocity = -5.5
+ground.cornerpush.veloff = -20
+air.cornerpush.veloff = -25
 guard.velocity = -7
-air.velocity = -3.5,(cond(map(qcfLK) <= 1,-4.75,-1.25))
+air.velocity = -4,-3.75
 airguard.velocity = -5.5,-4.5
 air.fall = 1
 p2facing =1
-
-
-[State 0, Explod]
-type = Explod
-trigger1 = animelem = 3
-anim = 1401
-ID = 673
-pos = 0,0
-postype = p1  ;p2,front,back,left,right
-facing = 1
-vfacing = 1
-bindtime = 1
-vel = 0,0
-accel = 0,0
-random = 0,0
-removetime = -2 
-ignorehitpause = 0
-pausemovetime = 0
-scale = 0.3,0.3
-sprpriority = 0
-ontop = 1
-shadow = 0,0,0
-ownpal = 1
-removeongethit = 0
 
 [State 0, Explod]
 type = Explod
@@ -2198,55 +2161,6 @@ removeongethit = 0
 
 [State 300, Projectile]
 type = Projectile
-triggerall = var(16) >= 1
-trigger1 = animelem = 16
-triggerall = NumProjID(1) = 0
-projanim = 1011
-projhitanim = 1014
-projscale = .15,.15
-getpower = 15
-offset = 80,-70
-velocity = 4,0
-projpriority= 1
-ProjID = 1
-attr = S,SP
-damage = ceil(ifElse(fvar(11) * 20 < 5, 5, fvar(11) * 20)), 5
-guardflag = MA
-hitflag = HAFD
-animtype  = Hard
-envshake.time=10
-envshake.freq=20
-envshake.ampl=3
-pausetime = 8,8
-guard.pausetime = 15,11
-sparkno = 2                      ;Spark anim no (Def: set above)
-sparkxy = 0, 0 
-hitsound   = S2001,1
-guardsound = S2002,1
-ground.type = HIGH
-ground.slidetime = 5
-ground.hittime = 16
-guard.velocity = -4
-ground.velocity = -4
-air.velocity = -3.5,-4+(numexplod(44051))
-palfx.time = 25
-palfx.add = 30,-40,-140
-palfx.sinadd = 60,60,50,10
-palfx.color = 0
-palfx.invertall = 1
-ignorehitpause = 0
-p2facing =1
-projhits = 3
-air.fall = 1
-
-[State Limiter]
-type = mapadd
-trigger1 = time = 0
-map = "qcfLKProjectile"
-value = 1
-
-[State 300, Projectile]
-type = Projectile
 trigger1 = animelem = 16
 triggerall = NumProjID(1) = 0
 projanim = 1011
@@ -2265,18 +2179,18 @@ animtype  = Hard
 envshake.time=10
 envshake.freq=20
 envshake.ampl=3
-pausetime = 0,13
-guard.pausetime = 15,11
+pausetime = 0,11
+guard.pausetime = 6,6
 sparkno = 2                      ;Spark anim no (Def: set above)
 sparkxy = 0, 0 
 hitsound   = S2001,1
 guardsound = S2002,1
 ground.type = HIGH
-ground.slidetime = 5
+ground.slidetime = 20
 ground.hittime = 10
 guard.velocity = -4
-ground.velocity = -4
-air.velocity =(cond(map(qcfLKProjectile) <= 1,-2.25,-4.75)),(cond(map(qcfLKProjectile) <= 1,-3.5,3.5))
+ground.velocity = -4.5
+air.velocity =-2.5,-2.5
 airguard.velocity = -0.5
 palfx.time = 25
 palfx.add = 30,-40,-140
@@ -2323,7 +2237,7 @@ ownpal = 1
 
 [State 0, Explod]
 type = Explod
-trigger1 = animelem =16
+trigger1 = animelem =15
 anim = 91402
 ID = 12100
 pos = 0,0
@@ -2339,7 +2253,7 @@ ownpal = 1
 
 [State 0, Explod]
 type = Explod
-trigger1 = animelem =14
+trigger1 = animelem =13
 anim = 91401
 ID = 12100
 pos = 0,0
@@ -2371,7 +2285,7 @@ value = 5001,7
 
 [State 0, Helper]
 type = Helper
-trigger1 = animelem = 18
+trigger1 = animelem = 17
 name = "S fireball"
 ID = 1501
 stateno = 1501
@@ -2391,12 +2305,12 @@ value = 0,3
 
 [State 1400, 1]
 type = PlaySnd
-trigger1 = AnimElem = 18
+trigger1 = AnimElem = 17
 value = 0,3
 
 [State 0, PlaySnd]
 type = PlaySnd
-trigger1 = animelem = 18
+trigger1 = animelem = 17
 value = 1002, (0+(Random%2))
 
 [State 1400, 1]
@@ -2461,7 +2375,7 @@ removeongethit = 0
 
 [State 0, Explod]
 type = Explod
-trigger1 = animelem = 18
+trigger1 = animelem = 17
 anim = 1240
 ID = 673
 pos = 150,-50
@@ -2483,7 +2397,7 @@ removeongethit = 0
 
 [State 0, Explod]
 type = Explod
-trigger1 = animelem = 18
+trigger1 = animelem = 17
 anim = 1228
 ID = 1228
 pos = 100,0
@@ -2505,7 +2419,7 @@ removeongethit = 0
 
 [State 0, Explod]
 type = Explod
-trigger1 = animelem = 18
+trigger1 = animelem = 17
 anim = 1240
 ID = 673
 pos = 150,-50
@@ -2527,7 +2441,7 @@ removeongethit = 0
 
 [State 1200, Shake Screen]
 type = EnvShake
-trigger1 = AnimElem = 18
+trigger1 = AnimElem = 17
 time = 15     ;Time to shake screen
 ampl = 5     ;Amount to shake
 freq = 180   ;A frequency of 180 shakes the screen rapidly
@@ -2557,42 +2471,9 @@ anim = 1403                       ;Change animation (Def: no change)
 poweradd = 10                    ;Power to add (Def: 0)
 sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
 
-[State 200, 1]
-type = HitDef
-triggerall = parent,var(16) >= 1
-trigger1 = time = 0
-attr = S, SP                     ;Attribute: Standing, Normal Attack
-getpower = 10
-damage = ceil(ifElse(root,fvar(11) * 65 < 10, 10, root,fvar(11) *65)),10  
-animtype = Hard                 ;Animation type: Light, Medium, Heavy, Back (def: Light)
-guardflag = M                 ;Flags on how move is to be guarded against
-hitflag = MAFD                    ;Flags of conditions that move can hit
-priority = 3, Hit                ;Attack priority: 0 (least) to 7 (most), 4 default
-guard.pausetime = 8,8
-pausetime = 6, 6                 ;Time attacker pauses, time opponent shakes
-sparkno = -1                      ;Spark anim no (Def: set above)
-sparkxy = -10, -76               ;X-offset for the "hit spark" rel. to p2,
-hitsound = -1                  ;Sound to play on hit
-guardsound = 6, 2                ;Sound to play on guard
-ground.type = High               ;Type: High, Low, Trip (def: Normal)
-ground.slidetime = 4             ;Time that the opponent slides back
-ground.hittime  = 16             ;Time opponent is in hit state
-ground.velocity = -5,-1         ;Velocity at which opponent is pushed
-airguard.velocity = -1.9,-.8     ;Guard velocity in air (def: (air.xvel*1.5, air.yvel/2))
-air.type = High                  ;Type: High, Low, Trip (def: same as ground.type)
-air.velocity = 2.15,-2       ;X-velocity at which opponent is pushed,
-air.hittime = -1                 ;Time before opponent regains control in air
-fall = 1
-palfx.time = 25
-palfx.add = 30,-40,-140
-palfx.sinadd = 60,60,50,10
-palfx.color = 0
-palfx.invertall = 1
-p2facing =1
 
 [State 200, 1]
 type = HitDef
-triggerall = parent,var(16) <= 0
 trigger1 = time = 0
 attr = S, SP                     ;Attribute: Standing, Normal Attack
 getpower = 10
@@ -2601,8 +2482,7 @@ animtype = Hard                 ;Animation type: Light, Medium, Heavy, Back (def
 guardflag = M                 ;Flags on how move is to be guarded against
 hitflag = MAFD                    ;Flags of conditions that move can hit
 priority = 3, Hit                ;Attack priority: 0 (least) to 7 (most), 4 default
-guard.pausetime = 8,8
-pausetime = 6, 6                 ;Time attacker pauses, time opponent shakes
+pausetime = 12, 12              ;Time attacker pauses, time opponent shakes
 sparkno = -1                      ;Spark anim no (Def: set above)
 sparkxy = -10, -76               ;X-offset for the "hit spark" rel. to p2,
 hitsound = -1                  ;Sound to play on hit
@@ -2611,9 +2491,12 @@ ground.type = High               ;Type: High, Low, Trip (def: Normal)
 ground.slidetime = 4             ;Time that the opponent slides back
 ground.hittime  = 16             ;Time opponent is in hit state
 ground.velocity = -5,-1         ;Velocity at which opponent is pushed
-airguard.velocity = -1.9,-.8     ;Guard velocity in air (def: (air.xvel*1.5, air.yvel/2))
+guard.hittime = 6
+guard.ctrltime = 6
+guard.velocity = -5
+guard.slidetime = 10
 air.type = High                  ;Type: High, Low, Trip (def: same as ground.type)
-air.velocity = -4,-1.25 ;X-velocity at which opponent is pushed,
+air.velocity = -4,1 ;X-velocity at which opponent is pushed,
 air.hittime = -1                 ;Time before opponent regains control in air
 fall = 1
 palfx.time = 25
@@ -2709,89 +2592,57 @@ value = 5004,(0+(Random%4))
 
 [State 0, Explod]
 type = Explod
-trigger1 = animelem = 16
-anim = 1240
-ID = 1240
-pos = 50,-80
+trigger1 = animelem =5
+anim = 91400
+ID = 12100
+pos = 0,0
 postype = p1  ;p2,front,back,left,right
 facing = 1
 vfacing = 1
-bindtime = 1
-vel = 0,0
-accel = 0,0
-random = 0,0
-removetime = -2
-pausemovetime = 0
-scale = 1,1
-sprpriority = 0
-ontop = 1
-shadow = 0,0,0
-ownpal = 1
+bindtime = 99
 removeongethit = 0
+ignorehitpause =0
+scale = .3,.3
+ontop = 1
+ownpal = 1
 
 [State 0, Explod]
 type = Explod
-trigger1 = animelem = 1
-anim = 6920
-ID = 673
-pos = -3,0
+trigger1 = animelem =13
+anim = 91401
+ID = 12100
+pos = 0,0
 postype = p1  ;p2,front,back,left,right
 facing = 1
 vfacing = 1
-bindtime = 1
-vel = 0,0
-accel = 0,0
-random = 0,0
-removetime = -2
-pausemovetime = 0
-scale = 0.3,0.3
-sprpriority = 0
-ontop = 0
-shadow = 0,0,0
-ownpal = 1
+bindtime = 99
 removeongethit = 0
-[State 0, Explod]
-type = Explod
-trigger1 = animelem = 4
-anim = 2663
-ID = 673
-pos = 50,0
-postype = p1  ;p2,front,back,left,right
-facing = 1
-vfacing = 1
-bindtime = 1
-vel = 0,0
-accel = 0,0
-random = 0,0
-removetime = -2
-pausemovetime = 0
-scale = 0.5,0.5
-sprpriority = 0
-ontop = 0
-shadow = 0,0,0
-ownpal = 1
-removeongethit = 0
-[State 0, Explod]
-type = Explod
-trigger1 = animelem = 1
-anim = 2662
-ID = 673
-pos = 50,0
-postype = p1  ;p2,front,back,left,right
-facing = 1
-vfacing = 1
-bindtime = 1
-vel = 0,0
-accel = 0,0
-random = 0,0
-removetime = -2
-pausemovetime = 0
-scale = 0.5,0.5
-sprpriority = 0
+ignorehitpause =0
+scale = .3,.3
 ontop = 1
-shadow = 0,0,0
 ownpal = 1
-removeongethit = 0
+
+[State 1400, 1]
+type = PlaySnd
+trigger1 = AnimElem = 13
+value = 2000,0
+
+[State 1400, 1]
+type = PlaySnd
+trigger1 = AnimElem = 13
+value = 0,3
+
+[State 1400, 1]
+type = PlaySnd
+trigger1 = AnimElem = 6
+trigger2 = animelem = 10
+trigger3 = animelem = 12
+value = 0,1
+
+[State 1400, 1]
+type = PlaySnd
+trigger1 = AnimElem = 15
+value = 5000,2
 
 [State 1220, Afterimage]
 type = AfterImage
@@ -2817,22 +2668,6 @@ trigger1 = Time = 0
 time = 20
 add = 32,16,0
 sinadd = 64,32,5,3
-[State 1400, 1]
-type = PlaySnd
-trigger1 = AnimElem = 13
-value = 2000,0
-
-[State 1400, 1]
-type = PlaySnd
-trigger1 = AnimElem = 13
-value = 0,3
-
-[State 1400, 1]
-type = PlaySnd
-trigger1 = AnimElem = 6
-trigger2 = animelem = 10
-trigger3 = animelem = 12
-value = 0,1
 
 [State 1200, 2]
 type = HitDef
@@ -2844,7 +2679,7 @@ damage    = ceil(ifElse(fvar(11) * 20 < 7, 7, fvar(11) * 20)), 5 + var(16)*10
 priority  = 7
 guardflag = MA
 hitflag = MAFD
-pausetime = 20,20
+pausetime = 15,15
 sparkxy = -20,-80
 sparkno = 2
 hitsound   = S1000,3
@@ -2862,49 +2697,7 @@ air.velocity = -5,-4
 airguard.velocity = -3.5,-4.5
 fall = 1
 p2facing =1
-[State 0, Explod]
-type = Explod
-trigger1 = animelem = 3
-anim = 1401
-ID = 673
-pos = 0,0
-postype = p1  ;p2,front,back,left,right
-facing = 1
-vfacing = 1
-bindtime = 1
-vel = 0,0
-accel = 0,0
-random = 0,0
-removetime = -2
-pausemovetime = 0
-scale = 0.3,0.3
-sprpriority = 0
-ontop = 1
-shadow = 0,0,0
-ownpal = 1
-removeongethit = 0
 
-[State 0, Explod]
-type = Explod
-trigger1 = animelem = 16
-anim = 1240
-ID = 1240
-pos = 50,-80
-postype = p1  ;p2,front,back,left,right
-facing = 1
-vfacing = 1
-bindtime = 1
-vel = 0,0
-accel = 0,0
-random = 0,0
-removetime = -2
-pausemovetime = 0
-scale = 1,1
-sprpriority = 0
-ontop = 1
-shadow = 0,0,0
-ownpal = 1
-removeongethit = 0
 
 [State 300, Projectile]
 type = Projectile
@@ -2925,8 +2718,8 @@ animtype  = Hard
 envshake.time=20
 envshake.freq=30
 envshake.ampl=8
-pausetime = 25,25
-guard.pausetime = 20,14
+pausetime = 20,20
+guard.pausetime = 15,15
 sparkno = 2                      ;Spark anim no (Def: set above)
 sparkxy = -10, -30
 hitsound   = S2001,1
@@ -2934,9 +2727,10 @@ guardsound = S2002,1
 ground.type = HIGH
 ground.slidetime = 5
 ground.hittime = 25
-guard.velocity = -3
-ground.velocity = -0.5,-7
-air.velocity = -0.5,-6
+guard.slidetime = 10
+guard.velocity = -8
+ground.velocity = -2,-7
+air.velocity = -2,-6
 airguard.velocity = -0.5
 palfx.time = 25
 palfx.add = 30,-40,-140

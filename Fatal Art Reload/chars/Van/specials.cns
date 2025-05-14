@@ -9,163 +9,6 @@ anim = 1300
 ctrl = 0
 sprpriority = 1
 
-[State 1300, Width]
-type = Width
-trigger1 = AnimElemTime(3) < 0
-value = 15,0
-
-[State 1300, 1]
-type = PlaySnd
-trigger1 = Time = 0
-value = 0, 1
-
-[State 0, PalFXWiz]
-type = PalFX
-trigger1 = time = 1
-time = 15
-add = 75,70,70
-mul = 200,200,200
-sinadd = 100,100,100,30
-invertall = 0
-color = 256
-
-[State 1300, 2]
-type = ReversalDef
-trigger1 = time > 0
-trigger1 = time < 11
-reversal.attr = SA,NA,SA,HA
-pausetime = 0,0
-sparkno = -1
-sparkxy = 35,-15
-hitsound = 1300,0
-p1stateno = 1310
-p1sprpriority = 2 ;Set P1's sprite in front of P2's
-p2sprpriority = 1
-
-[State 1300, 4]
-type = HitOverride
-trigger1 = Time = 1
-attr = SA, AP
-stateno = 1310
-time = 20
-
-[State 1300, 6]
-type = ChangeState
-trigger1 = AnimTime = 0
-value = 0
-ctrl = 1
-
-;---------------------------------------------------------------------------
-;PARRIED
-[Statedef 1310]
-type    = S
-movetype= I
-physics = S
-velset = 0,0
-anim = 1310
-ctrl = 0
-poweradd= 150
-sprpriority = 2
-
-[State 0, NotHitBy]
-type = NotHitBy
-trigger1 = time = 0
-value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
-time = 1
-
-[State 3000, ’´•KŽE‹Z”­“®‚ÌŽžŠÔ’âŽ~]
-type = SuperPause
-trigger1 = time = 0
-anim = -1
-poweradd = 0
-time = 15
-p2defmul = 1.0
-;movetime = 9999
-
-[State 0, Explod]
-type = Explod
-trigger1 = animelem = 1
-anim = 1360
-ID = 1360
-pos = -2,-30
-postype = p1  ;p2,front,back,left,right
-facing = 1
-vfacing = 1
-bindtime = 1
-removetime = -2
-scale = 0.3,0.3
-sprpriority = 5
-ownpal = 1
-removeongethit = 0
-supermovetime = 999
-pausemovetime = 999
-
-[State 0, Explod]
-type = Explod
-trigger1 = animelem = 1
-anim = 1361
-ID = 1361
-pos = 30,-80
-postype = p1  ;p2,front,back,left,right
-facing = 1
-vfacing = 1
-bindtime = 1
-removetime = -2
-scale = 0.3,0.3
-sprpriority = 5
-ownpal = 1
-removeongethit = 0
-supermovetime = 999
-pausemovetime = 999
-
-[State 0, Explod]
-type = Explod
-trigger1 = animelem = 1
-anim = 1362
-ID = 1362
-pos = 0,0
-postype = p1  ;p2,front,back,left,right
-facing = 1
-vfacing = 1
-bindtime = 1
-removetime = -2
-scale = 0.35,0.35
-sprpriority = 4
-ownpal = 1
-removeongethit = 0
-supermovetime = 999
-pausemovetime = 999
-
-[State 1310, 2]    ;Go to guarding
-type = ChangeState
-trigger1 = Time = 1
-trigger1 = command = "holdback"
-value = 130
-ctrl = 1
-
-[State 1310, 3]
-type = NotHitBy
-trigger1 = Time = 0
-value = SCA
-time = 1
-
-[State 1310, 4]
-type = ChangeState
-trigger1 = AnimTime = 0
-value = 0
-ctrl = 1
-
-;---------------------------------------------------------------------------
-;CROUCH REVERSAL ART
-[Statedef 1320]
-type    = C
-movetype= I
-physics = C
-velset = 0,0
-anim = 1320
-ctrl = 0
-sprpriority = 1
-
 [State 1320, Width]
 type = Width
 trigger1 = AnimElemTime(3) < 0
@@ -190,19 +33,14 @@ color = 256
 type = ReversalDef
 trigger1 = time > 0
 trigger1 = time < 11
-reversal.attr = C,NA,SA
+reversal.attr = SA,NA,SA,HA
 pausetime = 0,0
 sparkno = -1
 sparkxy = 35,-15
 hitsound = 1300,0
-p1stateno = 1330
+p1stateno = 1310
 p1sprpriority = 2
 p2sprpriority = 1
-
-[State 1340, 3] ;Stop
-type = ReversalDef
-trigger1 = Time = 20
-reversal.attr =
 
 [State 1320, 4]
 type = HitOverride
@@ -213,25 +51,19 @@ stateno = 1330
 [State 1320, 5]
 type = ChangeState
 trigger1 = AnimTime = 0
-value = 11
+value = 0
 ctrl = 1
 
 ;---------------------------------------------------------------------------
 ;PARRIED
-[Statedef 1330]
-type    = C
+[Statedef 1310]
+type    = S
 movetype= I
-physics = C
+physics = S
 velset = 0,0
-anim = 1330
+anim = 1310
 ctrl = 0
 sprpriority = 2
-
-[State 0, NotHitBy]
-type = NotHitBy
-trigger1 = time = 0
-value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
-time = 1
 
 [State 3000, ’´•KŽE‹Z”­“®‚ÌŽžŠÔ’âŽ~]
 type = SuperPause
@@ -240,14 +72,6 @@ anim = -1
 poweradd = 150
 time = 15
 p2defmul = 1.0
-
-
-[State 1330, 2]
-type = ChangeState
-trigger1 = Time = 1
-trigger1 = command = "holdback"
-value = 131
-ctrl = 1
 
 [State 0, Explod]
 type = Explod
@@ -307,7 +131,148 @@ pausemovetime = 999
 type = NotHitBy
 trigger1 = Time = 0
 value = SCA
-time = 1
+time = 10
+
+[State 1330, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+;CROUCH REVERSAL ART
+[Statedef 1320]
+type    = C
+movetype= I
+physics = C
+velset = 0,0
+anim = 1320
+ctrl = 0
+sprpriority = 1
+
+[State 1320, Width]
+type = Width
+trigger1 = AnimElemTime(3) < 0
+value = 10,0
+
+[State 1320, 1]
+type = PlaySnd
+trigger1 = Time = 0
+value = 0, 1
+
+[State 0, PalFXWiz]
+type = PalFX
+trigger1 = time = 1
+time = 15
+add = 75,70,70
+mul = 200,200,200
+sinadd = 100,100,100,30
+invertall = 0
+color = 256
+
+[State 1320, 2]
+type = ReversalDef
+trigger1 = time > 0
+trigger1 = time < 11
+reversal.attr = C,NA,SA
+pausetime = 0,0
+sparkno = -1
+sparkxy = 35,-15
+hitsound = 1300,0
+p1stateno = 1330
+p1sprpriority = 2
+p2sprpriority = 1
+
+[State 1320, 4]
+type = HitOverride
+trigger1 = Time < 5
+attr = C, AP
+stateno = 1330
+
+[State 1320, 5]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+ctrl = 1
+
+;---------------------------------------------------------------------------
+;PARRIED
+[Statedef 1330]
+type    = C
+movetype= I
+physics = C
+velset = 0,0
+anim = 1330
+ctrl = 0
+sprpriority = 2
+
+[State 3000, ’´•KŽE‹Z”­“®‚ÌŽžŠÔ’âŽ~]
+type = SuperPause
+trigger1 = time = 0
+anim = -1
+poweradd = 150
+time = 15
+p2defmul = 1.0
+
+[State 0, Explod]
+type = Explod
+trigger1 = animelem = 1
+anim = 1360
+ID = 1360
+pos = -8,-10
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+removetime = -2
+scale = 0.3,0.3
+sprpriority = 5
+ownpal = 1
+removeongethit = 0
+supermovetime = 999
+pausemovetime = 999
+
+[State 0, Explod]
+type = Explod
+trigger1 = animelem = 1
+anim = 1361
+ID = 1361
+pos = 15,-75
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+removetime = -2
+scale = 0.3,0.3
+sprpriority = 5
+ownpal = 1
+removeongethit = 0
+supermovetime = 999
+pausemovetime = 999
+
+[State 0, Explod]
+type = Explod
+trigger1 = animelem = 1
+anim = 1362
+ID = 1362
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = 1
+removetime = -2
+scale = 0.35,0.35
+sprpriority = 4
+ownpal = 1
+removeongethit = 0
+supermovetime = 999
+pausemovetime = 999
+
+[State 1330, 3]
+type = NotHitBy
+trigger1 = Time = 0
+value = SCA
+time = 10
 
 [State 1330, 4]
 type = ChangeState
@@ -2761,7 +2726,7 @@ guard.pausetime = 12,7
 ground.velocity = -5
 airguard.velocity = -4,-1
 air.type = High
-air.velocity = -4,-4
+air.velocity = -3,-4
 air.hittime = 12
 yaccel = .5
 air.fall = 1

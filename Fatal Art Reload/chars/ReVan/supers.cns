@@ -372,23 +372,22 @@ damage    = ceil(ifElse(fvar(11) * 75 < 75, 75, fvar(11) *75)),15
 guardflag = M
 hitflag = MAFD
 pausetime = 15,15
-guard.pausetime = 18,18
 sparkno = 3
 sparkxy = -5,-70
 hitsound   = 5,4
 guardsound = 6,2
 ground.type = High
 guard.slidetime = 15
-ground.slidetime = 18
+ground.slidetime = 30
 ground.hittime  = 30
-ground.velocity = -9
+ground.velocity = -13+(p2dist x/20)
 air.velocity = -1.5,-3.8
 air.fall = 1
 fall = 0
 p2facing =1
 kill = 0
 p1stateno = 3049
-maxdist = 50,0
+;maxdist = 80,0
 getpower = 0,0
 
 [State 200, 3]
@@ -417,14 +416,16 @@ player = 15,15
 value = 15,15
 
 [State 0, VelSet]
-type = VelSet
-trigger1 = animelemno(0) = [2,9]
-x = 1.5
-
-[State 0, VelSet]
-type = VelSet
-trigger1 = animelem = 10
-x = 0
+type = PosAdd
+trigger1 = animelem=2
+trigger2 = animelem=3
+trigger3 = animelem=4
+trigger4 = animelem=5
+trigger5 = animelem=6
+trigger6 = animelem=7
+trigger7 = animelem=8
+trigger8 = animelem=9
+x = 9
 
 [State 210, 2]
 type = HitDef
@@ -436,14 +437,14 @@ guardflag = MAFD
 pausetime = 12,12
 guard.pausetime = 12,12
 sparkno = 4
-sparkxy = -5,-70
+sparkxy = -5,-60
 hitsound   = 5,2
 guardsound = 6,2
 ground.type = High
 guard.slidetime = 15
 ground.slidetime = 18
 ground.hittime  = 30
-ground.velocity = -4
+ground.velocity = -9+(p2dist x/20)
 air.velocity = -1.25,-4.25
 air.fall = 1
 fall = 0
@@ -452,14 +453,11 @@ p2facing =1
 kill = 0
 
 [State 0, VelSet]
-type = VelSet
-trigger1 = animelem = 13
-x = 8
-
-[State 0, VelSet]
-type = VelSet
-trigger1 = animelem = 15
-x = 0
+type = PosAdd
+trigger1 = animelem=12
+trigger2 = animelem=13
+trigger3 = animelem=14
+x = 10
 
 [State 210, 2]
 type = HitDef
@@ -477,9 +475,9 @@ ground.type = High
 guard.slidetime = 15
 ground.slidetime = 18
 ground.hittime  = 30
-ground.velocity = -1,-8.25
+ground.velocity = -1,-10
 air.velocity = -1,-9.25
-fall.yvelocity = .9
+fall.yvelocity = .4
 air.fall = 1
 fall = 1
 getpower = 0
@@ -487,14 +485,11 @@ p2facing =1
 kill = 0
 
 [State 0, VelSet]
-type = VelSet
-trigger1 = animelemno(0) = [26,27]
-x = 3
-
-[State 0, VelSet]
-type = VelSet
-trigger1 = animelem = 28
-x = 0
+type = PosAdd
+trigger1 = animelem=26
+trigger2 = animelem=27
+trigger3 = animelem=28
+x = 12
 
 
 [State 210, 2]
@@ -514,7 +509,7 @@ guard.slidetime = 15
 ground.slidetime = 18
 ground.hittime  = 30
 ground.velocity = -5
-air.velocity = -1,-4
+air.velocity = -2,-3
 air.fall = 1
 fall = 0
 getpower = 0
@@ -524,13 +519,12 @@ kill = 0
 
 [State 0, VelSet]
 type = PosAdd
-trigger1 = animelemno(0) = [32,37]
-x = 2.5
-
-[State 0, VelSet]
-type = VelSet
-trigger1 = animelem = 37
-x = 0
+trigger1 = animelem=32
+trigger2 = animelem=33
+trigger3 = animelem=34
+trigger4 = animelem=35
+trigger5 = animelem=36
+x = 10
 
 [State 210, 2]
 type = HitDef
@@ -565,13 +559,15 @@ kill = 0
 
 [State 0, VelSet]
 type = PosAdd
-trigger1 = animelemno(0) = [48,50]
-x = 2
-
-[State 0, VelSet]
-type = VelSet
-trigger1 = animelem = 50
-x = 0
+trigger1 = animelem=40
+trigger2 = animelem=41
+trigger3 = animelem=42
+trigger4 = animelem=43
+trigger5 = animelem=44
+trigger6 = animelem=45
+trigger7 = animelem=46
+trigger8 = animelem=47
+x = 6
 
 [State 210, 2]
 type = HitDef

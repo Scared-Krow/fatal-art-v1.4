@@ -640,20 +640,20 @@ trigger3 = animelem = 3
 trigger4 = animelem = 4
 trigger5 = animelem = 5
 trigger6 = animelem = 6
-x = 1.3
+x = 2
 y = 0
 
 [State 0, PosAdd]
 type = PosAdd
 trigger1 = animelem = 7
-x = 3
+x = 5
 y = 0
 [State 0, PosAdd]
 type = PosAdd
 trigger1 = animelem = 8
 trigger2 = animelem = 9
 trigger3 = animelem = 10
-x = 5
+x = 4
 y = 0
 [State 0, PosAdd]
 type = PosAdd
@@ -692,7 +692,6 @@ guardflag = L
 hitflag = MAFD
 priority = 2
 pausetime = 13,13
-guard.pausetime = 15,15
 hitsound = 5,2
 sparkno = 5
 sparkxy = -20, -37	
@@ -700,8 +699,8 @@ guardsound = 6,2
 ground.type = low
 ground.slidetime = 9
 guard.slidetime = 15
-ground.hittime  = 30
-ground.velocity = -3
+ground.hittime  = 27
+ground.velocity = -5
 air.hittime = 14
 air.velocity = -2,-3
 air.cornerpush.veloff = -8
@@ -710,9 +709,8 @@ envshake.time = 12
 envshake.freq = 50
 envshake.ampl = 1
 air.fall = 1
-guard.hittime = 20
-guard.ctrltime = 20
-guard.velocity = -5
+guard.hittime = 17
+guard.ctrltime = 17
 getpower = ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23)),ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23))*.5
 givepower = ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23))*1.5,ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23))*.75
 
@@ -976,7 +974,6 @@ animtype  = Light
 hitflag = MAFD
 guardflag = L
 pausetime = 12,12
-guard.pausetime = 12,12
 sparkno = 4
 sparkxy = -10,-8
 hitsound   = 5,2
@@ -1092,8 +1089,8 @@ sparkxy = -10,-58
 hitsound   = 5,0
 guardsound = 6,0
 ground.type = High
-ground.slidetime = 5
-ground.hittime  = 16
+ground.slidetime = 10
+ground.hittime  = 14
 ground.velocity = -4
 air.velocity = -1.5,-1.55
 air.hittime = 14
@@ -1291,12 +1288,12 @@ sparkxy = -5,-35
 hitsound   = 5,0
 guardsound = 6,0
 ground.type = High
-ground.slidetime = 6
+ground.slidetime = 10
 ground.hittime  = 20
 ground.velocity = -4
 air.velocity = -2,-3
-guard.hittime = 13
-guard.ctrltime = 13
+guard.hittime = 15
+guard.ctrltime = 15
 air.hittime = 14
 p2facing =1
 air.fall = 1
@@ -1767,7 +1764,7 @@ guardsound = 6,2
 ground.slidetime = 3
 guard.slidetime = 5
 ground.hittime  = 19
-ground.velocity = -1.8
+ground.velocity = -4
 ground.cornerpush.veloff = -12
 air.velocity = -2,1.75
 envshake.time=10
@@ -1973,10 +1970,9 @@ guardflag = M
 hitflag = MAFD
 priority = 4
 pausetime = 15,15
-guard.pausetime = 15,18
 hitsound   = 5,2
 guardsound = 6,0
-sparkno = 4
+sparkno = 6
 sparkxy = -20, -87	
 ground.type = High
 ground.slidetime = 3
@@ -1984,7 +1980,7 @@ ground.hittime  = 9
 guard.velocity = -9
 guard.slidetime = 11
 ground.velocity = -1.5,-7
-air.velocity = -1.5,cond(Map(Launcher)>1,-1,-7)
+air.velocity = -1.3,cond(Map(Launcher)>1,-1,-7)
 p2facing =1
 fall = 1
 guard.hittime = 30

@@ -952,6 +952,7 @@ trigger4 = stateno = 5190 && movehit
 [State -1, Run Fwd]
 type = ChangeState
 value = 100
+triggerall = stateno != 100
 trigger1 = command = "FF"
 trigger1 = statetype = S
 trigger1 = ctrl

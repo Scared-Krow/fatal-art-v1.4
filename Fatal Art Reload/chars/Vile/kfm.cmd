@@ -1133,9 +1133,7 @@ triggerall = command = "x"
 triggerall = command != "holddown"
 trigger1 = statetype = S
 trigger1 = ctrl
-trigger2 = stateno = 230 && time > 8 && movecontact 
-trigger3 = stateno = 400 && time > 6 && movecontact
-trigger4 = stateno = 9001
+trigger2 = stateno = 400 && movecontact
 
 ;[state -1, Enryu Haibi Follow]
 ;type = changestate
@@ -1176,10 +1174,11 @@ trigger1 = statetype = S
 [State -1, Stand Light Punch]
 type = ChangeState
 value = 221
+triggerall = stateno != 221
 triggerall = command = "c"
 triggerall = statetype != A
 trigger1 = ctrl
-trigger2 = stateno = [200,240]
+trigger2 = stateno = [200,240] && movecontact
 trigger5 = stateno = 9001
 ;---------------------------------------------------------------------------
 ;LAUNCHER
@@ -1253,8 +1252,7 @@ trigger1 = statetype = C
 trigger1 = ctrl
 trigger2 = stateno = 400 && movecontact 
 trigger3 = stateno = 430 && movecontact 
-trigger4 = stateno = 210 && movecontact 
-trigger5 = stateno = 9001
+trigger4 = stateno = 9001
 ;---------------------------------------------------------------------------
 ;Crouching Light Kick
 [State -1, Crouching Light Kick]

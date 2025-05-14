@@ -57,7 +57,7 @@
   "GameWidth": 1200,
   "GameHeight": 900,
   "GameFramerate": 60,
-  "InputButtonAssistWindow": 3,
+  "InputButtonAssistWindow": 2,
   "InputSOCDResolution": 1,
   "IP": {},
   "LifeMul": 100,

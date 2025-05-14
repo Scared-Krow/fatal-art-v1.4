@@ -904,7 +904,7 @@ value = 6
 [State 190, 2] ;Go straight to intro.
 type = ChangeState
 trigger1 = Time = 0
-value = 192
+value = 191+random%3
 
 ;------------------
 ;Wall Bounce Shake

@@ -1715,7 +1715,7 @@ ground.slidetime = 20
 ground.hittime  = 22
 ground.velocity = -2.5,-5.85
 guard.velocity = -7
-air.velocity = -2.5,(cond(map(KneeL) <= 1,-5.35,-0.3))
+air.velocity = -2.5,-4.25
 fall.recover = 0
 fall = 1
 p2facing =1
@@ -2034,7 +2034,7 @@ ground.slidetime = 20
 ground.hittime  = 22
 ground.velocity = -3.1,-7.3
 guard.velocity = -9
-air.velocity = -3.1,(cond(map(KneeS) <= 1,-6.3,-2.6))
+air.velocity = -3.1,-5.25
 fall = 1
 p2facing =1
 air.cornerpush.veloff = -6
@@ -3307,16 +3307,16 @@ freq = 100   ;A frequency of 180 shakes the screen rapidly
 
 [State 200, 1]
 type = HitDef
-trigger1 = time%25 = 0
+trigger1 = time%30 = 0
 attr = S, SP                     ;Attribute: Standing, Normal Attack
 getpower = 0,0
 air.animtype = back
 animtype  = hard
-damage    = ceil(ifElse(root,fvar(11) * 10 < 5, 5, root,fvar(11) * 10)), 5
+damage    = ceil(ifElse(root,fvar(11) * 10 < 2, 2, root,fvar(11) * 10)), 5
 priority  = 5
 guardflag = MA
 hitflag = MAFD
-pausetime = 0,10
+pausetime = 5,10
 sparkxy = 0,-60
 sparkno = 3
 hitsound   = 5,4
@@ -4138,7 +4138,6 @@ value = 4000, 3
 
 [State 300, Projectile]
 type = Projectile
-trigger1 = numexplod(44020) <= 1
 trigger1 = animelem = 7
 projanim = 3001
 projhitanim = 3056
@@ -4153,54 +4152,20 @@ damage = ceil(ifElse(fvar(11) * 35 < 5, 5, fvar(11) * 35)), 10
 hitflag = MAFD
 guardflag = M
 animtype  = Hard
-pausetime = 13,13
+pausetime = 10,10
 guard.pausetime = 8,8
 sparkno = 3                   
 sparkxy = 25, -45
 hitsound   = 5,4
 guardsound = 6,2
 ground.type = HIGH
-ground.slidetime = 5
-ground.hittime = 18
+ground.slidetime = 20
+ground.hittime = 20
 guard.ctrltime = 6
 guard.slidetime = 8
 guard.velocity = -2
-ground.velocity = -2
+ground.velocity = -3
 air.velocity = -1,-1
-ignorehitpause = 0
-air.fall = 1
-
-[State 300, Projectile]
-type = Projectile
-trigger1 = numexplod(44020) > 1
-trigger1 = animelem = 7
-projanim = 3001
-projhitanim = 3056
-projscale = 0.16,0.16
-offset = 15,-20
-velocity = 2.2,0
-projpriority= 3
-projhits = 1
-ProjID = 100
-attr = S,SP
-damage = ceil(ifElse(fvar(11) * 35 < 5, 5, fvar(11) * 35)), 10
-hitflag = MAF
-guardflag = M
-animtype  = Hard
-pausetime = 13,13
-guard.pausetime = 8,8
-sparkno = 2                      
-sparkxy = 25, -45
-hitsound   = 5,4
-guardsound = 6,2
-ground.type = HIGH
-ground.slidetime = 5
-ground.hittime = 18
-guard.ctrltime = 6
-guard.slidetime = 9
-guard.velocity = -2
-ground.velocity = -2
-air.velocity = -1,1.5
 ignorehitpause = 0
 air.fall = 1
 
@@ -4242,7 +4207,6 @@ value = 4000, 3
 
 [State 300, Projectile]
 type = Projectile
-trigger1 = numexplod(44021) <= 1
 trigger1 = animelem = 7
 projanim = 3001
 projhitanim = 3056
@@ -4257,7 +4221,7 @@ damage = ceil(ifElse(fvar(11) * 40 < 6, 6, fvar(11) * 40)), 12
 hitflag = MAFD
 guardflag = M
 animtype  = Hard
-pausetime = 13,13
+pausetime = 10,10
 guard.pausetime = 8,8
 sparkno = 3                   
 sparkxy = 25, -50
@@ -4274,39 +4238,6 @@ air.velocity = -1,-1
 fall = 1
 ignorehitpause = 0
 
-[State 300, Projectile]
-type = Projectile
-trigger1 = numexplod(44021) > 1
-trigger1 = animelem = 7
-projanim = 3001
-projhitanim = 3056
-projscale = 0.16,0.16
-offset = 15,-20
-velocity = 2.2,0
-projpriority= 3
-projhits = 1
-ProjID = 100
-attr = S,SP
-damage = ceil(ifElse(fvar(11) * 35 < 5, 5, fvar(11) * 35)), 10
-hitflag = MAFD
-guardflag = M
-animtype  = Hard
-pausetime = 13,13
-guard.pausetime = 10,10
-sparkno = 2                      
-sparkxy = 25, -50
-hitsound   = 5,4
-guardsound = 6,2
-ground.type = HIGH
-ground.slidetime = 5
-ground.hittime = 25
-guard.ctrltime = 5
-guard.slidetime = 9
-guard.velocity = -2
-ground.velocity = -1,4
-air.velocity = -1,1.5
-fall = 1
-ignorehitpause = 0
 [State 3050, 5]
 type = ChangeState
 trigger1 = AnimTime = 0

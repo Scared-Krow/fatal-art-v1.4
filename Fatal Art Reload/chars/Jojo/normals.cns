@@ -683,7 +683,7 @@ value = 1000, (0+(Random%7))
 [State 410, 2]
 type = HitDef
 trigger1 = time = 0
-attr = CS, NA
+attr = C, NA
 getpower = 10
 damage    = ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23)), 0  
 animtype  = Medium
