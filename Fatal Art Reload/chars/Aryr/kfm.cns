@@ -392,6 +392,7 @@ poweradd = -500
 
 [State 0, ChangeState]
 type = ChangeState
+triggerall = enemy,statetype != A
 trigger1 = time = 0
 value = 380
 ctrl = 0
@@ -487,6 +488,7 @@ volumescale = 99999999999
 
 [State 0, ChangeState]
 type = ChangeState
+triggerall = enemy,statetype != A
 trigger1 = time = 0
 value = 380
 ctrl = 0
@@ -564,7 +566,6 @@ type = ChangeState
 trigger1 = AnimTime = 0
 value = 0
 ctrl = 1
-
 ;----------------------------------------------------------
 ;Hit by Breaker Custom State #1: Pause
 [statedef 1040]
