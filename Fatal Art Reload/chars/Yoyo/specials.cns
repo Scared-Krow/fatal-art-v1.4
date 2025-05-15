@@ -1249,7 +1249,6 @@ guardflag = MA
 hitflag = MAFD
 guard.velocity = -3
 pausetime = 6,6
-guard.pausetime = 20, 22
 sparkxy = -10,-60
 hitsound   = S2000,0
 guardsound = 6,1
@@ -5977,7 +5976,6 @@ guardsound = 6,1
 ground.type = Low
 ground.slidetime = 12
 guard.slidetime = 20
-guard.velocity = -2.3
 ground.hittime  = 25
 ground.velocity = -3
 ground.cornerpush.veloff = -8 ;To push far away when p2 is in corner
@@ -6012,7 +6010,7 @@ ground.slidetime = 12
 ground.hittime  = 35
 air.hittime = 35
 guard.slidetime = 25
-guard.velocity = -4
+guard.velocity = -6
 ground.velocity = -3
 ground.cornerpush.veloff = -8 ;To push far away when p2 is in corner
 air.velocity = -1,-5
@@ -6021,8 +6019,8 @@ envshake.time = 6
 envshake.freq = 10
 envshake.ampl = 1
 air.fall = 1
-guard.hittime = 30
-guard.ctrltime = 30
+guard.hittime = 20
+guard.ctrltime = 20
 
 
 [State 1400, 6]

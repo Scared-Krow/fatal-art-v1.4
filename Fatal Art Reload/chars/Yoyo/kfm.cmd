@@ -768,7 +768,6 @@ trigger2 = var(1) ;Use combo condition (above)
 [State -1, Launcher]
 type = changestate
 value = 1030
-triggerall = numexplod(44050) <= 1
 triggerall = command = "z"
 trigger1 = statetype = S
 trigger1 =  var(1) ;Use combo condition (above)

@@ -51,7 +51,7 @@ draw.offset = 0,0    ;Player drawing offset in pixels (x, y). Recommended 0,0
 [Velocity]
 walk.fwd  = 2.35     ;Walk forward
 walk.back = -1.9    ;Walk backward
-run.fwd  = 6, 0    ;Run forward (x, y)
+run.fwd  = 6.25, 0    ;Run forward (x, y)
 run.back = -5.5,-3.8 ;Hop backward (x, y)
 jump.neu = 0,-9.4    ;Neutral jumping velocity (x, y)
 jump.back = -2.8    ;Jump back Speed (x, y)
@@ -1904,7 +1904,7 @@ ignoreHitPause = 1
 [State -2, Dampener] 
 type = VarSet 
 trigger1 = 1 
-fvar(10) = ifElse(fvar(13) < 1, 16, ifElse(fvar(13) >= 16, 1, 16 - fvar(13))) / 16.0 
+fvar(10) = ifElse(fvar(13) < 1, 15, ifElse(fvar(13) >= 15, 1, 15 - fvar(13))) / 15.0 
 ignoreHitPause = 1 
  
 [State -2, Dampener Limit] 
