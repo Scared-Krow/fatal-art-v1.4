@@ -449,16 +449,7 @@ x = 0
 
 [State 0, CtrlSet]
 type = CtrlSet
-triggerall = prevstateno = 1001
-triggerall = prevstateno = 1012
-trigger1 = time = 20
-value = 1
-
-[State 0, CtrlSet]
-type = CtrlSet
-triggerall = prevstateno != 1001
-triggerall = prevstateno != 1012
-trigger1 = time = 13
+trigger1 = time = 15
 value = 1
 
 [State 100, 2] ;Prevent run from canceling into walk

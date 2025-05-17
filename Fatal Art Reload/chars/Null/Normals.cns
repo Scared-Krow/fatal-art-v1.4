@@ -82,14 +82,14 @@ value = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "FF"
+triggerall = command = "bFF"
 trigger1 = time > 10
 value = 101
 ctrl = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "BB"
+triggerall = command = "bBB"
 trigger1 = time > 10
 value = 105
 ctrl = 1
@@ -144,7 +144,7 @@ hitsound   = 5,2
 guardsound = 6,0
 ground.type = low
 ground.slidetime = 12
-ground.hittime  = 28
+ground.hittime  = 24
 ground.velocity = -4
 air.velocity = -2,-1
 guard.cornerpush.veloff = -12
@@ -279,17 +279,18 @@ value = 2
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "FF" && animelemno(0) = [7,11]
-trigger1 = movehit
+triggerall = command = "bFF"
+trigger1 = time > 10
 value = 101
 ctrl = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "BB" && animelemno(0) = [7,11]
-trigger1 = movehit 
+triggerall = command = "bBB"
+trigger1 = time > 10
 value = 105
 ctrl = 1
+
 
 [State 0, ChangeState]
 type = ChangeState
@@ -344,7 +345,7 @@ hitsound   = 5,2
 guardsound = 6,1
 ground.type = low
 ground.slidetime = 12
-ground.hittime  = 30
+ground.hittime  = 29
 ground.velocity = -3.5
 air.velocity = -1.5,-3.7
 guard.cornerpush.veloff = -4
@@ -388,14 +389,14 @@ value = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "FF"
+triggerall = command = "bFF"
 trigger1 = time > 10
 value = 101
 ctrl = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "BB"
+triggerall = command = "bBB"
 trigger1 = time > 10
 value = 105
 ctrl = 1
@@ -598,14 +599,14 @@ value = 2
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "FF"
+triggerall = command = "bFF"
 trigger1 = movehit
 value = 101
 ctrl = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "BB"
+triggerall = command = "bBB"
 trigger1 = movehit 
 value = 105
 ctrl = 1
@@ -949,14 +950,14 @@ value = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "FF"
+triggerall = command = "bFF"
 trigger1 = time > 10
 value = 101
 ctrl = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "BB"
+triggerall = command = "bBB"
 trigger1 = time > 10
 value = 105
 ctrl = 1
@@ -1114,14 +1115,14 @@ value = 2
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "FF"
+triggerall = command = "bFF"
 trigger1 = movehit
 value = 101
 ctrl = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "BB"
+triggerall = command = "bBB"
 trigger1 = movehit 
 value = 105
 ctrl = 1

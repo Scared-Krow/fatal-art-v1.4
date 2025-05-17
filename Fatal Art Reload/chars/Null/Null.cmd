@@ -307,13 +307,25 @@ buffer.time = 3
 name = "FF"     ;Required (do not remove)
 command = F, F
 time = 16
-buffer.time = 6
+buffer.time = 5
+
+[Command]
+name = "bFF"     ;Required (do not remove)
+command = F, F
+time = 10
+buffer.time = 7
 
 [Command]
 name = "BB"     ;Required (do not remove)
 command = B, B
 time = 16
-buffer.time = 6
+buffer.time = 5
+
+[Command]
+name = "bBB"     ;Required (do not remove)
+command = B, B
+time = 10
+buffer.time = 7
 
 ;-| 2/3 Button Combination |-----------------------------------------------
 [Command]

@@ -284,9 +284,8 @@ value = 4001
 
 [State 4000, 5]
 type = ChangeState
-triggerall = Time >= 20
-trigger1 = Vel Y >= 0
-trigger1 = Pos Y >= 0
+trigger1 = Time >= 20
+trigger2 = moveguarded
 value = 9002
 
 ;---------------------------------------------------------------------------
@@ -552,6 +551,27 @@ fvar(13) = 1
 type = DestroySelf
 trigger1 = animelem = 14
 persistent = 0
+
+;---------------------------------------------------------------------------
+; RUN STOP
+; CNS difficulty: easy
+[Statedef 9002]
+type    = S                      ;State-type: S-stand, C-crouch, A-air, L-liedown
+movetype= I                      ;Move-type: A-attack, I-idle, H-gethit
+physics = S                      ;Physics: S-stand, C-crouch, A-air                     ;Number of air juggle points move takes
+;Commonly-used controllers:
+velset = vel x*.8,0                     ;Set velocity (x,y) (Def: no change)
+ctrl = 0                         ;Set ctrl (Def: no change)
+anim = 9002                      ;Change animation (Def: no change)
+poweradd = 0                    ;Power to add (Def: 0)
+sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
+
+[State 200, 3]
+type = ChangeState
+trigger1 = animtime = 0
+value = 0
+ctrl = 1
+
 ;-----------------------------------------------------
 ;hit by ha (pause) 
 [Statedef 3061]

@@ -185,14 +185,14 @@ value = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "FF"
+triggerall = command = "bFF"
 trigger1 = time > 10
 value = 101
 ctrl = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "BB"
+triggerall = command = "bBB"
 trigger1 = time > 10
 value = 105
 ctrl = 1
@@ -418,14 +418,14 @@ ignorehitpause=1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "FF"
+triggerall = command = "bFF"
 trigger1 = movehit
 value = 101
 ctrl = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "BB"
+triggerall = command = "bBB"
 trigger1 = movehit 
 value = 105
 ctrl = 1
@@ -604,14 +604,14 @@ value = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "FF"
+triggerall = command = "bFF"
 trigger1 = time > 10
 value = 101
 ctrl = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "BB"
+triggerall = command = "bBB"
 trigger1 = time > 10
 value = 105
 ctrl = 1
@@ -799,14 +799,14 @@ fall = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "FF"
+triggerall = command = "bFF"
 trigger1 = movehit
 value = 101
 ctrl = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "BB"
+triggerall = command = "bBB"
 trigger1 = movehit 
 value = 105
 ctrl = 1
@@ -942,14 +942,14 @@ value = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "FF"
+triggerall = command = "bFF"
 trigger1 = time > 1
 value = 101
 ctrl = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "BB"
+triggerall = command = "bBB"
 trigger1 = time > 1
 value = 105
 ctrl = 1
@@ -1052,14 +1052,14 @@ ignorehitpause = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "FF"
+triggerall = command = "bFF"
 trigger1 = movecontact
 value = 101
 ctrl = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "BB"
+triggerall = command = "bBB"
 trigger1 = movecontact
 value = 105
 ctrl = 1
@@ -1402,14 +1402,14 @@ getpower = 0,0
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "FF"
+triggerall = command = "bFF"
 trigger1 = movecontact
 value = 101
 ctrl = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "BB"
+triggerall = command = "bBB"
 trigger1 = movecontact
 value = 105
 ctrl = 1
@@ -1843,20 +1843,19 @@ trigger1 = Time = 0
 attr = S, NA
 animtype  = back
 getpower = 0
-damage = ceil(cond(fvar(11) * 150 < 45, 45, fvar(11) * 150)),10
+damage = ceil(cond(fvar(11) * 75 < 25, 25, fvar(11) * 75)),10
 hitflag = MAFD
 guardflag = MA
-pausetime = 16,16
-guard.pausetime = 13,10
-guard.hittime = 20
-guard.ctrltime = 20
+pausetime = 13,13
+guard.hittime = 15
+guard.ctrltime = 15
 sparkno = 6
 sparkxy = -10,-89
 hitsound   = 5,1
 guardsound = 6,1
 ground.type = high
 ground.slidetime = 16
-ground.hittime  = 26
+ground.hittime  = 25
 ground.velocity = -2.5,-4.5
 air.velocity = -1.5,-7
 fall = 1
@@ -1864,14 +1863,14 @@ getpower = 0,0
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "FF"
+triggerall = command = "bFF"
 trigger1 = movecontact
 value = 101
 ctrl = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "BB"
+triggerall = command = "bBB"
 trigger1 = movecontact
 value = 105
 ctrl = 1
@@ -2283,14 +2282,14 @@ getpower = 0,0
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "FF"
+triggerall = command = "bFF"
 trigger1 = movecontact
 value = 101
 ctrl = 1
 
 [State 210, 5]
 type = ChangeState
-triggerall = command = "BB"
+triggerall = command = "bBB"
 trigger1 = movecontact
 value = 105
 ctrl = 1

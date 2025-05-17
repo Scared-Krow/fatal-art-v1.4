@@ -187,7 +187,7 @@ juggle  = 0                      ;Number of air juggle points move takes
 ctrl = 0                         ;Set ctrl (Def: no change)
 anim = 1257                    ;Change animation (Def: no change)
 sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
-velset = vel x, vel y
+velset = vel x*.8, vel y*.5
 
 [State Timer]
 type = mapadd
@@ -199,7 +199,7 @@ value = 1.25
 type = VelSet
 triggerall = prevstateno = [5000,6000] || prevstateno = 261
 trigger1 = time = 0
-y = -3
+y = -4
 
 
 [State 0, Explod]

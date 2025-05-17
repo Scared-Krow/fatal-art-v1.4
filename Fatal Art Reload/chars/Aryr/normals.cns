@@ -533,11 +533,12 @@ getpower = ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23)),ceil(ifElse(fvar(11
 givepower = ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23))*1.5,ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23))*.75
 
 
-[State 200, 3]
+[State 430, 3]
 type = ChangeState
 trigger1 = AnimTime = 0
-value = 0
+value = 11
 ctrl = 1
+
 
 ;---------------------------------------------------------------------------
 ;Crouching HP

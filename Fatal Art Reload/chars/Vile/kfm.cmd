@@ -1168,7 +1168,7 @@ triggerall = stateno = 210 && movecontact
 triggerall = command = "y" 
 triggerall = command != "holddown"
 trigger1 = statetype = S
-
+trigger2 = stateno = 9001
 ;---------------------------------------------------------------------------
 ;OVEHEAD
 [State -1, Stand Light Punch]
@@ -1179,7 +1179,7 @@ triggerall = command = "c"
 triggerall = statetype != A
 trigger1 = ctrl
 trigger2 = stateno = [200,240] && movecontact
-trigger5 = stateno = 9001
+trigger3 = stateno = 9001
 ;---------------------------------------------------------------------------
 ;LAUNCHER
 [State -1, Stand Light Punch]

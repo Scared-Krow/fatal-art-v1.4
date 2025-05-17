@@ -364,44 +364,45 @@ name = "QCF_xy"
 command = D, F, x+y
 buffer.time = 3
 
-[Command]
-name = "BL2"
-command = ~F, D, B, a
-buffer.time = 3
 
 [Command]
 name = "BL2"
-command = ~F, D, B, b
+command = F, $D, B, a
 buffer.time = 3
 
 [Command]
 name = "BL2"
-command = ~F, D, B, ~a
+command = F, $D, B, b
 buffer.time = 3
 
 [Command]
 name = "BL2"
-command = ~F, D, B, ~b
+command = F, $D, B, ~a
+buffer.time = 3
+
+[Command]
+name = "BL2"
+command = F, $D, B, ~b
 buffer.time = 3
 
 [Command]
 name = "BL3"
-command = ~B, D, F, a
+command = B, $D, F, a
 buffer.time = 3
 
 [Command]
 name = "BL3"
-command = ~B, D, F, b
+command = B, $D, F, b
 buffer.time = 3
 
 [Command]
 name = "BL3"
-command = ~B, D, F, ~a
+command = B, $D, F, ~a
 buffer.time = 3
 
 [Command]
 name = "BL3"
-command = ~B, D, F, ~b
+command = B, $D, F, ~b
 buffer.time = 3
 
 ;-| Double Tap |-----------------------------------------------------------

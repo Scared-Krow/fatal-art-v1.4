@@ -406,7 +406,7 @@ ground.slidetime = 12
 guard.slidetime = 12
 ground.hittime  = 24
 ground.velocity = -5.6
-air.velocity = -2.75,(cond(map(SK) <= 1,-6.8,-1.75))
+air.velocity = -2.75,-6
 air.cornerpush.veloff = -16
 p2facing =1
 priority = 3, Hit  

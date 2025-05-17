@@ -318,9 +318,9 @@ guardsound = 6,2
 ground.type = Low
 ground.slidetime = 15
 ground.hittime  = 20
-ground.velocity = -.5,cond(Map(LPDP)<=1,-10,-5)
+ground.velocity = -.5,-10
 guard.velocity = -6
-air.velocity = cond(Map(LPDP)<=1,-.5,-1),cond(Map(LPDP)<=1,-8.75,-4.25)
+air.velocity = -1,-7
 airguard.velocity = -4,-4.5
 p2facing = 1
 fall = 1
@@ -1071,14 +1071,6 @@ fall = 1
 p2facing =1
 p2stateno = 1025
 
-[State 1010]
-type = ChangeState
-trigger1 = time > 21
-trigger1 = time <= 30
-trigger1 = command = "b_FF"
-value = 100
-ctrl = 1
-
 [State 1010, 8]
 type = ChangeState
 trigger1 = AnimTime = 0
@@ -1555,7 +1547,7 @@ ground.slidetime = 12
 ground.hittime  = 25
 ground.velocity = -4
 guard.velocity = -2
-air.velocity = -1,-2.15
+air.velocity = -1.75,-2.15
 air.hittime = 35
 air.fall = 1
 p2facing =1
@@ -1566,7 +1558,6 @@ attr = S, SA
 getpower = 25
 animtype  = medium
 damage    = ceil(ifElse(fvar(11) * 26 < 5, 5, fvar(11) * 26)), 5
-guard.pausetime = 11,10
 priority  = 5
 guardflag = MA
 hitflag = MAFD
@@ -1579,9 +1570,10 @@ ground.type = high
 ground.slidetime = 12
 ground.hittime  = 25
 guard.hittime = 20
-guard.ctrltime = 9
+guard.ctrltime = 12
+guard.slidetime = 17
 ground.velocity = -4
-air.velocity = -1,-4.15
+air.velocity = -1.25,-4
 air.hittime = 35
 air.fall = 1
 p2facing =1
@@ -2548,7 +2540,6 @@ hitflag = MAFD                    ;Flags of conditions that move can hit
 priority = 2               ;Attack priority: 0 (least) to 7 (most), 4 default
 ;Hit/Miss/Dodge type (Def: Hit)
 pausetime = 15,15                 ;Time attacker pauses, time opponent shakes
-guard.pausetime = 12,15
 sparkno = 0                      ;Spark anim no (Def: set above)
 sparkxy = -10, -10              ;X-offset for the "hit spark" rel. to p2,
 ;Y-offset for the spark rel. to p1
@@ -2559,7 +2550,7 @@ ground.slidetime = 20             ;Time that the opponent slides back
 ground.hittime  = 26             ;Time opponent is in hit state
 guard.slidetime = 16
 guard.velocity = -8
-ground.velocity = -3,-5             ;Velocity at which opponent is pushed
+ground.velocity = 2,-5             ;Velocity at which opponent is pushed
 airguard.velocity = -2,-.8     ;Guard velocity in air (def: (air.xvel*1.5, air.yvel/2))
 air.type = High                  ;Type: High, Low, Trip (def: same as ground.type)
 air.velocity = 2,-5.5           ;X-velocity at which opponent is pushed,

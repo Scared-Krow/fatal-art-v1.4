@@ -964,7 +964,6 @@ triggerall = command = "x"
 triggerall = command != "holddown"
 trigger1 = statetype = S
 trigger1 = ctrl
-trigger2 = stateno = 430 && movecontact && time > 9
 ;---------------------------------------------------------------------------
 ;Stand Light Punch
 [State -1, Stand Light Punch]
@@ -996,6 +995,8 @@ value = 231
 triggerall = command = "a" 
 triggerall = statetype != A && command = "holdback" && command != "holddown"
 trigger1 = ctrl
+trigger2 = stateno = [200,240] && movecontact
+trigger2 = stateno != [231,234]
 
 [state -1, Enryu Haibi Follow]
 type = changestate
@@ -1066,8 +1067,7 @@ triggerall = command != "holddown"
 trigger1 = statetype = S
 trigger1 = ctrl
 trigger2 = stateno = 230 && movecontact 
-trigger3 = stateno = 213 && movecontact 
-trigger4 = stateno = 214 && movecontact
+trigger3 = stateno = 214 && movecontact
 
 [state -1, Enryu Haibi Follow]
 type = changestate

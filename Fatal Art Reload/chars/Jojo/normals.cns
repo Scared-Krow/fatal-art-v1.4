@@ -260,7 +260,7 @@ type = HitDef
 trigger1 = time = 1
 attr = S, NA
 animtype  = Medium
-damage    = ceil(ifElse(fvar(11) * 28 < 4, 4, fvar(11) * 28)), 0  
+damage    = ceil(ifElse(fvar(11) * 35 < 4, 4, fvar(11) * 35)), 0  
 guardflag = MA
 hitflag = MAFD                    ;Flags of conditions that move can hit
 priority = 4, Hit
@@ -388,7 +388,7 @@ type = HitDef
 trigger1 = Time = 0
 attr = S, NA
 animtype  = Medium
-damage    = ceil(ifElse(fvar(11) * 36 < 5, 5, fvar(11) * 36)), 0  
+damage    = ceil(ifElse(fvar(11) * 40 < 5, 5, fvar(11) * 40)), 0  
 guardflag = MA
 hitflag = MAFD                    ;Flags of conditions that move can hit
 pausetime = 16,16
@@ -401,9 +401,9 @@ guardsound = 6,2
 ground.type = Low
 ground.slidetime = 12
 ground.cornerpush.veloff = -10
-ground.hittime  = 24
+ground.hittime  = 23
 ground.velocity = -4.2
-air.velocity = -1.25,-3.25
+air.velocity = -1.25,-3
 air.hittime = 25
 guard.hittime = 14
 guard.ctrltime = 14
@@ -1662,13 +1662,6 @@ ampl = 2     ;Amount to shake
 freq = 180   ;A frequency of 180 shakes the screen rapidly
 
 
-[State 0, VarAdd]
-type = VarAdd
-trigger1 = MoveHit = 1
-trigger1 = P2StateType = A
-var(18) = 8
-
-
 ;This is the first hit, triggered on the 3rd element of animation.
 [State 410, 2]
 type = HitDef
@@ -1692,9 +1685,9 @@ guard.velocity = -7
 guard.slidetime = 14
 ground.hittime  = 25             ;Time opponent is in hit state
 ground.velocity = -4,9             ;Velocity at which opponent is pushed
-airguard.velocity = -1.9,-.8     ;Guard velocity in air (def: (air.xvel*1.5, air.yvel/2))
+fall.yvelocity = -5
 air.type = High                  ;Type: High, Low, Trip (def: same as ground.type)
-air.velocity = -1.4,9           ;X-velocity at which opponent is pushed,
+air.velocity = -3,9           ;X-velocity at which opponent is pushed,
 air.hittime = 15                 ;Time before opponent regains control in air
 fall = 1
 air.fall = 1

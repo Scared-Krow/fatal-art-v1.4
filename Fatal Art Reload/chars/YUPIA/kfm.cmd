@@ -837,8 +837,7 @@ value = 1401
 triggerall = var(31)<=2
 triggerall = command = "z"
 trigger1 = var(1) ;Use combo condition (above)
-trigger2 = stateno = 101 && time > 6
-trigger3 = stateno = 102
+trigger2 = stateno = 102
 
 [state -1, Enryu Haibi Follow]
 type = changestate
@@ -912,8 +911,7 @@ trigger1 = ctrl
 trigger2 = stateno = 240 && movecontact
 trigger3 = stateno = 410 && movecontact
 trigger4 = stateno = 225 && movecontact
-trigger5 = stateno = 101 && time > 6
-trigger6 = stateno = 102
+trigger5 = stateno = 102
 ;-----------------------------------------------------------------------------
 ;EX Plasma Cutter Combo Ver
 [State -1, Strong Kung Fu Palm]
@@ -995,8 +993,7 @@ triggerall = command != "holddown"
 triggerall = command = "holdback"
 triggerall = command = "y"
 trigger1 = var(1) ;Use combo condition (above)
-trigger2 = stateno = 101 && time > 6
-trigger3 = stateno = 102
+trigger2 = stateno = 102
 ;---------------------------------------------------------------------------
 ;EX Command Grab
 [State -1]
@@ -1114,15 +1111,6 @@ value = 100
 trigger1 = command = "FF"
 trigger1 = statetype = S
 trigger1 = ctrl
-
-;--------------------------------
-;FADC
-[State -1, FADC]
-type = ChangeState
-value = 101
-trigger1 = command = "FF"
-trigger1 = statetype = S
-trigger1 = ctrl
 ;---------------------------------------------------------------------------
 ;Run Back
 [State -1, Run Back]
@@ -1143,8 +1131,6 @@ trigger1 = ctrl
 trigger2 = stateno = 200 && movecontact 
 trigger3 = stateno = 230 && movecontact 
 trigger4 = stateno = 233 && movecontact 
-trigger5 = stateno = 101 && time > 6
-
 
 ;---------------------------------------------------------------------------
 ;grab
@@ -1173,8 +1159,7 @@ triggerall = command = "x"
 triggerall = command != "holddown"
 trigger1 = statetype = S
 trigger1 = ctrl
-trigger2 = stateno = 101 && time > 6
-trigger3 = stateno = 102
+trigger2 = stateno = 102
 ;---------------------------------------------------------------------------
 ;Stand Strong Punch
 [State -1, Stand Strong Punch]
@@ -1186,8 +1171,7 @@ trigger1 = statetype = S
 trigger1 = ctrl
 trigger2 = (stateno = 200) && movecontact
 trigger3 = (stateno = 230) && movecontact
-trigger4 = stateno = 101 && time > 12
-trigger5 = stateno = 102
+trigger4 = stateno = 102
 ;---------------------------------------------------------------------------
 ;Stand Light Kick
 [State -1, Stand Light Kick]
@@ -1198,9 +1182,8 @@ triggerall = command != "holddown"
 trigger1 = statetype = S
 trigger1 = ctrl
 trigger2 = (stateno = 200) && movecontact
-trigger3 = stateno = 101 && time > 12
-trigger4 = stateno = 430 && movecontact
-trigger5 = stateno = 102
+trigger3 = stateno = 430 && movecontact
+trigger4 = stateno = 102
 ;---------------------------------------------------------------------------
 ;Standing Strong Kick
 [State -1, Standing Strong Kick]
@@ -1212,8 +1195,7 @@ trigger1 = statetype = S
 trigger1 = ctrl
 trigger2 = (stateno = 200) && movecontact
 trigger3 = (stateno = 230) && movecontact
-trigger4 = stateno = 101 && time > 12
-trigger5 = stateno = 102
+trigger4 = stateno = 102
 [state -1, Enryu Haibi Follow]
 type = changestate
 triggerall = ifelse(p2dist X> 0, command != "holdback", command != "holdback")
@@ -1388,8 +1370,7 @@ triggerall = command = "x"
 triggerall = command = "holddown"
 trigger1 = statetype = C
 trigger1 = ctrl
-trigger2 = stateno = 101 && time > 6
-trigger3 = stateno = 102
+trigger2 = stateno = 102
 ;---------------------------------------------------------------------------
 ;Crouching Strong Punch
 [State -1, Crouching Strong Punch]
@@ -1401,8 +1382,7 @@ trigger1 = statetype = C
 trigger1 = ctrl
 trigger2 = (stateno = 400) || (stateno = 430)
 trigger2 = (movecontact) || (movecontact)
-trigger3 = stateno = 101 && time > 12
-trigger4 = stateno = 102
+trigger3 = stateno = 102
 ;---------------------------------------------------------------------------
 ;Crouching Light Kick
 [State -1, Crouching Light Kick]
@@ -1414,8 +1394,7 @@ trigger1 = statetype = C
 trigger1 = ctrl
 trigger2 = (stateno = 400) || (stateno = 430)
 trigger2 = (movecontact) || (movecontact)
-trigger3 = stateno = 101 && time > 12
-trigger4 = stateno = 102
+trigger3 = stateno = 102
 ;---------------------------------------------------------------------------
 ;Crouching Strong Kick
 [State -1, Crouching Strong Kick]
@@ -1427,8 +1406,7 @@ trigger1 = statetype = C
 trigger1 = ctrl
 trigger2 = (stateno = 400) || (stateno = 430)
 trigger2 = (movecontact) || (movecontact)
-trigger3 = stateno = 101 && time > 12
-trigger4 = stateno = 102
+trigger3 = stateno = 102
 ;---------------------------------------------------------------------------
 ;Jump Light Punch
 [State -1, Jump Light Punch]
