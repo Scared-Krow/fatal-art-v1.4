@@ -447,7 +447,7 @@ sprpriority = 2
 
 [State Limiter]
 type = mapadd
-trigger1 = time = 0
+trigger1 = 1
 map = "EXQCFK"
 value = 1
 
@@ -1194,7 +1194,7 @@ poweradd = -1000
 
 [State Limiter]
 type = mapadd
-trigger1 = time = 0
+trigger1 =1
 map = "EXQCBP"
 value = 1
 
@@ -2089,7 +2089,7 @@ velset = 0,1
 
 [State Limiter]
 type = mapadd
-trigger1 = time = 0
+trigger1 = 1
 map = "EXQCBP"
 value = 1
 
@@ -2885,7 +2885,7 @@ poweradd = -1000
 
 [State Limiter]
 type = mapadd
-trigger1 = time = 0
+trigger1 = 1
 map = "EXRUNKK"
 value = 1
 

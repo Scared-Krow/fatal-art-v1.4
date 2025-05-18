@@ -1724,19 +1724,16 @@ trigger1 = AnimElem = 7
 value = 1500, 0
 
 
-
-
 [State -3, Win Voices] ;Win
 type = PlaySnd
 trigger1 = animelem = 7
 value = 1200, 3
 
 [State 8000, Varadd]
-type = VarAdd
-trigger1 = time = 0
-v = 58    ;fv = 10
+type = MapSet
+trigger1 = 1
+map = "launcher"
 value = 1
-persistent = 0
 
 [State 0, PosAdd]
 type = PosAdd

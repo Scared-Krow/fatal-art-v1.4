@@ -1750,7 +1750,7 @@ value = 2000, (0+(Random%4))
 
 [State 0, Launch Limiter]
 type = MapAdd
-trigger1 = time = 0
+trigger1 = 1
 map = "Launcher"
 value = 1
 

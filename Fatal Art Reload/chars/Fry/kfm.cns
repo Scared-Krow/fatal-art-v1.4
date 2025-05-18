@@ -5,7 +5,7 @@
 
 [Data]
 ;Amount of life to start with
-life = 1100
+life = 1000
 ;attack power (more is stronger)
 attack = 100
 ;defensive power (more is stronger)
@@ -1827,8 +1827,8 @@ kill = 0
 [State 0, DisplayToClipboard]
 type = DisplayToClipboard
 trigger1 = 1
-text = "Map(GBjSP) = %d"
-params = Map(GBjSP)
+text = "Map(GBjSP) = %f"
+params = Map(hop)
 ;ignorehitpause = 
 ;persistent = 
 
@@ -2346,6 +2346,50 @@ ignoreHitPause = 1
 
 [Statedef -3]
 
+;RELEASE ME================
+[State 0, VarSet]
+type = MapSet
+trigger1 = movetype!=H
+map = "juggletimer"
+value = 0
+ignorehitpause = 1
+persistent = 1
+;===========================
+
+;LONGER COMBOS = MORE POWER====================
+[State Comeback PowerAdd]
+type = TargetPowerAdd
+trigger1 = map(enemymeter)=0
+value = map(combotimer)/75
+ignorehitpause = 1
+
+[State Power Trigger]
+type = mapadd
+trigger1 = map(enemymeter)<1
+map = "enemymeter"
+value = 1
+ignorehitpause = 1
+[State Power Trigger]
+type = mapset
+trigger1 = enemy,stateno=5000||enemy,stateno=5020
+map = "enemymeter"
+value = -1
+ignorehitpause = 1
+
+[State Combo Timer]
+type = mapadd
+trigger1 = combocount>0
+map = "combotimer"
+value = 1
+ignorehitpause = 1
+[State Combo Timer]
+type = mapSet
+trigger1 = combocount=0
+map = "combotimer"
+value = 0
+ignorehitpause = 1
+;================================================
+
 ;This controller plays a sound everytime KFM lands from a jump, or
 ;from his back-dash.
 [State -3, Landing Sound]
@@ -2372,6 +2416,29 @@ value = 1
 type = mapset
 trigger1 = !ctrl
 map = "CanTT"
+value = 0
+
+[State Limiter]
+type = mapset
+trigger1 = combocount=0
+trigger1 = stateno!=1502
+trigger1= NumProjID(1) = 0
+map = "exball"
+value = 0
+
+[State Limiter]
+type = mapset
+trigger1 = combocount=0
+trigger1 = stateno!=5193&&stateno!=5194
+map = "exdp"
+value = 0
+
+[State Limiter]
+type = mapset
+trigger1 = combocount=0
+trigger1 = movetype!=A
+trigger1 = stateno!=9001
+map = "hop"
 value = 0
 
 [State Limiter]

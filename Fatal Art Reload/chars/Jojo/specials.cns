@@ -299,6 +299,13 @@ triggerall = enemy, statetype = A || enemy, statetype = L
 trigger1 = time = 0
 map = "LPDP"
 value = 1
+ 
+[State Limiter]
+type = mapadd
+trigger1 = movehit
+map = "ermdp"
+value = 1
+ignorehitpause=1
 
 [State 1110, 3]
 type = HitDef
@@ -318,9 +325,9 @@ guardsound = 6,2
 ground.type = Low
 ground.slidetime = 15
 ground.hittime  = 20
-ground.velocity = -.5,-10
+ground.velocity = -.5,cond(Map(ermdp)>1,-4,-10)
 guard.velocity = -6
-air.velocity = -1,-7
+air.velocity = -1,cond(Map(ermdp)>1,-4,-7)
 airguard.velocity = -4,-4.5
 p2facing = 1
 fall = 1
@@ -564,7 +571,7 @@ facep2 = 1
 
 [State 0, VarAdd]
 type = VarAdd
-trigger1 = time = 1 
+trigger1 = 1
 v =  38   ;fv = 
 value = var(38)+1
 
@@ -741,6 +748,11 @@ anim = 4000
 velset = 6,-8
 hitdefpersist = 1
 
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = 1
+v =  38   ;fv = 
+value = var(38)+1
 
 [State 1000, 1]
 type = VelMul
@@ -1103,10 +1115,10 @@ poweradd = -1000
 anim = 10015
 
 [State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 1
-v = 39   
-value = var(39)+1
+type = MapSet
+trigger1 =1
+map = "roll"   
+value = 1
 
 [State 0, NotHitBy]
 type = NotHitBy
@@ -1599,7 +1611,7 @@ anim = 1002
 
 [State 0, VarAdd]
 type = VarAdd
-trigger1 = time = 1
+trigger1 = 1
 v = 40    
 value = 1
 
@@ -2652,6 +2664,12 @@ type = VarSet
 trigger1 = 1
 fv = 9    ;fv = 
 value = 1071
+
+[State 0, VarSet]
+type = MapSet
+trigger1 = 1
+map = "slam"
+value = 1
 
 [State 0, ChangeAnim]
 type = ChangeAnim

@@ -1067,13 +1067,6 @@ type = PlaySnd
 trigger1 = animelem = 1
 value = 896,0
 
-[State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 1 
-v = 32    ;fv = 
-value = var(32)+1
-;ignorehitpause = 
-;persistent = 
 
 
 [State 1400, 1]
@@ -1309,6 +1302,15 @@ velset = 0,0
 anim = 1001
 ctrl = 0
 sprpriority = 2
+
+[State 0, VarAdd]
+type = VarSet
+trigger1 =1
+v = 32    ;fv = 
+value = var(32)+1
+;ignorehitpause = 
+;persistent = 
+
 
 [State 1000, 1]
 type = PlaySnd
@@ -2273,6 +2275,12 @@ velset = 0,0
 anim = 1101
 juggle = 0
 
+[State 0, VarAdd]
+type = VarSet
+trigger1 = 1
+v = 31    ;fv = 
+value = 1
+
 [State 1000, 1]
 type = PlaySnd
 trigger1 = animelem = 2
@@ -2424,12 +2432,11 @@ trigger1 = 1
 y = .25
 
 [State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 0
+type = VarSet
+trigger1 = 1
 v = 31    ;fv = 
-value = var(31)+1
-;ignorehitpause = 
-;persistent = 
+value = 1
+
 
 
 [State 220, Sound]
@@ -4781,13 +4788,10 @@ trigger1 = animelem = 1
 value = 896,0
 
 [State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 1
+type = VarSet
+trigger1 = 1
 v = 33    ;fv = 
-value = var(33)+1
-;ignorehitpause = 
-;persistent = 
-
+value = 1
 
 [State 1400, 1]
 type = PlaySnd
@@ -5115,7 +5119,11 @@ type = PlaySnd
 trigger1 = time = 0
 value = 3003, 0
 
-
+[State 0, VarAdd]
+type = VarSet
+trigger1 = 1
+v = 33    ;fv = 
+value = 1
 [State 0, Explod]
 type = Explod
 triggerall = statetype = S
@@ -5241,6 +5249,12 @@ velset = 0,0
 anim = 1015
 ctrl = 0
 sprpriority = -2
+
+[State 0, VarAdd]
+type = VarSet
+trigger1 = 1
+v = 33    ;fv = 
+value = 1
 
 [State 0, PlaySnd]
 type = PlaySnd
@@ -5374,6 +5388,11 @@ velset = 0,0
 anim = 1016
 ctrl = 0
 sprpriority = -2
+[State 0, VarAdd]
+type = VarSet
+trigger1 = 1
+v = 33    ;fv = 
+value = 1
 [State 0, PlaySnd]
 type = PlaySnd
 trigger1 = animelem = 8
@@ -5505,6 +5524,11 @@ velset = 0,0
 anim = 1017
 ctrl = 0
 sprpriority = -2
+[State 0, VarAdd]
+type = VarSet
+trigger1 = 1
+v = 33    ;fv = 
+value = 1
 [State 0, PlaySnd]
 type = PlaySnd
 trigger1 = animelem = 8
@@ -5637,6 +5661,11 @@ velset = 0,0
 anim = 1018
 ctrl = 0
 sprpriority = -2
+[State 0, VarAdd]
+type = VarSet
+trigger1 = 1
+v = 33    ;fv = 
+value = 1
 [State 0, PlaySnd]
 type = PlaySnd
 trigger1 = animelem = 8
@@ -6439,12 +6468,10 @@ trigger1 = animelem = 1
 value = 896,0
 
 [State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 1
+type = VarSet
+trigger1 = 1
 v = 34    ;fv = 
-value = var(34)+1
-;ignorehitpause = 
-;persistent = 
+value = 1
 
 [State 1400, 1]
 type = PlaySnd
@@ -6687,6 +6714,13 @@ velset = 0,0
 anim = 1404
 ctrl = 0
 sprpriority = 2
+
+[State 0, VarAdd]
+type = VarSet
+trigger1 = 1
+v = 34    ;fv = 
+value = 1
+
 [State 0, PlaySnd]
 type = PlaySnd
 trigger1 = animelem = 8

@@ -203,6 +203,104 @@ buffer.time = 3
 time = 20
 
 [Command]
+name = "HCBab"
+command = ~F, D, $B, a+b
+buffer.time = 8
+[Command]
+name = "HCBab"
+command = ~F, D, $B, b+a
+buffer.time = 8
+[Command]
+name = "HCBa"
+command = ~F, D, $B, a
+buffer.time = 8
+[Command]
+name = "HCBa"
+command = ~F, D, $B, ~a
+buffer.time = 8
+[Command]
+name = "HCBb"
+command = ~F, D, $B, b
+buffer.time = 8
+[Command]
+name = "HCBb"
+command = ~F, D, $B, ~b
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, x+y
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, y+x
+buffer.time = 8
+[Command]
+name = "HCBx"
+command = ~F, D, $B, x
+buffer.time = 8
+[Command]
+name = "HCBx"
+command = ~F, D, $B, ~x
+buffer.time = 8
+[Command]
+name = "HCBy"
+command = ~F, D, $B, y
+buffer.time = 8
+[Command]
+name = "HCBy"
+command = ~F, D, $B, ~y
+buffer.time = 8
+
+[Command]
+name = "HCFab"
+command = ~B, D, $F, a+b
+buffer.time = 8
+[Command]
+name = "HCFab"
+command = ~B, D, $F, b+a
+buffer.time = 8
+[Command]
+name = "HCFa"
+command = ~B, D, $F, a
+buffer.time = 8
+[Command]
+name = "HCFa"
+command = ~B, D, $F, ~a
+buffer.time = 8
+[Command]
+name = "HCFb"
+command = ~B, D, $F, b
+buffer.time = 8
+[Command]
+name = "HCFb"
+command = ~B, D, $F, ~b
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, x+y
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, y+x
+buffer.time = 8
+[Command]
+name = "HCFx"
+command = ~B, D, $F, x
+buffer.time = 8
+[Command]
+name = "HCFx"
+command = ~B, D, $F, ~x
+buffer.time = 8
+[Command]
+name = "HCFy"
+command = ~B, D, $F, y
+buffer.time = 8
+[Command]
+name = "HCFy"
+command = ~B, D, $F, ~y
+buffer.time = 8
+
+[Command]
 name = "blocking"
 command = y+b
 time = 3
@@ -847,6 +945,7 @@ triggerall= stateno != [800,810]
 triggerall = stateno != [1000,1012]
 triggerall= statetype != A
 triggerall = power >= 1000
+triggerall = map(CUM)=0
 trigger1 = var(1) ;Use combo condition (above)
 trigger2 = movecontact 
 trigger3 = stateno = 101
@@ -966,6 +1065,7 @@ trigger1 = ctrl
 [State -1, Launcher]
 type = ChangeState
 value = 700
+triggerall = var(34)=0
 triggerall = command = "z"
 triggerall = stateno != 241
 triggerall = statetype != A

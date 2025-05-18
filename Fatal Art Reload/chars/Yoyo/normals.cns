@@ -778,6 +778,12 @@ anim = 222
 sprpriority = 2
 
 [State 0, VelSet]
+type = MapSet
+trigger1 = 1
+map = "Launcher"
+value = 1
+
+[State 0, VelSet]
 type = VelSet
 trigger1 = time = 0
 x = 1.6
@@ -1029,9 +1035,17 @@ type = PlaySnd
 trigger1 = animelem = 3
 value = 5003, 10
 
+[State -3, Win Voices] ;Win
+type = mapSet
+trigger1 = movehit
+trigger1 = target,statetype!=A
+map = "ohs"
+value = 1
+ignorehitpause=1
+
 [State 210, 2]
 type = HitDef
-trigger1 = time = 0
+trigger1 = !movecontact
 attr = S, NA
 getpower = 10
 animtype  = hard
@@ -1047,7 +1061,7 @@ guardsound = 6,2
 ground.type = High
 ground.slidetime = 12
 ground.hittime  = 29
-ground.velocity = -3
+ground.velocity = -3,cond(Map(ohs),-1,0)
 air.velocity = -3,-1
 priority = 3, Hit  
 envshake.time = 6

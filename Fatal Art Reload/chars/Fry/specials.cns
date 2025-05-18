@@ -618,6 +618,12 @@ anim = 1099
 sprpriority = 2
 facep2 = 1
 
+[State 0] 
+type = MapSet
+trigger1 =1
+map = "exdp"
+value = 1
+
 [State 0, Explod]
 type = Explod
 trigger1 = animelem =4
@@ -823,7 +829,11 @@ type = VelMul
 trigger1 = 1
 x = .9
 
-
+[State 0] 
+type = MapSet
+trigger1 =1
+map = "exdp"
+value = 1
 
 [State 0, PlaySnd]
 type = PlaySnd
@@ -1910,6 +1920,12 @@ anim = 1220
 ctrl = 0
 sprpriority = 2
 
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = 1
+v = 36   
+value = var(36)+1
+
 [State 0, Explod]
 type = Explod
 trigger1 = animelem =1
@@ -2559,10 +2575,10 @@ sprpriority = -1
 poweradd = -1000
 
 [State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 1
-v = 37    
-value = var(37)+1
+type = MapSet
+trigger1 = 1
+map = "exball"    
+value = 1
 
 [State 0] 
 type = VarAdd

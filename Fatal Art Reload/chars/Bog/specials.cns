@@ -926,21 +926,16 @@ ctrl = 0
 sprpriority = 2
 anim = 1100
 
-
+[State 0, VarAdd]
+type = MapSet
+trigger1 = 1
+map = "EVILASSPISSBUBBLE"
+value = 1 
 
 [State -3, Win Voices] ;Win
 type = PlaySnd
 trigger1 = animelem = 5
 value = 666, (0+(Random%2))
-
-
-[State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 1
-v = 32     ;fv = 
-value = var(32)+1
-;ignorehitpause = 
-;persistent = 
 
 [State 220, Sound]
 type = PlaySnd
@@ -1639,13 +1634,7 @@ anim = 1020
 type = PlaySnd
 trigger1 = animelem = 1
 value = 896,0
-[State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 1
-v = 33    ;fv = 
-value = var(33)+1
-;ignorehitpause = 
-;persistent = 
+
 
 [State 220, Sound]
 type = PlaySnd
@@ -1849,6 +1838,14 @@ TimeGap  = 1
 FrameGap = 2
 Trans = Add
 time = 2
+
+[State 0, VarAdd]
+type = VarSet
+trigger1 =1
+v = 33    ;fv = 
+value = 1
+;ignorehitpause = 
+;persistent = 
 
 [State 1070, Afterimage]
 type = AfterImageTime

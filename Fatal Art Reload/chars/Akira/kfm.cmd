@@ -316,24 +316,102 @@ command = ~D, B, ~x+y
 buffer.time = 3
 
 [Command]
-name = "HCF_x"
-command = ~B, D, F, x
-buffer.time = 3
+name = "HCBab"
+command = ~F, D, $B, a+b
+buffer.time = 8
+[Command]
+name = "HCBab"
+command = ~F, D, $B, b+a
+buffer.time = 8
+[Command]
+name = "HCBa"
+command = ~F, D, $B, a
+buffer.time = 8
+[Command]
+name = "HCBa"
+command = ~F, D, $B, ~a
+buffer.time = 8
+[Command]
+name = "HCBb"
+command = ~F, D, $B, b
+buffer.time = 8
+[Command]
+name = "HCBb"
+command = ~F, D, $B, ~b
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, x+y
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, y+x
+buffer.time = 8
+[Command]
+name = "HCB_x"
+command = ~F, D, $B, x
+buffer.time = 8
+[Command]
+name = "HCB_x"
+command = ~F, D, $B, ~x
+buffer.time = 8
+[Command]
+name = "HCB_y"
+command = ~F, D, $B, y
+buffer.time = 8
+[Command]
+name = "HCB_y"
+command = ~F, D, $B, ~y
+buffer.time = 8
 
 [Command]
-name = "HCF_x"
-command = ~B, D, F, ~x
-buffer.time = 3
-
+name = "HCFab"
+command = ~B, D, $F, a+b
+buffer.time = 8
+[Command]
+name = "HCFab"
+command = ~B, D, $F, b+a
+buffer.time = 8
+[Command]
+name = "HCFa"
+command = ~B, D, $F, a
+buffer.time = 8
+[Command]
+name = "HCFa"
+command = ~B, D, $F, ~a
+buffer.time = 8
+[Command]
+name = "HCFb"
+command = ~B, D, $F, b
+buffer.time = 8
+[Command]
+name = "HCFb"
+command = ~B, D, $F, ~b
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, x+y
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, y+x
+buffer.time = 8
 [Command]
 name = "HCF_x"
-command = ~B, D, F, y
-buffer.time = 3
-
+command = ~B, D, $F, x
+buffer.time = 8
 [Command]
 name = "HCF_x"
-command = ~B, D, F, ~y
-buffer.time = 3
+command = ~B, D, $F, ~x
+buffer.time = 8
+[Command]
+name = "HCF_y"
+command = ~B, D, $F, y
+buffer.time = 8
+[Command]
+name = "HCF_y"
+command = ~B, D, $F, ~y
+buffer.time = 8
 
 [Command]
 name = "QCF_a"
@@ -894,6 +972,7 @@ trigger1 = var(1) ;Use combo condition (above)
 type = ChangeState
 value = 1020
 triggerall = command = "QCF_xy"
+triggerall = NumHelper(1203)<=0
 triggerall= stateno != 810
 triggerall = statetype != A
 triggerall = power >= 1000
@@ -1322,6 +1401,7 @@ type = ChangeState
 value = 280
 triggerall = command = "z" && command != "holdback"
 triggerall = statetype != A
+triggerall = map(launcher)=0
 trigger1 = ctrl
 trigger2 = stateno = [200,253] && movecontact
 ;---------------------------------------------------------------------------
@@ -1417,7 +1497,7 @@ triggerall = command = "a"
 triggerall = command = "holddown"
 trigger1 = statetype = C
 trigger1 = ctrl
-trigger2 = (stateno = 410) || (stateno = 400)
+trigger2 = (stateno = 400)
 trigger2 = movecontact 
 
 [state -1, Enryu Haibi Follow]

@@ -176,6 +176,104 @@ command = ~D, DB, B, D, DB, B, a;~F, D, DF, F, D, DF, y
 time = 20
 buffer.time = 3
 
+[Command]
+name = "HCBab"
+command = ~F, D, $B, a+b
+buffer.time = 8
+[Command]
+name = "HCBab"
+command = ~F, D, $B, b+a
+buffer.time = 8
+[Command]
+name = "HCBa"
+command = ~F, D, $B, a
+buffer.time = 8
+[Command]
+name = "HCBa"
+command = ~F, D, $B, ~a
+buffer.time = 8
+[Command]
+name = "HCBb"
+command = ~F, D, $B, b
+buffer.time = 8
+[Command]
+name = "HCBb"
+command = ~F, D, $B, ~b
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, x+y
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, y+x
+buffer.time = 8
+[Command]
+name = "HCBx"
+command = ~F, D, $B, x
+buffer.time = 8
+[Command]
+name = "HCBx"
+command = ~F, D, $B, ~x
+buffer.time = 8
+[Command]
+name = "HCBy"
+command = ~F, D, $B, y
+buffer.time = 8
+[Command]
+name = "HCBy"
+command = ~F, D, $B, ~y
+buffer.time = 8
+
+[Command]
+name = "HCFab"
+command = ~B, D, $F, a+b
+buffer.time = 8
+[Command]
+name = "HCFab"
+command = ~B, D, $F, b+a
+buffer.time = 8
+[Command]
+name = "HCFa"
+command = ~B, D, $F, a
+buffer.time = 8
+[Command]
+name = "HCFa"
+command = ~B, D, $F, ~a
+buffer.time = 8
+[Command]
+name = "HCFb"
+command = ~B, D, $F, b
+buffer.time = 8
+[Command]
+name = "HCFb"
+command = ~B, D, $F, ~b
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, x+y
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, y+x
+buffer.time = 8
+[Command]
+name = "HCFx"
+command = ~B, D, $F, x
+buffer.time = 8
+[Command]
+name = "HCFx"
+command = ~B, D, $F, ~x
+buffer.time = 8
+[Command]
+name = "HCFy"
+command = ~B, D, $F, y
+buffer.time = 8
+[Command]
+name = "HCFy"
+command = ~B, D, $F, ~y
+buffer.time = 8
+
 ;-| Special Motions |------------------------------------------------------
 [Command]
 name = "blocking"
@@ -594,10 +692,9 @@ trigger1 = ctrl
 [State -1, Light Kung Fu Palm]
 type = ChangeState
 value = 530
-triggerall = numexplod(44021)<= 1
+triggerall = map(launcher)=0
 triggerall = command = "z"
 triggerall = statetype != A
-triggerall = var(25) <= 0
 TRIGGER1 = ctrl
 trigger1 = var(1) ;Use combo condition (above)
 trigger2 = stateno = 210 && movecontact

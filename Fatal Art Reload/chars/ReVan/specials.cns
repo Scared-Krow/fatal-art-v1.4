@@ -395,11 +395,7 @@ ctrl = 0
 poweradd = -1000
 sprpriority = 2
 
-[State Limiter]
-type = mapadd
-trigger1 = time = 0
-map = "EXShoulder"
-value = 1
+
 
 [State 220, Sound]
 type = PlaySnd
@@ -567,6 +563,12 @@ physics = N
 anim = 1102
 velset = 0,0
 sprpriority = 5
+
+[State Limiter]
+type = mapadd
+trigger1 = 1
+map = "EXShoulder"
+value = 1
 
 [State 0, Width]
 type = Width
@@ -1503,7 +1505,7 @@ ctrl = 1
 ;EX STANCE
 [Statedef 1600]
 type    = S
-movetype= I
+movetype= A
 physics = S
 velset = 0,0
 anim = 1500
@@ -1512,8 +1514,8 @@ poweradd = -1000
 sprpriority = 2
 
 [State Limiter]
-type = mapadd
-trigger1 = time = 0
+type = mapset
+trigger1 = 1
 map = "EXStance"
 value = 1
 
@@ -2356,7 +2358,7 @@ volumescale = 10000000
 
 [State Limiter]
 type = mapadd
-trigger1 = time = 0
+trigger1 = 1
 map = "EXTele"
 value = 1
 

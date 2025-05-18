@@ -831,7 +831,7 @@ sprpriority = 4
 
 [State Limiter]
 type = mapadd
-trigger1 = time = 0
+trigger1 = 1
 map = "EXQCFP"
 value = 1
 
@@ -976,7 +976,11 @@ ctrl = 0
 anim =1022
 sprpriority = 4
 velset = 1.25,0
-
+[State Limiter]
+type = mapadd
+trigger1 = 1
+map = "EXQCFP"
+value = 1
 [State Heat Gain]
 type = mapadd
 trigger1 = animelem = 1
@@ -1241,7 +1245,7 @@ poweradd=-1000
 
 [State Limiter]
 type = mapadd
-trigger1 = time = 0
+trigger1 = 1
 map = "EXQCFK"
 value = 1
 
@@ -1651,7 +1655,7 @@ sprpriority = 2
 
 [State Limiter]
 type = mapadd
-trigger1 = time = 0
+trigger1 = 1
 map = "EXQCBP"
 value = 1
 
@@ -2111,7 +2115,7 @@ freqmul = .8
 
 [State Limiter]
 type = mapadd
-trigger1 = time = 0
+trigger1 =1
 map = "EXDDP"
 value = 1
 

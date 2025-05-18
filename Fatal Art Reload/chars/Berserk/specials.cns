@@ -851,6 +851,13 @@ physics = N
 anim = 1005
 poweradd = 0
 
+[State 1000, 1]
+type = MapAdd
+trigger1 = time=0
+map = "EXgrab"
+value = 1
+ignorehitpause=1
+
 [State 810, Holding fwd?]
 type = VarSet
 trigger1 = Time = 0
@@ -982,6 +989,13 @@ movetype= A
 physics = N
 anim = 1005
 poweradd = 0
+
+[State 1000, 1]
+type = MapAdd
+trigger1 = time=0
+map = "EXgrab"
+value = 1
+ignorehitpause=1
 
 [State 810, Holding fwd?]
 type = VarSet
@@ -1283,7 +1297,7 @@ sprpriority = 2
 
 [State Timer]
 type = mapadd
-trigger1 = animelem = 1
+trigger1 = movehit
 map = "EXELBOW"
 value = 1
 
@@ -1669,7 +1683,7 @@ anim = 1020
 
 [State 0, VarAdd]
 type = VarAdd
-trigger1 = time = 1 
+trigger1 = movehit
 v = 36    ;fv = 
 value = 1
 ;ignorehitpause = 
@@ -2313,7 +2327,7 @@ sprpriority = 2
 
 [State Limiter]
 type = mapadd
-trigger1 = time = 0
+trigger1 = movehit
 map = "EXTACK"
 value = 1
 
@@ -3623,11 +3637,6 @@ anim = 2000
 sprpriority = 0
 velset = 3.5,-2.5
 
-[State 4000, VarAdd]
-type = VarAdd
-trigger1 = time = 1
-v = 34     
-value = var(34)+1
 
 [State 220, Sound]
 type = PlaySnd
@@ -3793,6 +3802,12 @@ velset = 0,-8
 ;trigger1 = 
 ;trigger1 = 1
 ;y = .13
+
+[State 4000, VarAdd]
+type = VarAdd
+trigger1 = time = 0
+v = 34     
+value = var(34)+1
 
 [State 610, 3]
 type = HitDef

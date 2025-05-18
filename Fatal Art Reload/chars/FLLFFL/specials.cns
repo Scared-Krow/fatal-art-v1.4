@@ -194,10 +194,10 @@ sprpriority = -2
 anim = 1500
 
 [State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 1
-v = 35   
-value = var(35)+1
+type = MapSet
+trigger1 = 1
+map = "exl"
+value = 1
 
 
 [State 0, PosAdd]
@@ -506,6 +506,12 @@ poweradd= 0
 anim = 1000
 ctrl = 0
 sprpriority = -2
+
+[State Limiter]
+type = MapSet
+trigger1 = 1
+map = "Launcher"
+value = cond(combocount,1,0)
 
 [State 0, Turn]
 type = Turn
@@ -1867,6 +1873,12 @@ anim = 250000
 ID = 250
 Ignorehitpause = 1
 
+[State Limiter]
+type = MapSet
+trigger1 = 1
+map = "Launcher"
+value = cond(combocount,1,0)
+
 [State 20, 1]
 type = VelSet
 trigger1 = command = "holdfwd"
@@ -1891,6 +1903,12 @@ type    = S
 physics = S
 sprpriority = 0
 anim= 1008
+
+[State Limiter]
+type = MapSet
+trigger1 = 1
+map = "Launcher"
+value = cond(combocount,1,0)
 
 [State Sword Active?]
 type = Explod
@@ -1928,6 +1946,12 @@ physics = S
 sprpriority = 0
 anim= 1006
 
+[State Limiter]
+type = MapSet
+trigger1 = 1
+map = "Launcher"
+value = cond(combocount,1,0)
+
 [State 0, Sword Active Marker Delete]
 type = RemoveExplod
 trigger1 = time = 0
@@ -1957,6 +1981,12 @@ velset = 0,0
 anim = 1007
 ctrl = 0
 sprpriority = -2
+
+[State Limiter]
+type = MapSet
+trigger1 = 1
+map = "Launcher"
+value = cond(combocount,1,0)
 
 [State 1000, 1]
 type = PlaySnd
@@ -2922,8 +2952,8 @@ value = 6001, (0+(Random%6))
 channel = 0
 
 [State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 1
+type = VarSet
+trigger1 =1
 v = 34    
 value = 1
 
@@ -3235,7 +3265,7 @@ removeongethit = 0
 
 [State 200, 3]
 type = ChangeState
-triggerall = movecontact
+trigger1 = animelemtime(13)>=0
 trigger1 = command = "QCF_a" || command = "QCF_b"
 value = 2200
 ctrl = 0
@@ -3710,7 +3740,7 @@ channel = 0
 
 [State Limiter]
 type = mapadd
-trigger1 = time = 0
+trigger1 = 1
 map = "EXQCFK"
 value = 1
 
@@ -4107,7 +4137,11 @@ y = 5
 ;ignorehitpause = 
 ;persistent = 
 
-
+[State Limiter]
+type = mapadd
+trigger1 = 1
+map = "EXQCFK"
+value = 1
 [State 4000, 5]
 type = ChangeState
 trigger1 = MoveHit

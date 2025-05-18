@@ -231,11 +231,14 @@ value2 = C, NA
 time = 1
 
 [State 0, PosAdd]
-type = PosAdd
-trigger1 = animelem = 6
-trigger2 = animelem = 7
-trigger3 = animelem = 8
-x = 15
+type = VelSet
+trigger1 = animelemtime(8) >=0&&animelemtime(10)<0
+x = 8
+
+[State 0, PosAdd]
+type = VelMul
+trigger1 = animelem=10
+x = 0.7
 
 [State 210, 2]
 type = HitDef
@@ -517,10 +520,10 @@ ID = 3502
 pos = 0,-40
 postype = p1  ;p2,front,back,left,right
 facing = cond(enemy,facing = 1,-1,1)
-bindtime = 999
+bindtime = 0
 removetime = -2
 scale = 0.15,0.15
-sprpriority = 7
+sprpriority = -5
 ownpal = 1
 ignorehitpause = 0
 

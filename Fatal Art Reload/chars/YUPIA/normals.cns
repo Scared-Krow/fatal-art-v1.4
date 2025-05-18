@@ -318,6 +318,12 @@ anim = 220                       ;Change animation (Def: no change)
 poweradd = 0                    ;Power to add (Def: 0)
 sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
 
+[State 0, VarAdd]
+type = MapAdd
+trigger1 = 1
+map = "launcher"
+value = 1
+
 [State 0, PlaySnd]
 type = PlaySnd
 trigger1 = movehit&&palno!=12

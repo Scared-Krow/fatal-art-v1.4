@@ -176,6 +176,103 @@ name = "TripleKFPalm"   ;Same name as above
 command = ~D, F, D, F, ~b
 buffer.time = 3
 time = 25
+[Command]
+name = "HCBab"
+command = ~F, D, $B, a+b
+buffer.time = 8
+[Command]
+name = "HCBab"
+command = ~F, D, $B, b+a
+buffer.time = 8
+[Command]
+name = "HCBa"
+command = ~F, D, $B, a
+buffer.time = 8
+[Command]
+name = "HCBa"
+command = ~F, D, $B, ~a
+buffer.time = 8
+[Command]
+name = "HCBb"
+command = ~F, D, $B, b
+buffer.time = 8
+[Command]
+name = "HCBb"
+command = ~F, D, $B, ~b
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, x+y
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, y+x
+buffer.time = 8
+[Command]
+name = "HCBx"
+command = ~F, D, $B, x
+buffer.time = 8
+[Command]
+name = "HCBx"
+command = ~F, D, $B, ~x
+buffer.time = 8
+[Command]
+name = "HCBy"
+command = ~F, D, $B, y
+buffer.time = 8
+[Command]
+name = "HCBy"
+command = ~F, D, $B, ~y
+buffer.time = 8
+
+[Command]
+name = "HCFab"
+command = ~B, D, $F, a+b
+buffer.time = 8
+[Command]
+name = "HCFab"
+command = ~B, D, $F, b+a
+buffer.time = 8
+[Command]
+name = "HCFa"
+command = ~B, D, $F, a
+buffer.time = 8
+[Command]
+name = "HCFa"
+command = ~B, D, $F, ~a
+buffer.time = 8
+[Command]
+name = "HCFb"
+command = ~B, D, $F, b
+buffer.time = 8
+[Command]
+name = "HCFb"
+command = ~B, D, $F, ~b
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, x+y
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, y+x
+buffer.time = 8
+[Command]
+name = "HCFx"
+command = ~B, D, $F, x
+buffer.time = 8
+[Command]
+name = "HCFx"
+command = ~B, D, $F, ~x
+buffer.time = 8
+[Command]
+name = "HCFy"
+command = ~B, D, $F, y
+buffer.time = 8
+[Command]
+name = "HCFy"
+command = ~B, D, $F, ~y
+buffer.time = 8
 
 [Command]
 name = "2QCFP"   ;Same name as above
@@ -881,7 +978,7 @@ triggerall = command = "QCF_ab"
 triggerall = power >= 1000
 triggerall= stateno != 810
 triggerall= statetype != A
-triggerall = var(39)<=0
+triggerall = map(roll)=0
 trigger1 = var(1) ;Use combo condition (above)
 trigger2 = movecontact
 trigger4 = stateno = 101
@@ -920,6 +1017,7 @@ triggerall= stateno != 810
 triggerall = power >= 1000
 triggerall = statetype !=A
 triggerall = stateno != 1071
+triggerall = map(slam)<=0
 ;triggerall = statetype = S
 ;trigger1 = ctrl
 trigger1 = var(1) ;Use combo condition (above)
@@ -974,7 +1072,7 @@ trigger1 = ctrl
 type = ChangeState
 value = 3001
 triggerall = command = "z"
-triggerall= var(59)<=1
+triggerall= map(launcher)=0
 trigger1 = var(1) ;Use combo condition (above)
 ;===========================================================================
 ;---------------------------------------------------------------------------

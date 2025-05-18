@@ -1546,7 +1546,7 @@ value = 0, 3
 
 [State 8000, Varadd]
 type = VarAdd
-trigger1 = time = 0
+trigger1 = movehit
 v = 31    ;fv = 10
 value = 1
 ;ignorehitpause = 1

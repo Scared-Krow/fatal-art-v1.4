@@ -1025,10 +1025,11 @@ sprpriority = -3
 poweradd = -1000
 
 [State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 0
+type = VarSet
+trigger1 = 1
 v = 34    ;fv = 
-value = var(34)+1
+value = 1
+
 [State 220, Sound]
 type = PlaySnd
 trigger1 = animelem = 1
@@ -1196,6 +1197,13 @@ ctrl = 0
 anim = 1205
 sprpriority = -7
 poweradd = 0
+
+[State 0, VarAdd]
+type = VarSet
+trigger1 = 1
+v = 34    ;fv = 
+value = 1
+
 [State 0, PlaySnd]
 type = PlaySnd
 trigger1 = animelem = 8
@@ -1875,6 +1883,7 @@ air.fall = 1
 [State -1, EX Followup]
 type = ChangeState
 value = 1010
+triggerall = map(gutpunch)=0
 triggerall = power >= 1000
 triggerall = command = "QCF_xy"||command="xy"
 trigger1 = movecontact
@@ -2595,6 +2604,12 @@ velset = 0,0
 anim = 1010
 sprpriority = 2
 poweradd = -1000
+
+[State 240, 1]
+type = MapSet
+trigger1 = 1
+map = "gutpunch"
+value = 1
 
 [State 220, Sound]
 type = PlaySnd
@@ -4381,6 +4396,11 @@ ctrl = 0
 poweradd = -1000
 velset = 0,0
 
+[State 0, VarAdd]
+type = MapSet
+trigger1 = 1
+map = "BIGFUCKINSORD"
+value = 1
 
 [State 0, AssertSpecial]
 type = AssertSpecial
@@ -4559,6 +4579,13 @@ physics = S
 ctrl = 0
 poweradd = 0
 velset = 0,0
+
+[State 0, VarAdd]
+type = MapSet
+trigger1 = 1
+map = "BIGFUCKINSORD"
+value = 1
+
  [State 0, AssertSpecial]
 type = AssertSpecial
 trigger1 = time = 0
@@ -4637,6 +4664,12 @@ physics = S
 anim = 1015
 ctrl = 0
 velset = 0,0
+
+[State 0, VarAdd]
+type = mapSet
+trigger1 = 1
+map = "BIGFUCKINSORD"
+value = 1
 
 [State 0, Explod] ;Plasma Glow
 type = Explod
@@ -5959,10 +5992,10 @@ anim = 2012
 poweradd = -1000
 
 [State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 1
+type = VarSet
+trigger1 =1
 v = 36    ;fv = 
-value = var(36)+1
+value =1
 
 [State -3, Win Voices] ;Win
 type = PlaySnd

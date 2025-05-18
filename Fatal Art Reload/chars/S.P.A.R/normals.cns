@@ -1097,7 +1097,7 @@ volumescale = 90
 
 [State 240, 2]
 type = HitDef
-triggerall = enemy,statetype = A && Map(SKSK)<2
+triggerall = Map(SKSK)<1
 trigger1 = Time = 0
 attr = S, NA
 getpower = 5
@@ -1114,7 +1114,7 @@ guardsound = S6,1
 ground.type = Low
 ground.slidetime = 12
 ground.hittime  = 28
-ground.velocity = -8
+ground.velocity = -1,18
 guard.slidetime = 15
 air.velocity = -1,18
 air.cornerpush.veloff = -2
@@ -1123,6 +1123,7 @@ envshake.freq = 30
 envshake.ampl = 2
 envshake.phase = 1
 p2facing = 1
+fall=1
 air.fall = 1
 fall.yvelocity = -7
 down.bounce = 7
@@ -1139,7 +1140,7 @@ ignorehitpause = 1
 
 [State 240, 2]
 type = HitDef
-triggerall = enemy,statetype != A || Map(SKSK)>=2
+triggerall = Map(SKSK)>=1
 trigger1 = Time = 0
 attr = S, NA
 getpower = 5
@@ -1565,9 +1566,10 @@ value = 20,0
 
 [State 0, VarAdd]
 type = VarAdd
-trigger1 = time = 0
+trigger1 = movehit
 v = 31    
-value = var(31)+2
+value = 1
+ignorehitpause=1
 
 [State 200, 1]
 type = HitDef
@@ -1704,7 +1706,7 @@ value = 1
 [State 200, 3]
 type = ChangeState
 trigger1 = command = "z"
-trigger1 = movehit
+trigger1 = movecontact
 value = 1402
 ctrl = 1
 
@@ -1965,8 +1967,18 @@ getpower = ceil(ifElse(fvar(11) * 70 < 26, 26, fvar(11) * 70)),ceil(ifElse(fvar(
 givepower = ceil(ifElse(fvar(11) * 53 < 5, 5, fvar(11) * 53))*1.5,ceil(ifElse(fvar(11) * 53 < 5, 5, fvar(11) * 53))*.75
 id = 610
 
+
+[State 0, VarSet]
+type = MapAdd
+trigger1 = movehit=1
+map="ohbounce"
+value = 1
+ignorehitpause = 1
+persistent=0
+
 [State 3000, P2 Custom State]
 type = TargetState
+trigger1 = map(ohbounce)<2
 trigger1= MoveHit =1
 ID = 610
 value = 43211
@@ -2483,7 +2495,6 @@ volumescale = 90
 
 [State 440, 3]
 type = HitDef
-triggerall=enemy,stateno!=2028
 trigger1 = animelem = 11
 attr = C, NA
 getpower = 5
@@ -2533,7 +2544,7 @@ ground.type = Low
 animtype = hard
 ground.slidetime = 20
 ground.hittime  = 35
-ground.velocity = 4,-2.1
+ground.velocity = 4,-3
 air.velocity = 3.5,-0.75
 guard.velocity = 3.5
 air.fall = 1
@@ -2685,7 +2696,7 @@ ground.type = Low
 animtype = hard
 ground.slidetime = 20
 ground.hittime  = 35
-ground.velocity = 4,-2.1
+ground.velocity = 4,-3
 air.velocity = 3.5,-1.5
 guard.velocity = 3.5
 air.fall = 1

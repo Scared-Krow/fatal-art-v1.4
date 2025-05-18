@@ -664,11 +664,6 @@ facep2 = 1
 ;trigger1 = enemy,pos x > pos x +5
 
 
-[State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 0
-v = 33    ;fv = 
-value = var(33)+1
 
 [State 4000, NotHitBy]
 type = NotHitBy
@@ -835,7 +830,11 @@ physics = A
 velset = 6,-5
 juggle = 0
 anim = 4004
-
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = time = 0
+v = 33    ;fv = 
+value = var(33)+1
 [State 1000, 1]
 type = VelMul
 trigger1 = 1
@@ -1177,7 +1176,7 @@ poweradd = -1000
 
 [State 0, VarAdd]
 type = VarAdd
-trigger1 = time = 0 
+trigger1 = movehit
 v = 34    ;fv = 
 value = var(34)+1
 
@@ -1866,9 +1865,10 @@ sprpriority = 2
 
 [State 8000, Varadd]
 type = VarAdd
-trigger1 = time = 0
+trigger1 = movehit
 v = 37    
 value = 1
+persistent=0
 
 [State -3, Win Voices] ;Win
 type = PlaySnd
@@ -2001,7 +2001,7 @@ poweradd = -1000
 
 [State Limiter]
 type = mapadd
-trigger1 = animelem = 1
+trigger1 = movehit
 map = "EXQCFK"
 value = 1
 

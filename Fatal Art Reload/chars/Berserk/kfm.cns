@@ -5,7 +5,7 @@
 
 [Data]
 ;Amount of life to start with
-life = 1125
+life = 1025
 ;attack power (more is stronger)
 attack = 100
 ;defensive power (more is stronger)
@@ -2852,6 +2852,56 @@ ignoreHitPause = 1
 ;---------------------------------------------------------------------------
 
 [Statedef -3]
+
+;RELEASE ME================
+[State 0, VarSet]
+type = MapSet
+trigger1 = movetype!=H
+map = "juggletimer"
+value = 0
+ignorehitpause = 1
+persistent = 1
+;===========================
+
+;LONGER COMBOS = MORE POWER====================
+[State Comeback PowerAdd]
+type = TargetPowerAdd
+trigger1 = map(enemymeter)=0
+value = map(combotimer)/75
+ignorehitpause = 1
+
+[State Power Trigger]
+type = mapadd
+trigger1 = map(enemymeter)<1
+map = "enemymeter"
+value = 1
+ignorehitpause = 1
+[State Power Trigger]
+type = mapset
+trigger1 = enemy,stateno=5000||enemy,stateno=5020
+map = "enemymeter"
+value = -1
+ignorehitpause = 1
+
+[State Combo Timer]
+type = mapadd
+trigger1 = combocount>0
+map = "combotimer"
+value = 1
+ignorehitpause = 1
+[State Combo Timer]
+type = mapSet
+trigger1 = combocount=0
+map = "combotimer"
+value = 0
+ignorehitpause = 1
+;================================================
+
+[State Timer]
+type = mapset
+trigger1 = combocount=0
+map = "EXgrab"
+value = 0
 
 [State 0, DisplayToClipboard]
 type = DisplayToClipboard

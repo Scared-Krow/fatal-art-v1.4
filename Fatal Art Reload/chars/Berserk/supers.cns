@@ -622,7 +622,7 @@ x = 4
 [State 800, 1]
 type = HitDef
 Trigger1 = !movecontact
-triggerall = enemy, movetype != H
+triggerall = combocount=0
 attr = S,HT        ;Attributes: Standing, Normal Throw
 getpower = 0
 hitflag = M-          ;Affect only ground people who are not being hit
@@ -639,9 +639,8 @@ fall.recover = 0
 
 [State 800, 1]
 type = HitDef
-triggerall = EnemyNear, Stateno != [120,156]
 Trigger1 = !movecontact
-triggerall = enemy, movetype = H
+triggerall = combocount>0
 attr = S,HT        ;Attributes: Standing, Normal Throw
 getpower = 0
 hitflag = MAFD          ;Affect only ground people who are not being hit

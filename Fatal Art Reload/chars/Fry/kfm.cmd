@@ -177,6 +177,104 @@ command = ~D, B, D, B, y;~F, D, DF, F, D, DF, y
 time = 20
 buffer.time = 3
 
+[Command]
+name = "HCBab"
+command = ~F, D, $B, a+b
+buffer.time = 8
+[Command]
+name = "HCBab"
+command = ~F, D, $B, b+a
+buffer.time = 8
+[Command]
+name = "HCBa"
+command = ~F, D, $B, a
+buffer.time = 8
+[Command]
+name = "HCBa"
+command = ~F, D, $B, ~a
+buffer.time = 8
+[Command]
+name = "HCBb"
+command = ~F, D, $B, b
+buffer.time = 8
+[Command]
+name = "HCBb"
+command = ~F, D, $B, ~b
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, x+y
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, y+x
+buffer.time = 8
+[Command]
+name = "HCBx"
+command = ~F, D, $B, x
+buffer.time = 8
+[Command]
+name = "HCBx"
+command = ~F, D, $B, ~x
+buffer.time = 8
+[Command]
+name = "HCBy"
+command = ~F, D, $B, y
+buffer.time = 8
+[Command]
+name = "HCBy"
+command = ~F, D, $B, ~y
+buffer.time = 8
+
+[Command]
+name = "HCFab"
+command = ~B, D, $F, a+b
+buffer.time = 8
+[Command]
+name = "HCFab"
+command = ~B, D, $F, b+a
+buffer.time = 8
+[Command]
+name = "HCFa"
+command = ~B, D, $F, a
+buffer.time = 8
+[Command]
+name = "HCFa"
+command = ~B, D, $F, ~a
+buffer.time = 8
+[Command]
+name = "HCFb"
+command = ~B, D, $F, b
+buffer.time = 8
+[Command]
+name = "HCFb"
+command = ~B, D, $F, ~b
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, x+y
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, y+x
+buffer.time = 8
+[Command]
+name = "HCFx"
+command = ~B, D, $F, x
+buffer.time = 8
+[Command]
+name = "HCFx"
+command = ~B, D, $F, ~x
+buffer.time = 8
+[Command]
+name = "HCFy"
+command = ~B, D, $F, y
+buffer.time = 8
+[Command]
+name = "HCFy"
+command = ~B, D, $F, ~y
+buffer.time = 8
+
 ;-| Special Motions |------------------------------------------------------
 [Command]
 name = "blocking"
@@ -192,20 +290,27 @@ buffer.time = 3
 
 [Command]
 name = "upper_x"
-command = ~F, D, DF, x
+command = ~F, D, $F, x
 time = 15
 buffer.time = 3
 
 [Command]
 name = "upper_y"
-command = ~F, D, DF, y
+command = ~F, D, $F, y
 time = 15
 buffer.time = 3
 
 [Command]
 name = "upper_xy"
-command = ~F, D, DF, x+y
+command = ~F, D, $F, x+y
+time = 15
 buffer.time = 3
+[Command]
+name = "upper_xy"
+command = ~F, D, $F, y+x
+time = 15
+buffer.time = 3
+
 
 [Command]
 name = "QCF_x"
@@ -682,8 +787,7 @@ type = ChangeState
 value = 5193
 triggerall = command = "upper_xy"
 triggerall= statetype != A
-triggerall = var(35)<=0
-triggerall = power >= 1000
+triggerall = map(exdp)=0
 trigger1 = var(1) ;Use combo condition (above)
 trigger2 = movecontact
 trigger3 = stateno = 101
@@ -693,6 +797,7 @@ trigger3 = stateno = 101
 type = ChangeState
 value = 5190
 triggerall = command = "upper_x"
+triggerall = command != "upper_xy"
 trigger1 = var(1) ;Use combo condition (above)
 triggerall= statetype != A
 trigger2 = stateno = 101
@@ -795,7 +900,7 @@ type = ChangeState
 value = 1502
 triggerall = command = "QCF_ab"
 triggerall = power >= 1000
-triggerall = var(37)<=0
+triggerall = map(exball)<=0
 triggerall = statetype != A
 trigger1 = var(1) ;Use combo condition (above)
 trigger2 = movecontact
@@ -823,8 +928,8 @@ trigger2 = stateno = 101
 [State -1, Hop]
 type = ChangeState
 value = 9001
+triggerall=map(hop)=0
 triggerall = stateno != 221
-triggerall = numexplod(44050) < 1
 triggerall = command = "z" 
 triggerall = statetype != A
 trigger1 = var(1)

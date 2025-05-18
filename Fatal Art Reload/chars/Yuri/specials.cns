@@ -486,10 +486,10 @@ trigger1 = animelem = 5
 value = 6000, 2
 
 [State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 1
+type = VarSet
+trigger1 = 1
 v = 34    ;fv = 
-value = var(34)+1
+value = 1
 
 
 ;[State 4000, NotHitBy]
@@ -743,10 +743,10 @@ ctrl = 0
 sprpriority = 2
 
 [State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 1
-v = 35    ;fv = 
-value = var(35)+1
+type = MapSet
+trigger1 = 1
+map = "jerkinit"
+value = 1
 
 [State 0, PowerAdd]
 type = PowerAdd
@@ -1309,7 +1309,7 @@ priority  = 5
 guardflag = MA
 hitflag = MAFD
 guard.pausetime = 3,3
-pausetime = 1,1
+pausetime = 1,(cond(map(qcbHK) <= 1,8,1))
 sparkxy = 3,-85
 sparkno = 6
 hitsound   = 5,1
@@ -1319,7 +1319,7 @@ ground.slidetime = 18
 ground.hittime  = 22
 ground.velocity = -.75,-5
 guard.velocity = -7
-air.velocity = 0.15,(cond(map(qcbHK) <= 1,-6.25,-3.5))
+air.velocity = 0.15,(cond(map(qcbHK) <= 1,-6.5,-3.5))
 airguard.velocity = -4,-4.5
 guard.hittime = 15
 guard.ctrltime = 15
@@ -1345,10 +1345,10 @@ sprpriority = -2
 anim = 1220
 
 [State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 1
+type = VarSet
+trigger1 = 1
 v = 36    ;fv = 
-value = var(36)+1
+value = 1
 ;ignorehitpause = 
 ;persistent = 
 
@@ -1602,11 +1602,13 @@ value = var(33)+1
 ; These change states control dash cancels and moving into the attack portion
 [State 900, dash cancel back]
 type = ChangeState
+triggerall=map(cancelmeidc)<=1
 trigger1 = time >= 15 && command = "BB" && !AILevel
 trigger2 = AILevel && numenemy && (enemynear,vel x>1)
 value = 105
  [State 900, dash cancel back]
 type = ChangeState
+triggerall=map(cancelmeidc)<=1
 trigger1 = time >= 15 && command = "bFF" && !AILevel
 trigger2 = AILevel && numenemy && (enemynear,vel x>1)
 value = 100
@@ -1614,9 +1616,26 @@ ctrl = 1
  
 [State 900, stopping early]
 type = ChangeState
-trigger1 = time >= 20 && command != "hold_x" && command !="hold_x" && !AILevel
+trigger1 = time >= 20 && command != "hold_y" && command !="hold_y" && !AILevel
 trigger2 = AILevel && numenemy && (enemynear,inguarddist) || (enemynear, hitdefattr = SCA, NP, SP)
 value = 1308
+
+
+
+; These change states control dash cancels and moving into the attack portion
+[State 900, dash cancel back]
+type = ChangeState
+triggerall=map(cancelmeidc)>1
+trigger1 = time >= 30 && command = "BB" && !AILevel
+trigger2 = AILevel && numenemy && (enemynear,vel x>1)
+value = 105
+ [State 900, dash cancel back]
+type = ChangeState
+triggerall=map(cancelmeidc)>1
+trigger1 = time >= 30 && command = "bFF" && !AILevel
+trigger2 = AILevel && numenemy && (enemynear,vel x>1)
+value = 100
+ctrl = 1
 
 ;----------------------------------------
 ;L Gun Fire
@@ -1789,11 +1808,13 @@ value = 1300,0
 ; These change states control dash cancels and moving into the attack portion
 [State 900, dash cancel back]
 type = ChangeState
+triggerall=map(cancelmeidc)<=1
 trigger1 = time >= 15 && command = "BB" && !AILevel
 trigger2 = AILevel && numenemy && (enemynear,vel x>1)
 value = 105
  [State 900, dash cancel back]
 type = ChangeState
+triggerall=map(cancelmeidc)<=1
 trigger1 = time >= 15 && command = "bFF" && !AILevel
 trigger2 = AILevel && numenemy && (enemynear,vel x>1)
 value = 100
@@ -1804,6 +1825,23 @@ type = ChangeState
 trigger1 = time >= 20 && command != "hold_y" && command !="hold_y" && !AILevel
 trigger2 = AILevel && numenemy && (enemynear,inguarddist) || (enemynear, hitdefattr = SCA, NP, SP)
 value = 2308
+
+
+
+; These change states control dash cancels and moving into the attack portion
+[State 900, dash cancel back]
+type = ChangeState
+triggerall=map(cancelmeidc)>1
+trigger1 = time >= 30 && command = "BB" && !AILevel
+trigger2 = AILevel && numenemy && (enemynear,vel x>1)
+value = 105
+ [State 900, dash cancel back]
+type = ChangeState
+triggerall=map(cancelmeidc)>1
+trigger1 = time >= 30 && command = "bFF" && !AILevel
+trigger2 = AILevel && numenemy && (enemynear,vel x>1)
+value = 100
+ctrl = 1
 
 
 ;----------------------------------------

@@ -36,12 +36,12 @@ ground.slidetime = 5             ;Time that the opponent slides back
 ground.hittime  = 15             ;Time opponent is in hit state
 guard.pausetime = 10,10
 guard.slidetime = 13
-ground.velocity = -2.6             ;Velocity at which opponent is pushed
+ground.velocity = -8            ;Velocity at which opponent is pushed
 airguard.velocity = -1.9,-.8     ;Guard velocity in air (def: (air.xvel*1.5, air.yvel/2))
 air.type = High                  ;Type: High, Low, Trip (def: same as ground.type)
 air.velocity = -1.4,-2.5           ;X-velocity at which opponent is pushed,
 air.hittime = 15  
-air.cornerpush.veloff = -5               ;Time before opponent regains control in air
+ground.cornerpush.veloff = -8
 p2facing =1
 air.fall = 1
 getpower = ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23)),ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23))*.5
@@ -525,10 +525,11 @@ ground.type = Low
 ground.slidetime = 12
 guard.slidetime = 13
 ground.hittime  = 17
-ground.velocity = -3
+ground.velocity = -8
 air.velocity = -1.25,-1
 p2facing =1
 air.fall = 1
+ground.cornerpush.veloff = -8
 getpower = ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23)),ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23))*.5
 givepower = ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23))*1.5,ceil(ifElse(fvar(11) * 23 < 3, 3, fvar(11) * 23))*.75
 
@@ -1657,7 +1658,7 @@ value = 1000,2
 
 [State 8000, Varadd]
 type = VarAdd
-trigger1 = time = 1
+trigger1 = movehit
 v = 31    ;fv = 10
 value = var(31)+3
 ;ignorehitpause = 1

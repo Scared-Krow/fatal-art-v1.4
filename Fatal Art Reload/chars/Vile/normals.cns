@@ -74,6 +74,11 @@ type = PlaySnd
 trigger1 = movehit = 1
 value = 5764, (0+(Random%20))
 
+[State 0, posadd]
+type = MapSet
+trigger1 = 1
+map = "Launcher"
+value=1
 
 [State 1200, Shake Screen]
 type = EnvShake
@@ -139,6 +144,12 @@ ctrl = 0                         ;Set ctrl (Def: no change)
 anim = 2200                       ;Change animation (Def: no change)
 poweradd= 0                    ;Power to add (Def: 0)
 sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
+
+[State 0, posadd]
+type = MapSet
+trigger1 = 1
+map = "Launcher"
+value=1
 
 [State 410, Hard Hit] ;Win
 type = PlaySnd

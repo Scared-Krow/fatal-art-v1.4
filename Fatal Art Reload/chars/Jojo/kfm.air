@@ -226,7 +226,7 @@ Clsn2Default: 2
 Clsn2Default: 2
   Clsn2[0] = -54, -285, 65, 0
   Clsn2[1] = -27, -349, 43, -285
-10,2, 0,0, 3
+10,2, 0,0, 2
 
 ; Starting Jumping up
 [Begin Action 41]

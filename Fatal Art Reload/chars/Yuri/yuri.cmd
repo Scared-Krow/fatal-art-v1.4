@@ -188,6 +188,104 @@ command = ~D, B, D, B, y;~F, D, DF, F, D, DF, y
 time = 20
 buffer.time = 3
 
+[Command]
+name = "HCBab"
+command = ~F, D, $B, a+b
+buffer.time = 8
+[Command]
+name = "HCBab"
+command = ~F, D, $B, b+a
+buffer.time = 8
+[Command]
+name = "HCBa"
+command = ~F, D, $B, a
+buffer.time = 8
+[Command]
+name = "HCBa"
+command = ~F, D, $B, ~a
+buffer.time = 8
+[Command]
+name = "HCBb"
+command = ~F, D, $B, b
+buffer.time = 8
+[Command]
+name = "HCBb"
+command = ~F, D, $B, ~b
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, x+y
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, y+x
+buffer.time = 8
+[Command]
+name = "HCBx"
+command = ~F, D, $B, x
+buffer.time = 8
+[Command]
+name = "HCBx"
+command = ~F, D, $B, ~x
+buffer.time = 8
+[Command]
+name = "HCBy"
+command = ~F, D, $B, y
+buffer.time = 8
+[Command]
+name = "HCBy"
+command = ~F, D, $B, ~y
+buffer.time = 8
+
+[Command]
+name = "HCFab"
+command = ~B, D, $F, a+b
+buffer.time = 8
+[Command]
+name = "HCFab"
+command = ~B, D, $F, b+a
+buffer.time = 8
+[Command]
+name = "HCFa"
+command = ~B, D, $F, a
+buffer.time = 8
+[Command]
+name = "HCFa"
+command = ~B, D, $F, ~a
+buffer.time = 8
+[Command]
+name = "HCFb"
+command = ~B, D, $F, b
+buffer.time = 8
+[Command]
+name = "HCFb"
+command = ~B, D, $F, ~b
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, x+y
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, y+x
+buffer.time = 8
+[Command]
+name = "HCFx"
+command = ~B, D, $F, x
+buffer.time = 8
+[Command]
+name = "HCFx"
+command = ~B, D, $F, ~x
+buffer.time = 8
+[Command]
+name = "HCFy"
+command = ~B, D, $F, y
+buffer.time = 8
+[Command]
+name = "HCFy"
+command = ~B, D, $F, ~y
+buffer.time = 8
+
 ;-| Special Motions |------------------------------------------------------
 [Command]
 name = "blocking"
@@ -823,7 +921,7 @@ trigger6 = stateno = 101
 type = ChangeState
 value = 542
 triggerall = command = "z"
-triggerall = var(58)<=1
+triggerall = map(launcher)=0
 trigger1 = var(1) ;Use combo condition (above)
 trigger2 = stateno = 101
 ;---------------------------------------------------------------------------
@@ -870,8 +968,8 @@ triggerall = stateno != [800,810]
 triggerall = stateno != 1220
 triggerall = power >= 1000
 triggerall= statetype != A
-triggerall = var(35)<=0
-trigger1 = var(1) ;Use combo condition (above)
+triggerall = map(jerkinit)=0
+trigger1 = var(1)
 trigger2 = movecontact
 trigger3 = stateno = 101
 ;---------------------------------------------------------------------------
@@ -912,6 +1010,7 @@ trigger7 = stateno = 1312 && helper(1330), movecontact
 [State -1, Light Kung Fu Palm]
 type = ChangeState
 value = 2306
+triggerall = command != "QCB_ab"
 triggerall = command = "QCB_y"
 triggerall= statetype != A
 triggerall = Map(Bullets) > 0
@@ -929,6 +1028,7 @@ trigger7 = stateno = 1312 && helper(1330), movecontact
 [State -1, Light Kung Fu Palm]
 type = ChangeState
 value = 1306
+triggerall = command != "QCB_ab"
 triggerall = command = "QCB_x"
 triggerall= statetype != A
 triggerall = Map(Bullets) > 0
@@ -1128,7 +1228,8 @@ triggerall = command != "holddown"
 triggerall = command != "QCB_y"
 trigger1 = statetype = S
 trigger1 = ctrl
-trigger2 = stateno = 242 && movecontact
+trigger2 = stateno = 242||stateno = 200||stateno = 230
+trigger2 = movecontact
 trigger3 = stateno = 101
 ;--------------------------------------------------------------------------
 ;Stand Light Kick

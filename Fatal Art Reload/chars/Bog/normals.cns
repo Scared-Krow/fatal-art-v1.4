@@ -504,7 +504,7 @@ sprpriority = 2
                  ;Set p1's sprite layering priority to 2 (in front)
 [State 8000, Varadd]
 type = VarAdd
-trigger1 = time = 1
+trigger1 = movehit
 v = 34    ;fv = 10
 value = var(34)+2
 ;ignorehitpause = 1

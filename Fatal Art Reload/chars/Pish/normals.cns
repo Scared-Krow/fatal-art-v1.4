@@ -1214,11 +1214,10 @@ poweradd = 0                    ;Power to add (Def: 0)
 sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
 
 [State 0, VarAdd]
-type = VarAdd
-trigger1 = time = 1
-v = 59    
+type = MapSet
+trigger1 =1
+map = "launcher"    
 value = 1
-persistent = 0
 
 ;[State -3, Win Voices] ;Win
 ;type = PlaySnd

@@ -5,7 +5,7 @@
 
 [Data]
 ;Amount of life to start with
-life = 1050
+life = 950
 ;attack power (more is stronger)
 attack = 100
 ;defensive power (more is stronger)
@@ -185,7 +185,7 @@ physics = N
 [State 1028, Vel Y]
 type = VelSet
 trigger1 = Time = 0
-y = -6.25
+y = cond(stateowner,map(fuckyoudie)=1,-6.25,0)
 
 [State 1028, Vel X]
 type = VelSet
@@ -467,6 +467,13 @@ ctrl = 0
 anim =22011
 sprpriority = -1
 
+[State 0, VarSet]
+type = MapAdd
+trigger1 = time=0
+map="fuckyoudie"
+value = 1
+ignorehitpause = 0
+
 [State 0, Explod] ;Plasma Glow
 type = Explod
 trigger1 = animelem = 11
@@ -728,10 +735,18 @@ pos = 79,-67
 
 [state 0 TargetVelocity]
 type = TargetVelSet
+trigger1 = map(fuckyoudie)=1
 trigger1 = animelem = 12
 x = 14
 ;y = cond(var(7), 3,-7)
 y = -7
+[state 0 TargetVelocity]
+type = TargetVelSet
+trigger1 = map(fuckyoudie)>1
+trigger1 = animelem = 12
+x = 14
+;y = cond(var(7), 3,-7)
+y = -3
 
 [State 0, TargetState]
 type = TargetState
@@ -739,6 +754,7 @@ triggerall = NumTarget;()
 trigger1 =animelem = 12
 value = 102511
 ID = -1
+
 
 [State 0, ChangeState]
 type = ChangeState
@@ -4426,12 +4442,85 @@ ignoreHitPause = 1
 
 [Statedef -3]
 
+[State 0, DisplayToClipboard]
+type = DisplayToClipboard
+trigger1 = 1
+text = "var(34) = %d ohb = %f"
+params = var(34), map(EXRUN)
+ignorehitpause = 1 
+
+;RELEASE ME================
+[State 0, VarSet]
+type = MapSet
+trigger1 = movetype!=H
+map = "juggletimer"
+value = 0
+ignorehitpause = 1
+persistent = 1
+;===========================
+
+;LONGER COMBOS = MORE POWER====================
+[State Comeback PowerAdd]
+type = TargetPowerAdd
+trigger1 = map(enemymeter)=0
+value = map(combotimer)/75
+ignorehitpause = 1
+
+[State Power Trigger]
+type = mapadd
+trigger1 = map(enemymeter)<1
+map = "enemymeter"
+value = 1
+ignorehitpause = 1
+[State Power Trigger]
+type = mapset
+trigger1 = enemy,stateno=5000||enemy,stateno=5020
+map = "enemymeter"
+value = -1
+ignorehitpause = 1
+
+[State Combo Timer]
+type = mapadd
+trigger1 = combocount>0
+map = "combotimer"
+value = 1
+ignorehitpause = 1
+[State Combo Timer]
+type = mapSet
+trigger1 = combocount=0
+map = "combotimer"
+value = 0
+ignorehitpause = 1
+;================================================
+
 [State 0, Meter]
 type = Powerset
 triggerall = enemy,name != "Training"
 triggerall = roundno = 1
 trigger1 = roundstate = 0
 value = 1000
+
+[State 0, VarSet]
+type = MapSet
+trigger1 = combocount=0
+map="ohbounce"
+value = 0
+[State 0, VarSet]
+type = MapSet
+trigger1 = combocount=0
+map="fuckyoudie"
+value = 0
+[State 0, VarSet]
+type = MapSet
+trigger1 = combocount=0
+trigger1 = stateno!=98&&stateno!=1515&&stateno!=1502&&stateno!=1503&&stateno!=1500&&stateno!=1501
+map="EXRUN"
+value = 0
+[State 0, VarSet]
+type = MapSet
+trigger1 = combocount=0
+map="EXDP"
+value = 0
 
 [State Throw Tech]
 type = mapset
@@ -4455,12 +4544,6 @@ value = 0
 type = mapset
 trigger1 = enemy,movetype != H
 map = "EX_Rekka"
-value = 0
-
-[State Timer]
-type = mapset
-trigger1 = enemy,movetype != H
-map = "EXRUN"
 value = 0
 
 [State Limiter]

@@ -295,6 +295,12 @@ anim = 521                     ;Change animation (Def: no change)
 poweradd = 10                    ;Power to add (Def: 0)
 sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
 
+[State 200, 2]
+type = MapSet
+trigger1 =1
+map="Launcher"
+value = 1
+
 [State 0, Explod]
 type = Explod
 trigger1 = time = 0   

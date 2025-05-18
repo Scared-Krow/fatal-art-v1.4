@@ -203,33 +203,101 @@ buffer.time = 3
 
 [Command]
 name = "HCB_ab"
-command = F, $D, B, a+b
-buffer.time = 3
-
+command = ~F, D, $B, a+b
+buffer.time = 8
 [Command]
 name = "HCB_ab"
-command = F, $D, B, ~a+b
-buffer.time = 3
-
+command = ~F, D, $B, b+a
+buffer.time = 8
 [Command]
 name = "HCB_a"
-command = F, $D, B, a
-buffer.time = 3
-
-[Command]
-name = "HCB_b"
-command = F, $D, B, b
-buffer.time = 3
-
+command = ~F, D, $B, a
+buffer.time = 8
 [Command]
 name = "HCB_a"
-command = F, $D, B, ~a
-buffer.time = 3
-
+command = ~F, D, $B, ~a
+buffer.time = 8
 [Command]
 name = "HCB_b"
-command = F, $D, B, ~b
-buffer.time = 3
+command = ~F, D, $B, b
+buffer.time = 8
+[Command]
+name = "HCB_b"
+command = ~F, D, $B, ~b
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, x+y
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, y+x
+buffer.time = 8
+[Command]
+name = "HCBx"
+command = ~F, D, $B, x
+buffer.time = 8
+[Command]
+name = "HCBx"
+command = ~F, D, $B, ~x
+buffer.time = 8
+[Command]
+name = "HCBy"
+command = ~F, D, $B, y
+buffer.time = 8
+[Command]
+name = "HCBy"
+command = ~F, D, $B, ~y
+buffer.time = 8
+
+[Command]
+name = "HCF_ab"
+command = ~B, D, $F, a+b
+buffer.time = 8
+[Command]
+name = "HCF_ab"
+command = ~B, D, $F, b+a
+buffer.time = 8
+[Command]
+name = "HCF_a"
+command = ~B, D, $F, a
+buffer.time = 8
+[Command]
+name = "HCF_a"
+command = ~B, D, $F, ~a
+buffer.time = 8
+[Command]
+name = "HCF_b"
+command = ~B, D, $F, b
+buffer.time = 8
+[Command]
+name = "HCF_b"
+command = ~B, D, $F, ~b
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, x+y
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, y+x
+buffer.time = 8
+[Command]
+name = "HCFx"
+command = ~B, D, $F, x
+buffer.time = 8
+[Command]
+name = "HCFx"
+command = ~B, D, $F, ~x
+buffer.time = 8
+[Command]
+name = "HCFy"
+command = ~B, D, $F, y
+buffer.time = 8
+[Command]
+name = "HCFy"
+command = ~B, D, $F, ~y
+buffer.time = 8
 
 [Command]
 name = "QCF_x"
@@ -781,7 +849,7 @@ trigger2 = time > 0
 [State -1, Light Kung Fu Palm]
 type = ChangeState
 value = 1401
-triggerall = var(31)<=2
+triggerall = var(31)=0
 triggerall = command = "z"
 triggerall = stateno != 2002
 trigger1 = stateno != 224
@@ -812,7 +880,7 @@ trigger3 = stateno = 102
 type = ChangeState
 value = 10077
 triggerall = power >= 1000
-triggerall = var(39)<=0
+triggerall = map(EXDP)=0
 triggerall = command = "FDF_ab"
 triggerall = statetype !=A
 trigger1 = var(1)
@@ -824,6 +892,15 @@ type = ChangeState
 value = 10078
 triggerall = command != "FDF_ab"
 triggerall = command = "FDF_b" || command = "FDF_a"
+triggerall = statetype !=A
+trigger1 = var(1)
+trigger2 = stateno = 410 && movehit
+;DP + K
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 10078
+triggerall = command = "FDF_ab"
+triggerall = map(EXDP)>0||power<1000
 triggerall = statetype !=A
 trigger1 = var(1)
 trigger2 = stateno = 410 && movehit
@@ -972,7 +1049,17 @@ trigger2 = ctrl
 [State -1, Command Run]
 type = ChangeState
 value = 99
-triggerall = command = "QCF_a" || command = "QCF_b"
+triggerall = command = "QCF_a"
+triggerall = statetype !=A
+trigger1 = var(1) ;Use combo condition (above)
+trigger2 = ctrl
+trigger3 = stateno = 410 && movehit
+;---------------------------------------------------------------------------
+;QCF+LK
+[State -1, Command Run]
+type = ChangeState
+value = 998
+triggerall = command = "QCF_b"
 triggerall = statetype !=A
 trigger1 = var(1) ;Use combo condition (above)
 trigger2 = ctrl

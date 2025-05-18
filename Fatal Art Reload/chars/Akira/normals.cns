@@ -578,6 +578,13 @@ type = PosAdd
 trigger1 = animelem = 6
 x = 10
 
+[State 0, PosAdd]
+type = MapAdd
+trigger1 =movehit=1
+trigger1 = target,statetype!=A
+map = "fhphp"
+value = 1
+persistent=0
 
 [State 200, 1]
 type = HitDef
@@ -598,7 +605,7 @@ ground.type = low
 ground.slidetime = 9
 guard.slidetime = 15
 ground.hittime  = 25
-ground.velocity = -2
+ground.velocity = -2,cond(map(fhphp),-4,0)
 air.hittime = 14
 air.velocity = -2,-4
 down.velocity = -2,-2
@@ -762,9 +769,11 @@ scale = .6,.6
 
 [State Timer]
 type = mapadd
-trigger1 = time = 0
+trigger1 = target,statetype!=A
+trigger1 = movehit
 map = "BSK"
 value = 1
+persistent=0
 
 [State 0, PosAdd]
 type = Velset
@@ -790,6 +799,7 @@ trigger1 = animelem = 6
 attr = S, NA
 getpower = 10
 animtype  = hard
+air.animtype  = up
 damage    = ceil(ifElse(fvar(11) * 60 < 5, 5, fvar(11) * 60)), 0
 guardflag = H
 hitflag = MAFD                  
@@ -801,8 +811,8 @@ hitsound   = 5,2
 guardsound = 6,0
 ground.type = Low
 ground.slidetime = 5
-ground.hittime  = 42-(Map(BSK)*4)
-ground.velocity = -3
+ground.hittime  = 42
+ground.velocity = -3,cond(map(BSK),-5,0)
 air.velocity = -2,10
 priority = 3, Hit 
 envshake.time = 20
@@ -1945,7 +1955,7 @@ poweradd= 5
 
 [State 0, Launch Limiter]
 type = MapAdd
-trigger1 = time = 0
+trigger1 = movehit
 map = "Launcher"
 value = 1
 

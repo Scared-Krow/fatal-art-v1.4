@@ -210,7 +210,7 @@ LoopStart
 [Begin Action 40]
 Clsn2Default: 1
   Clsn2[0] = -74, -255, 87, 12
-10,1, 0,0, 3
+10,1, 0,0, 2
 
 ; Starting Jumping up
 [Begin Action 41]

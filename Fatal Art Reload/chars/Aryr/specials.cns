@@ -443,7 +443,7 @@ anim = 1500
 
 [State Limiter]
 type = mapset
-trigger1 = time = 0
+trigger1 = 1
 map = "EXBOMB"
 value = 1
 
@@ -717,6 +717,12 @@ velset = 0,0                     ;Set velocity (x,y) (Def: no change)
 ctrl = 0                         ;Set ctrl (Def: no change)
 sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
 anim = 1500
+
+[State Limiter]
+type = mapset
+trigger1 = 1
+map = "EXBOMB"
+value = 1
 
 [State 0, Helper]
 type = Helper
@@ -1302,7 +1308,7 @@ anim = 1000
 
 [State 8000, Varadd]
 type = VarAdd
-trigger1 = time = 1
+trigger1 = movehit
 v = 34
 value =1
 
@@ -2238,8 +2244,8 @@ time = 1
 forceair = 0
 
 [State Limiter]
-type = mapadd
-trigger1 = animelem = 1
+type = mapSet
+trigger1 = 1
 map = "EXQCFK"
 value = 1
 
@@ -2591,9 +2597,9 @@ ownpal = 1
 removeongethit = 0
 
 [State Limiter]
-type = mapadd
-trigger1 = animelem = 1
-map = "jEXQCFK"
+type = mapSet
+trigger1 = 1
+map = "EXQCFK"
 value = 1
 
 [State 1020, Afterimage]

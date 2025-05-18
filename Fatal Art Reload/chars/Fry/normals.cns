@@ -1714,6 +1714,12 @@ ctrl = 1
 anim = 100
 sprpriority = 2
 
+[State 0] 
+type = MapSet
+trigger1 = 1
+map="hop"
+value = 1
+
 [State 0, Explod] ;Limit
 type = Explod
 trigger1 = time = 1

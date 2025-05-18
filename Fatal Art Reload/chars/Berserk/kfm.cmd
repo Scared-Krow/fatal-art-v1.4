@@ -299,32 +299,100 @@ time = 20
 
 [Command]
 name = "HCBab"
-command = F, $D, B, a+b
+command = ~F, D, $B, a+b
 buffer.time = 8
-
 [Command]
 name = "HCBab"
-command = F, $D, B, ~a+b
+command = ~F, D, $B, b+a
 buffer.time = 8
-
 [Command]
 name = "HCBa"
-command = F, $D, B, a
+command = ~F, D, $B, a
 buffer.time = 8
-
-[Command]
-name = "HCBb"
-command = F, $D, B, b
-buffer.time = 8
-
 [Command]
 name = "HCBa"
-command = F, $D, B, ~a
+command = ~F, D, $B, ~a
+buffer.time = 8
+[Command]
+name = "HCBb"
+command = ~F, D, $B, b
+buffer.time = 8
+[Command]
+name = "HCBb"
+command = ~F, D, $B, ~b
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, x+y
+buffer.time = 8
+[Command]
+name = "HCBxy"
+command = ~F, D, $B, y+x
+buffer.time = 8
+[Command]
+name = "HCBx"
+command = ~F, D, $B, x
+buffer.time = 8
+[Command]
+name = "HCBx"
+command = ~F, D, $B, ~x
+buffer.time = 8
+[Command]
+name = "HCBy"
+command = ~F, D, $B, y
+buffer.time = 8
+[Command]
+name = "HCBy"
+command = ~F, D, $B, ~y
 buffer.time = 8
 
 [Command]
-name = "HCBb"
-command = F, $D, B, ~b
+name = "HCFab"
+command = ~B, D, $F, a+b
+buffer.time = 8
+[Command]
+name = "HCFab"
+command = ~B, D, $F, b+a
+buffer.time = 8
+[Command]
+name = "HCFa"
+command = ~B, D, $F, a
+buffer.time = 8
+[Command]
+name = "HCFa"
+command = ~B, D, $F, ~a
+buffer.time = 8
+[Command]
+name = "HCFb"
+command = ~B, D, $F, b
+buffer.time = 8
+[Command]
+name = "HCFb"
+command = ~B, D, $F, ~b
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, x+y
+buffer.time = 8
+[Command]
+name = "HCFxy"
+command = ~B, D, $F, y+x
+buffer.time = 8
+[Command]
+name = "HCFx"
+command = ~B, D, $F, x
+buffer.time = 8
+[Command]
+name = "HCFx"
+command = ~B, D, $F, ~x
+buffer.time = 8
+[Command]
+name = "HCFy"
+command = ~B, D, $F, y
+buffer.time = 8
+[Command]
+name = "HCFy"
+command = ~B, D, $F, ~y
 buffer.time = 8
 
 ;-| Double Tap |-----------------------------------------------------------
@@ -722,11 +790,8 @@ triggerall = command = "HCBab"
 triggerall = statetype != A
 triggerall = power >= 1000
 triggerall = stateno != [1000,1008]
-triggerall = var(35)<=0
-trigger1 = movecontact
 trigger1 = var(1) ;Use combo condition (above)
-trigger2 = ctrl
-trigger4 = stateno = 1571 && movecontact
+trigger2 = stateno = 1571 && movecontact
 trigger3 = stateno = 101
 triggerall= stateno != 2500
 triggerall = stateno != 2004
@@ -736,6 +801,7 @@ triggerall = stateno != 2004
 type = ChangeState
 value = 2501
 triggerall = command = "HCBa"
+triggerall = command != "HCBab"
 triggerall = statetype != A
 trigger1 = var(1) ;Use combo condition (above)
 trigger2 = stateno = 101
@@ -746,6 +812,7 @@ trigger3 = stateno = 440 && movehit
 type = ChangeState
 value = 2502
 triggerall = command = "HCBb"
+triggerall = command != "HCBab"
 triggerall = statetype != A
 trigger1 = var(1) ;Use combo condition (above)
 trigger2 = stateno = 101
@@ -792,6 +859,7 @@ triggerall = statetype != A
 triggerall = stateno != [300,302]
 triggerall = power >= 1000
 triggerall = stateno != [1000,1008]
+triggerall = map(EXGrab)=0
 trigger1 = var(1)
 trigger2 = ctrl
 trigger3 = stateno = 101
@@ -952,6 +1020,7 @@ trigger1 = ctrl
 [State -1, Launcher]
 type = ChangeState
 value = 7000
+triggerall=var(31)=0
 triggerall = command = "z"
 triggerall = statetype != A
 trigger1 = var(1) ;Use combo condition (above)
@@ -1029,7 +1098,9 @@ value = 211
 type = ChangeState
 value = 230
 triggerall = command = "a"
+triggerall = command != "b"
 triggerall = command != "holddown"
+
 trigger1 = statetype = S
 trigger1 = ctrl
 trigger2 = stateno = 200 && movecontact 
@@ -1071,6 +1142,7 @@ trigger1 = statetype = A
 type = ChangeState
 value = 235
 triggerall = command = "b"
+triggerall = command != "a"
 triggerall = command != "holddown"
 triggerall = command != "holdfwd"
 trigger1 = statetype = S

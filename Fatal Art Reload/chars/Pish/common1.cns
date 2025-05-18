@@ -1407,6 +1407,22 @@ movetype= H
 physics = N
 ctrl = 0
 
+;I MAKE HEAVY NOW================
+[State 0, VarSet]
+type = MapAdd
+trigger1 = 1
+map = "juggletimer"
+value = 1
+ignorehitpause = 0
+persistent = 1
+
+[State 5030, 2]
+type = VelAdd
+trigger1 = enemy,HitDefAttr != SCA, HA,HP,HT
+trigger1 = map(juggletimer)>300
+y = (map(juggletimer)-300)/500
+;================================
+
 [State 5030, 1]
 type = ChangeAnim
 trigger1 = Anim != [5000, 5199]

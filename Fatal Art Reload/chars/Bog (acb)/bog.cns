@@ -4,7 +4,7 @@
 ;Enjoy!
 [Data]
 ;Amount of life to start with
-life = 1000
+life = 900
 ;attack power (more is stronger)
 attack = 100
 ;defensive power (more is stronger)
@@ -1900,6 +1900,50 @@ value = 1000
 
 [Statedef -3]
 
+;RELEASE ME================
+[State 0, VarSet]
+type = MapSet
+trigger1 = movetype!=H
+map = "juggletimer"
+value = 0
+ignorehitpause = 1
+persistent = 1
+;===========================
+
+;LONGER COMBOS = MORE POWER====================
+[State Comeback PowerAdd]
+type = TargetPowerAdd
+trigger1 = map(enemymeter)=0
+value = map(combotimer)/75
+ignorehitpause = 1
+
+[State Power Trigger]
+type = mapadd
+trigger1 = map(enemymeter)<1
+map = "enemymeter"
+value = 1
+ignorehitpause = 1
+[State Power Trigger]
+type = mapset
+trigger1 = enemy,stateno=5000||enemy,stateno=5020
+map = "enemymeter"
+value = -1
+ignorehitpause = 1
+
+[State Combo Timer]
+type = mapadd
+trigger1 = combocount>0
+map = "combotimer"
+value = 1
+ignorehitpause = 1
+[State Combo Timer]
+type = mapSet
+trigger1 = combocount=0
+map = "combotimer"
+value = 0
+ignorehitpause = 1
+;================================================
+
 [State 0, Helper]
 type = Helper
 triggerall = root,stateno!=[3000,3999]
@@ -1934,6 +1978,14 @@ value = 1000
 
 [State Throw Tech]
 type = mapset
+trigger1 = combocount=0
+trigger1 = stateno!=1110
+trigger1 = numhelper(1112)=0
+map = "CUM"
+value = 0
+
+[State Throw Tech]
+type = mapset
 trigger1 = ctrl
 map = "CanTT"
 value = 1
@@ -1958,7 +2010,8 @@ value = 0
 
 [State Limiter]
 type = mapset
-trigger1 = enemy,movetype != H
+trigger1 = combocount=0
+trigger1 = stateno!=1210&& stateno!=1211
 map = "EXQCFK"
 value = 0
 

@@ -634,12 +634,6 @@ anim = 1000
 ctrl = 0
 sprpriority = 2
 
-[State Limiter]
-type = mapadd
-trigger1 = time = 0
-map = "EXQCFP"
-value = 1
-
 [State 220, Sound]
 type = PlaySnd
 trigger1 = animelem = 1
@@ -803,6 +797,12 @@ velset = 0,0
 anim = 1002
 ctrl = 0
 sprpriority = 5
+
+[State Limiter]
+type = mapadd
+trigger1 = time = 0
+map = "EXQCFP"
+value = 1
 
 [State 0, SprPriority]
 type = SprPriority
@@ -2161,6 +2161,12 @@ sprpriority = 2
 poweradd = -1000
 
 [State 220, Sound]
+type = MapSet
+trigger1 = 1
+map = "CUM"
+value = 1
+
+[State 220, Sound]
 type = PlaySnd
 trigger1 = animelem = 1
 value = 896,0
@@ -2584,8 +2590,8 @@ volumescale = 1000000000
 channel = 1210
 
 [State Limiter]
-type = mapadd
-trigger1 = time = 0
+type = mapSet
+trigger1 = 1
 map = "EXQCFK"
 value = 1
 [State Limiter]
@@ -2758,6 +2764,12 @@ ctrl = 0
 velset = 0,0
 anim = 1211
 sprpriority = -1
+
+[State Limiter]
+type = mapSet
+trigger1 = 1
+map = "EXQCFK"
+value = 1
 
 [State 0, PlaySnd]
 type = PlaySnd

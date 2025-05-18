@@ -1147,7 +1147,7 @@ sprpriority = 2
 
 [State Launch]
 type = mapadd
-trigger1 = time = 0
+trigger1 = 1
 map = "Launcher"
 value = 1
 
