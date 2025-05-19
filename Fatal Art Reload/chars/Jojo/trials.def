@@ -1,13 +1,34 @@
 ; JoJo ---------------------------
 
-[TrialDef, 236P]
+[TrialDef, Direct Damage]
 
 trial.dummymode = stand
 trial.guardmode = none
 trial.dummybuttonjam = none
-trialstep.1.text = "236LP"
-trialstep.1.glyphs = _QCF^LP
-trialstep.1.stateno = 1000
+trialstep.1.text = "SP"
+trialstep.1.glyphs = ^SP
+trialstep.1.stateno = 210
+trialstep.2.text = "SP"
+trialstep.2.glyphs = ^SP
+trialstep.2.stateno = 202
+
+[TrialDef, Blurry Flurry]
+
+trial.dummymode = stand
+trial.guardmode = none
+trial.dummybuttonjam = none
+trialstep.1.text = ""
+trialstep.1.glyphs = ^LP
+trialstep.1.stateno = 200
+trialstep.2.text = ""
+trialstep.2.glyphs = ^LP
+trialstep.2.stateno = 201
+trialstep.3.text = "SP"
+trialstep.3.glyphs = ^SP
+trialstep.3.stateno = 210
+trialstep.4.text = "SP"
+trialstep.4.glyphs = ^SP
+trialstep.4.stateno = 202
 
 [TrialDef, Optimal]
 

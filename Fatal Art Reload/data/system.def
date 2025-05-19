@@ -238,10 +238,10 @@ menu.itemname.exit = "EXIT"
 	; RESETONSUCCESS FADES -----------------------------------------------------
 	; Used when "resetonsuccess" is set to "true"; defaults to the commented values below.
 	; --------------------------------------------------------------------------
-	; fadein.time = 40, --Ikemen feature
+	 fadein.time = 0, --Ikemen feature
 	; fadein.col = {0, 0, 0}, --Ikemen feature
 	; fadein.anim = -1, --Ikemen feature
-	; fadeout.time = 40, --Ikemen feature
+	 fadeout.time = 0, --Ikemen feature
 	; fadeout.col = {0, 0, 0}, --Ikemen feature
 	; fadeout.anim = -1, --Ikemen feature
 
@@ -251,17 +251,17 @@ menu.itemname.exit = "EXIT"
 	; trialsteps.horizontal.padding: horizontal layouts only - padding between glyphs and edges of the background element along the x 	(horizontal) axis.
 	; trialsteps.window: X1,Y1,X2,Y2: display window for trials--will create automated scrolling or line returns, depending on the 	trial layout of choice
 	; --------------------------------------------------------------------------
-	trialsteps.pos = 40,40
-	trialsteps.spacing = 15,11
-	trialsteps.window = 40,40, 320,240
+	trialsteps.pos = 50,50
+	trialsteps.spacing = 10,10
+	trialsteps.window = 15,40, 320,240
 	trials.horizontal.padding = 10
 
 	; TRIALTITLE OPTIONS -------------------------------------------------------
 	; --------------------------------------------------------------------------
-	trialtitle.pos = 20,50
-	trialtitle.text.offset = 2,-7
+	trialtitle.pos = 40,40
+	trialtitle.text.offset = 0,0
 	trialtitle.text.font = 1,0,1, 255, 100, 100
-	; trialtitle.text.text = "Trial: %s"
+	trialtitle.text.text = "Trial: %s"
 	; trialtitle.text.scale = 
 	; trialtitle.text.font.height	=
 	; trialtitle.bg.offset = 
@@ -278,15 +278,15 @@ menu.itemname.exit = "EXIT"
 	; UPCOMINGSTEP (ALL) -------------------------------------------------------
 	; upcomingstep.bg.offset = 
 	; upcomingstep.bg.anim = 
-	; upcomingstep.bg.spr = 
+	; upcomingstep.bg.spr = 101
 	; upcomingstep.bg.scale = 
 	; upcomingstep.bg.displaytime = 
 	; UPCOMINGSTEP VERTICAL ONLY -----------------------------------------------
-	upcomingstep.text.offset = -20,14
-	upcomingstep.text.font = 1, 0, 1, 255, 255, 255
-	upcomingstep.text.scale	= 1,1
+	; upcomingstep.text.offset = -20,14
+	; upcomingstep.text.font = 1, 0, 1, 255, 255, 255
+	; upcomingstep.text.scale	= 1,1
 	; UPCOMINGSTEP HORIZONTAL ONLY ---------------------------------------------
-	upcomingstep.bg.tail.offset = -20,10
+	upcomingstep.bg.tail.offset = 0,0
 	; upcomingstep.bg.tail.anim = 
 	; upcomingstep.bg.tail.spr = 100
 	; upcomingstep.bg.tail.scale = 1,1
@@ -295,12 +295,12 @@ menu.itemname.exit = "EXIT"
 	; upcomingstep.bg.head.anim = 
 	; upcomingstep.bg.head.spr = 100
 	; upcomingstep.bg.head.scale = 1,1
-	upcomingstep.bg.head.facing = 1
+	; upcomingstep.bg.head.facing = 1
 	; UPCOMINGSTEP PALFX -------------------------------------------------------
-	upcomingstep.bg.palfx.color = 100
+	; upcomingstep.bg.palfx.color = 100
 	; upcomingstep.bg.palfx.invertall = 0
 	; upcomingstep.bg.palfx.sinadd = 0, 0, 0, 0
-	upcomingstep.bg.palfx.mul = 150, 150, 150
+	; upcomingstep.bg.palfx.mul = 150, 150, 150
 	; upcomingstep.bg.palfx.add = 0, 0, 0
 	; upcomingstep.glyphs.palfx.color = 256
 	; upcomingstep.glyphs.palfx.invertall = 0
@@ -310,11 +310,11 @@ menu.itemname.exit = "EXIT"
 
 	; CURRENTSTEP (ALL) --------------------------------------------------------
 	; --------------------------------------------------------------------------
-	currentstep.bg.offset = -2,0
+	 currentstep.bg.offset = 0,-1
 	; currentstep.bg.anim = -1
-	currentstep.bg.spr = 190,0
-	currentstep.bg.scale = .8,.8
-	currentstep.bg.facing = -1
+	 currentstep.bg.spr = 101,0
+	currentstep.bg.scale = .1,.1
+	currentstep.bg.facing = 1
 	; currentstep.bg.displaytime = -1
 	; CURRENTSTEP VERTICAL ONLY ------------------------------------------------
 	;currentstep.text.offset = -20,10
@@ -328,9 +328,9 @@ menu.itemname.exit = "EXIT"
 	; currentstep.bg.tail.spr = 
 	; currentstep.bg.tail.scale = 
 	; currentstep.bg.tail.facing = 
-	; currentstep.bg.head.offset = 
+	; currentstep.bg.head.offset = -13.25,-3.5
 	; currentstep.bg.head.anim = 
-	; currentstep.bg.head.spr = 
+	; currentstep.bg.head.spr = 100
 	; currentstep.bg.head.scale = 
 	; currentstep.bg.head.facing = 
 	; CURRENTSTEP PALFX --------------------------------------------------------
@@ -354,9 +354,9 @@ menu.itemname.exit = "EXIT"
 	; completedstep.bg.facing = 
 	; completedstep.bg.displaytime = 
 	; COMPLETEDSTEP VERTICAL ONLY ----------------------------------------------
-	completedstep.text.offset = -20,14
-	completedstep.text.font = 1, 0, 1, 100, 100, 100
-	completedstep.text.scale = 1,1
+	; completedstep.text.offset = -20,14
+	; completedstep.text.font = 1, 0, 1, 100, 100, 100
+	; completedstep.text.scale = 1,1
 	; completedstep.text.font.height = 
 	; COMPLETEDSTEP HORIZONTAL ONLY --------------------------------------------
 	; completedstep.bg.displaytime = 
@@ -387,7 +387,7 @@ menu.itemname.exit = "EXIT"
 	glyphs.offset = 100,1
 	glyphs.scale = 0.125,0.125
 	glyphs.scalewithtext = "false" 	; Scales glyph height with respect to the font height. Only works for vertical trial layouts.
-	glyphs.spacing = 0,0
+	glyphs.spacing = 1,0
 	glyphs.align = 1
 
 	; TRIAL BACKGROUND ---------------------------------------------------------

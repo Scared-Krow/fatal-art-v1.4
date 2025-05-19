@@ -1,10 +1,6 @@
-external/script/main.lua:713: <game end>
+.\external\mods\trials\trials.lua:1916: attempt to call a non-function object
 stack traceback:
-	[G]: in function 'refresh'
-	external/script/main.lua:713: in function 'f_refresh'
-	.\external\script\start.lua:2245: in function 'f_selectScreen'
-	.\external\script\start.lua:1421: in function 'f'
-	external/script/main.lua:3105: in function 'loop'
-	external/script/main.lua:3189: in function 'loop'
-	external/script/main.lua:4156: in main chunk
+	.\external\mods\trials\trials.lua:1916: in function <.\external\mods\trials\trials.lua:0>
+	[G]: in function 'require'
+	external/script/main.lua:4099: in main chunk
 	[G]: ?
