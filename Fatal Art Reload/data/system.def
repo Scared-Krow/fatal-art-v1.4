@@ -252,9 +252,9 @@ menu.itemname.exit = "EXIT"
 	; trialsteps.window: X1,Y1,X2,Y2: display window for trials--will create automated scrolling or line returns, depending on the 	trial layout of choice
 	; --------------------------------------------------------------------------
 	trialsteps.pos = 50,50
-	trialsteps.spacing = 10,10
+	trialsteps.spacing = 5,10
 	trialsteps.window = 15,40, 320,240
-	trials.horizontal.padding = 10
+	trials.horizontal.padding = 5
 
 	; TRIALTITLE OPTIONS -------------------------------------------------------
 	; --------------------------------------------------------------------------

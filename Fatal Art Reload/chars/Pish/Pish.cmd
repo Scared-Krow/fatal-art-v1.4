@@ -154,25 +154,25 @@ command.buffer.time = 1
 ;
 [Command]
 name = "TripleKFPalm"
-command = ~D, F, D, F, x
+command = ~D, F, D, F, a
 buffer.time = 3
 time = 20
 
 [Command]
 name = "TripleKFPalm"
-command = ~D, F, D, F, ~x
+command = ~D, F, D, F, ~a
 buffer.time = 3
 time = 20
 
 [Command]
 name = "TripleKFPalm"   ;Same name as above
-command = ~D, F, D, F, y
+command = ~D, F, D, F, b
 buffer.time = 3
 time = 20
 
 [Command]
 name = "TripleKFPalm"   ;Same name as above
-command = ~D, F, D, F, ~y
+command = ~D, F, D, F, ~b
 buffer.time = 3
 time = 20
 
@@ -1017,7 +1017,7 @@ triggerall = command = "x"
 triggerall = command != "holddown"
 trigger1 = statetype = S
 trigger1 = ctrl
-trigger2 = stateno = 200 && movecontact
+trigger2 = (stateno = 200 || stateno = 400) && movecontact
 ;---------------------------------------------------------------------------
 ;Stand Strong Punch
 [State -1, Stand Strong Punch]

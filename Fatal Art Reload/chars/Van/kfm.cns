@@ -5,7 +5,7 @@
 
 [Data]
 ;Amount of life to start with
-life = 1075
+life = 975
 ;attack power (more is stronger)
 attack = 100
 ;defensive power (more is stronger)

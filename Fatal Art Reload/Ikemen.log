@@ -1,6 +1,12 @@
-.\external\mods\trials\trials.lua:1916: attempt to call a non-function object
+.\external\script\start.lua:1403: chars\pish/supers.cns:282:
+Missing trigger1
 stack traceback:
-	.\external\mods\trials\trials.lua:1916: in function <.\external\mods\trials\trials.lua:0>
-	[G]: in function 'require'
-	external/script/main.lua:4099: in main chunk
+	[G]: in function 'game'
+	.\external\script\start.lua:1403: in function 'f_game'
+	.\external\script\start.lua:1839: in function 'launchFight'
+	external/script/default.lua:2: in function <external/script/default.lua:0>
+	.\external\script\start.lua:1457: in function 'f'
+	external/script/main.lua:3105: in function 'loop'
+	external/script/main.lua:3189: in function 'loop'
+	external/script/main.lua:4156: in main chunk
 	[G]: ?
