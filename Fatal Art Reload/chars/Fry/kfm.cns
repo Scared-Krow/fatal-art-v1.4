@@ -2325,7 +2325,7 @@ ignoreHitPause = 1
 [State -2, Dampener] 
 type = VarSet 
 trigger1 = 1 
-fvar(10) = ifElse(fvar(13) < 1, 15, ifElse(fvar(13) >= 13, 1, 13 - fvar(13))) / 15.0 
+fvar(10) = ifElse(fvar(13) < 1, 14, ifElse(fvar(13) >= 14, 1, 14 - fvar(13))) / 14.0 
 ignoreHitPause = 1 
  
 [State -2, Dampener Limit] 

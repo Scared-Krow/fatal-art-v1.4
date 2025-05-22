@@ -1548,7 +1548,7 @@ ignorehitpause =  1
 [State 0, DefenceMulSet]
 type = DefenceMulSet
 trigger1 = var(24) >= 1 
-value = .85
+value = 1.15
 ignorehitpause =  1
 
 ;Crying

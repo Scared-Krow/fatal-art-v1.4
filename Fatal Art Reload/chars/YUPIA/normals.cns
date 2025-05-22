@@ -3431,13 +3431,19 @@ envshake.time = 12
 envshake.freq = 12
 envshake.ampl = 2
 envshake.phase = 1
-p2stateno = 70022
 fall.yvelocity = 9
 p2facing = 1
 air.fall = 1
 getpower = ceil(ifElse(fvar(11) * 60 < 4, 4, fvar(11) * 60)),ceil(ifElse(fvar(11) * 60 < 4, 4, fvar(11) * 60))*.5
 givepower = ceil(ifElse(fvar(11) * 57 < 3, 3, fvar(11) * 57))*1.5,ceil(ifElse(fvar(11) * 57 < 3, 3, fvar(11) * 57))*.75
+id = 440
 
+[State 3000, P2 Custom State]
+type = TargetState
+;triggerall = NumTarget(440)
+trigger1= MoveHit = 1
+ID = 440
+value = 70022
 
 [State 440, 4]
 type = ChangeState

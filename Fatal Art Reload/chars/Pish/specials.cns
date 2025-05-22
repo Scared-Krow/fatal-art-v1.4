@@ -260,12 +260,12 @@ time = 6
 type = Velset
 triggerall = time < 3
 trigger1 = command = "holdfwd"
-x = 2.25
+x = 2.5
 [State 105, 3]
 type = Velset
 triggerall = time < 3
 trigger1 = command = "holdback"
-x = -2.25
+x = -2.5
 
 [State -3, Lv1 Shadows]
 type = afterimage
@@ -283,7 +283,7 @@ trans = add1
 
 [State 1340, 6] 
 type = CtrlSet
-trigger1 = time = 15
+trigger1 = time = 13
 value = 1
 
 ;---------------------------------------------------------------------------
@@ -1486,7 +1486,7 @@ ground.slidetime = 11
 ground.hittime  = 16
 ground.velocity = -1,10
 air.velocity = -1,10
-fall.yvelocity = -6.5
+fall.yvelocity = -7.5
 guard.hittime = 13
 guard.ctrltime = 13
 p2facing =1
@@ -2630,7 +2630,6 @@ damage = ceil(ifElse(fvar(11) * 40 < 3, 3, fvar(11) * 40)),0
 guardflag = H
 hitflag = MAFD
 pausetime = 14,14
-guard.pausetime = 15,15
 sparkno = 2
 priority = 4
 sparkxy = -10,-70
@@ -2641,10 +2640,10 @@ ground.slidetime = 12
 guard.slidetime = 12
 ground.hittime  = 22
 ground.velocity = -4
-air.velocity = -2,-6
+air.velocity = -2,5
 air.fall = 1
 p2facing =1
-air.fall = 1
+fall.yvelocity = 0
 guard.hittime = 14
 guard.ctrltime = 14
 getpower = ceil(ifElse(fvar(11) * 40 < 3, 3, fvar(11) * 40)),ceil(ifElse(fvar(11) * 40 < 3, 3, fvar(11) * 40))*.5
@@ -2720,7 +2719,7 @@ guard.slidetime = 20
 ground.hittime  = 25
 guard.velocity = -7.5
 ground.velocity = -3.9,-7.9
-air.velocity = -4,-7
+air.velocity = -4,-6
 air.fall = 1
 p2facing =1
 fall = 1
@@ -2838,9 +2837,56 @@ trigger2 = animelem = 13
 ;trigger3 = animelem = 13
 x = 4
 
+[State Limiter]
+type = mapadd
+triggerall = enemy,statetype = A || enemy,statetype = L
+trigger1 = time = 0
+map = "runOH"
+value = 1
+
 
 [State 210, 2]
 type = HitDef
+triggerall = Map(runOH) <= 1
+trigger1 = AnimElem = 9
+attr = S, SA
+getpower = 5
+animtype  = Medium
+damage = ceil(ifElse(fvar(11) * 60 < 3, 3, fvar(11) * 60)),0 
+guardflag = H
+hitflag = MAFD
+pausetime = 14,14
+sparkno = 3
+priority = 4
+sparkxy = -15,-80
+hitsound   = 5,2
+guardsound = 6,1
+ground.type = High
+ground.slidetime = 12
+guard.slidetime = 25
+ground.hittime  = 25
+ground.velocity = -1,20
+guard.velocity = -4.5
+air.velocity = -1,20
+fall.yvelocity = -7.5
+p2facing =1
+fall = 1
+guard.hittime = 23
+guard.ctrltime = 23
+getpower = ceil(ifElse(fvar(11) * 40 < 3, 3, fvar(11) * 40)),ceil(ifElse(fvar(11) * 40 < 3, 3, fvar(11) * 40))*.5
+givepower = ceil(ifElse(fvar(11) * 40 < 3, 3, fvar(11) * 40))*1.5,ceil(ifElse(fvar(11) * 40 < 3, 3, fvar(11) * 40))*.75
+id = 610
+
+[State 3000, P2 Custom State]
+type = TargetState
+trigger1= MoveHit =1
+ID = 610
+value = 43211
+ignorehitpause = 1
+
+[State 210, 2]
+type = HitDef
+triggerall = Map(runOH) > 1
 trigger1 = AnimElem = 9
 attr = S, SA
 getpower = 5
@@ -2858,24 +2904,16 @@ ground.type = High
 ground.slidetime = 12
 guard.slidetime = 25
 ground.hittime  = 25
-ground.velocity = -1,10
+ground.velocity = -1,20
 guard.velocity = -4.5
-air.velocity = -1,10
-fall.yvelocity = -6
+air.velocity = -1,20
+fall.yvelocity = 0
 p2facing =1
 fall = 1
 guard.hittime = 23
 guard.ctrltime = 23
 getpower = ceil(ifElse(fvar(11) * 40 < 3, 3, fvar(11) * 40)),ceil(ifElse(fvar(11) * 40 < 3, 3, fvar(11) * 40))*.5
 givepower = ceil(ifElse(fvar(11) * 40 < 3, 3, fvar(11) * 40))*1.5,ceil(ifElse(fvar(11) * 40 < 3, 3, fvar(11) * 40))*.75
-id = 610
-
-[State 3000, P2 Custom State]
-type = TargetState
-trigger1= MoveHit =1
-ID = 610
-value = 43211
-ignorehitpause = 1
 
 [State 0, PosAdd]
 type = PosAdd

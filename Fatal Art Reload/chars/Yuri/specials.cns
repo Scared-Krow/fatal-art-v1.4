@@ -1173,7 +1173,7 @@ guard.slidetime = 15
 ground.hittime  = 30
 ground.velocity = -5
 guard.velocity = -4
-air.velocity = 2.5,-1
+air.velocity = -2.5,-1
 airguard.velocity = -4,-4.5
 p2facing = 1
 
